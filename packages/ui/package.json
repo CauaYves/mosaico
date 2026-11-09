@@ -17,7 +17,9 @@
   "scripts": {
     "check-types": "node node_modules/typescript/bin/tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "registry": "node scripts/registry/build.ts",
+    "registry:check": "node scripts/registry/build.ts --check"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",
