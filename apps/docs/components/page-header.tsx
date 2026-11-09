@@ -1,7 +1,7 @@
 import { cn } from "cn";
 
 /**
- * Cabeçalho padrão das páginas de listagem (Componentes, Marca, Interfaces, Blocos): rótulo
+ * Cabeçalho padrão das páginas de listagem (Componentes, Marca, Blocos): rótulo
  * pequeno, título com a contagem de itens e uma descrição. Só a home tem hero de divulgação.
  */
 export function PageHeader({
