@@ -63,7 +63,12 @@ export function buildItem(
       registryDependencies.add(`${REGISTRY_REPO}/${specifier.slice(internal.length + 1)}`);
       continue;
     }
-    if (specifier.startsWith(".")) continue;
+    if (specifier.startsWith(".")) {
+      // O CLI não reescreve relativos e o arquivo importado não entraria como dependência.
+      throw new Error(
+        `${src.dir}/${src.file}: import relativo "${specifier}"; use o formato ${IMPORT_PREFIX[src.dir]}/<nome>`,
+      );
+    }
     const pkg = packageName(specifier);
     if (IGNORED.has(pkg)) continue;
     const range = versions[pkg];

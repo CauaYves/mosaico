@@ -1,5 +1,14 @@
 import { join } from "node:path";
-import { buildRegistry } from "./build.ts";
+import { assertCssPartsHaveItems, buildRegistry } from "./build.ts";
+
+test("marcador de CSS sem item correspondente falha com o nome do marcador", () => {
+  expect(() =>
+    assertCssPartsHaveItems({ theme: "", "brand-loadr": "x" }, new Set(["brand-loader"])),
+  ).toThrow(/brand-loadr/);
+  expect(() =>
+    assertCssPartsHaveItems({ theme: "", "brand-loader": "x" }, new Set(["brand-loader"])),
+  ).not.toThrow();
+});
 
 type Item = {
   name: string;

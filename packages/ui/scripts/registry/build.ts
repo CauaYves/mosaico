@@ -23,6 +23,16 @@ function readMeta(docsContentRoot: string, name: string): Meta {
   return {};
 }
 
+/** Falha se um marcador /* @registry <item> *\/ do globals.css não tiver item: o CSS sumiria. */
+export function assertCssPartsHaveItems(parts: Record<string, string>, names: Set<string>) {
+  const orphans = Object.keys(parts).filter((key) => key !== "theme" && !names.has(key));
+  if (orphans.length) {
+    throw new Error(
+      `globals.css: marcador @registry sem item correspondente: ${orphans.join(", ")}`,
+    );
+  }
+}
+
 /**
  * `ref` só existe para testar uma branch antes do merge (REGISTRY_REF, ver smoke.ts): fixa as
  * dependências internas nela. O registry publicado é gerado sem ref.
@@ -53,6 +63,7 @@ export function buildRegistry(uiRoot: string, docsContentRoot: string, ref?: str
     }
   }
   items.sort((a, b) => a.name.localeCompare(b.name));
+  assertCssPartsHaveItems(cssParts, new Set(items.map((item) => item.name)));
 
   const registry = {
     $schema: "https://ui.shadcn.com/schema/registry.json",

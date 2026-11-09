@@ -46,7 +46,15 @@ run(
 );
 run("npx --yes shadcn@latest init --defaults --yes", app);
 
+// Cenário de convivência: o projeto já tem o button oficial do shadcn em components/ui.
 const uiDir = join(app, "components", "ui");
+if (!existsSync(join(uiDir, "button.tsx"))) run("npx --yes shadcn@latest add button --yes", app);
+if (!existsSync(join(uiDir, "button.tsx"))) {
+  console.error(
+    "O button oficial não foi instalado em components/ui; o smoke não testaria a convivência.",
+  );
+  process.exit(1);
+}
 const before = hashes(uiDir);
 
 for (const item of items) {

@@ -82,6 +82,15 @@ test("título e descrição: do meta, ou o nome em Title Case e descrição vazi
   ).toMatchObject({ title: "Chart Donut", description: "" });
 });
 
+test("import relativo falha com arquivo e import, porque não vira dependência", () => {
+  const src: SourceFile = {
+    dir: "components",
+    file: "avatar.tsx",
+    code: 'import { Seal } from "./seal";',
+  };
+  expect(() => buildItem(src, versions, {})).toThrow(/avatar\.tsx.*\.\/seal/);
+});
+
 test("pacote fora do package.json falha com arquivo e pacote", () => {
   const src: SourceFile = { dir: "components", file: "x.tsx", code: 'import z from "zod";' };
   expect(() => buildItem(src, versions, {})).toThrow(/x\.tsx.*zod/);
