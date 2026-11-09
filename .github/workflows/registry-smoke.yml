@@ -1,0 +1,26 @@
+name: Registry smoke
+
+# Instala itens do registry a partir da main (as dependências internas não têm #ref) num projeto
+# Next novo com o shadcn oficial e confere imports, tema, duplicação e compilação.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Smoke
+        run: pnpm --filter @multiclubes/ui registry:smoke

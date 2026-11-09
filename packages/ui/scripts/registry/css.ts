@@ -63,6 +63,7 @@ export function buildThemeItem(
   title: string;
   description: string;
   dependencies: string[];
+  cssVars?: { theme: Record<string, string> };
   css: Record<string, unknown>;
 } {
   const dependencies = ["shadcn", "tw-animate-css"].map((pkg) => {
@@ -70,6 +71,15 @@ export function buildThemeItem(
     if (!range) throw new Error(`theme: o pacote "${pkg}" não está no package.json do ui`);
     return `${pkg}@${range}`;
   });
+  // O CLI não aceita @theme no campo css (monta o conteúdo como regra e quebra); o caminho dele
+  // para o @theme inline é cssVars.theme, com as chaves sem o "--".
+  const { "@theme inline": themeInline, ...css } = themeCss;
+  const theme = Object.fromEntries(
+    Object.entries((themeInline ?? {}) as Record<string, string>).map(([key, value]) => [
+      key.replace(/^--/, ""),
+      value,
+    ]),
+  );
   return {
     name: "theme",
     type: THEME_TYPE,
@@ -77,6 +87,7 @@ export function buildThemeItem(
     description:
       "Tema padrão Multiclubes: cores, raios aninhados, fonte de títulos, modo escuro e transições fluidas.",
     dependencies,
-    css: themeCss,
+    ...(themeInline ? { cssVars: { theme } } : {}),
+    css,
   };
 }

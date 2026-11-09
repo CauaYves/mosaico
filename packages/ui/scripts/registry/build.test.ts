@@ -36,6 +36,18 @@ test("todo registryDependency existe como item", () => {
   }
 });
 
+test("ref de teste fixa as dependências internas na branch; sem ref, nada de #", () => {
+  const pinned = JSON.parse(buildRegistry(uiRoot, docsContentRoot, "teste-x")) as { items: Item[] };
+  const dialog = pinned.items.find((item) => item.name === "dialog") as Item;
+  expect(dialog.registryDependencies).toEqual([
+    "CauaYves/mosaico/button#teste-x",
+    "CauaYves/mosaico/theme#teste-x",
+  ]);
+  for (const item of json.items) {
+    for (const dep of item.registryDependencies ?? []) expect(dep).not.toContain("#");
+  }
+});
+
 test("metadado do MDX e CSS próprio", () => {
   expect(byName("button").description).toBe(
     "Displays a button or a component that looks like a button.",

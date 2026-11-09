@@ -19,7 +19,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "registry": "node scripts/registry/build.ts",
-    "registry:check": "node scripts/registry/build.ts --check"
+    "registry:check": "node scripts/registry/build.ts --check",
+    "registry:smoke": "node scripts/registry/smoke.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",

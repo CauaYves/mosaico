@@ -62,6 +62,15 @@ test("item do tema: tipo validado e dependências com faixa", () => {
   expect(() => buildThemeItem({}, {})).toThrow(/shadcn/);
 });
 
+test("@theme inline vai para cssVars.theme, porque o CLI não aceita @theme no campo css", () => {
+  const item = buildThemeItem(
+    { "@theme inline": { "--color-highlight": "var(--highlight)" }, ":root": { "--a": "1" } },
+    { shadcn: "4.22.1", "tw-animate-css": "^1.4.0" },
+  );
+  expect(item.css).toEqual({ ":root": { "--a": "1" } });
+  expect(item.cssVars).toEqual({ theme: { "color-highlight": "var(--highlight)" } });
+});
+
 const srcDir = join(import.meta.dirname, "../../src");
 
 test("o globals.css real: theme tem :root, .dark e @theme inline, sem @source", () => {

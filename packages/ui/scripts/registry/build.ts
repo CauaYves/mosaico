@@ -23,7 +23,11 @@ function readMeta(docsContentRoot: string, name: string): Meta {
   return {};
 }
 
-export function buildRegistry(uiRoot: string, docsContentRoot: string): string {
+/**
+ * `ref` só existe para testar uma branch antes do merge (REGISTRY_REF, ver smoke.ts): fixa as
+ * dependências internas nela. O registry publicado é gerado sem ref.
+ */
+export function buildRegistry(uiRoot: string, docsContentRoot: string, ref?: string): string {
   const pkg = JSON.parse(readFileSync(join(uiRoot, "package.json"), "utf8"));
   const versions: Record<string, string> = { ...pkg.devDependencies, ...pkg.dependencies };
   const cssParts = splitByItem(readFileSync(join(uiRoot, "src/styles/globals.css"), "utf8"));
@@ -44,6 +48,7 @@ export function buildRegistry(uiRoot: string, docsContentRoot: string): string {
       );
       const css = cssParts[item.name];
       if (css) item.css = cssToRegistry(css);
+      if (ref) item.registryDependencies = item.registryDependencies.map((dep) => `${dep}#${ref}`);
       items.push(item);
     }
   }
@@ -61,7 +66,11 @@ export function buildRegistry(uiRoot: string, docsContentRoot: string): string {
 if (import.meta.main) {
   const uiRoot = join(import.meta.dirname, "../..");
   const target = join(uiRoot, "registry.json");
-  const expected = buildRegistry(uiRoot, join(uiRoot, "../../apps/docs/content/docs"));
+  const expected = buildRegistry(
+    uiRoot,
+    join(uiRoot, "../../apps/docs/content/docs"),
+    process.env.REGISTRY_REF,
+  );
   if (process.argv.includes("--check")) {
     const current = existsSync(target) ? readFileSync(target, "utf8").replace(/\r\n/g, "\n") : "";
     if (current !== expected) {
