@@ -106,35 +106,31 @@ Os tokens começam dentro de `@multiclubes/ui`. Se surgir uma demanda real de co
 - **Sem dependência de Next.js** dentro de `@multiclubes/ui`. Integrações como `Link` e `Image` entram por composição (`render`/`asChild`), para que apps que não usam Next também consumam o kit.
 - `react` e `react-dom` como `peerDependencies`.
 
-### 4.3 Como o pacote é distribuído
+### 4.3 Como os componentes são distribuídos
 
-Os monolitos estão em outros repositórios, então o workspace (`workspace:*`) só atende os apps internos do kit. Para fora, há dois modelos:
+> **Decidido em 2026-11-09:** registry shadcn (modelo B). Desenho: [specs/2026-11-09-registry-shadcn-design.md](superpowers/specs/2026-11-09-registry-shadcn-design.md).
+
+Os monolitos estão em outros repositórios, então o workspace (`workspace:*`) só atende os apps internos do kit. Para fora, havia dois modelos:
 
 | Modelo | Como funciona | Prós | Contras |
 | --- | --- | --- | --- |
-| **A. Pacote npm compilado** (recomendado) | `@multiclubes/ui` é buildado (ESM + `.d.ts`) e publicado; apps instalam e atualizam por versão | Uma fonte da verdade; correções chegam via upgrade; padrão visual garantido | Customização local exige props/variantes previstas no kit |
-| B. Registry shadcn próprio | O kit expõe um `registry.json`; apps rodam `shadcn add` e recebem o código-fonte | Total liberdade para editar no app | Cada app vira dono da cópia: a divergência volta |
+| A. Pacote npm compilado (descartado) | `@multiclubes/ui` é buildado (ESM + `.d.ts`) e publicado; apps instalam e atualizam por versão | Uma fonte da verdade; correções chegam via upgrade | Customização local exige props/variantes previstas no kit; exige build, registry npm privado e release |
+| **B. Registry shadcn** (adotado) | O kit expõe um `registry.json`; apps rodam `npx shadcn@latest add CauaYves/mosaico/<nome>` e recebem o código-fonte | Liberdade para editar no app; sem build nem servidor | Cada app vira dono da cópia: a divergência pode voltar |
 
-**Recomendação:** modelo A como padrão. O modelo B pode ser útil mais tarde para **blocos/templates** (ex.: layout de login, página de listagem) que naturalmente variam por app.
+**Por que o modelo B:** a equipe quer que cada projeto receba o código e possa ajustá-lo, como no shadcn. A divergência é mitigada por: tema único reaplicado a cada `add`, `add` de novo para atualizar e o catálogo como referência.
 
-Pontos de atenção no build (modelo A):
+Como funciona:
 
-- Preservar a diretiva `"use client"` nos componentes interativos (build sem bundle, preservando módulos), para funcionar com React Server Components.
-- `exports` explícitos no `package.json` (`.`, `./styles.css`, e subpaths se necessário) e `sideEffects` configurado para tree-shaking.
-- Com Tailwind v4, o app consumidor só importa o Tailwind e o tema. O `styles.css` do kit declara `@source` relativo a si mesmo, então as classes dos componentes são geradas sem configuração extra no app (validado na Fase 1):
-
-  ```css
-  @import "tailwindcss";
-  @import "@multiclubes/ui/styles.css";
-  ```
-
-  Na Fase 4, o `@source` passa a apontar para o código publicado (`dist`). Alternativa a avaliar: publicar um CSS já compilado, para apps que não usam Tailwind.
+- O registry é servido direto do GitHub (`CauaYves/mosaico`, repositório público): o CLI lê o `registry.json` da raiz e copia os arquivos de `packages/ui/src`. Sem build, sem servidor, sem domínio.
+- Sem versão nos comandos: todo `add` traz o que está na `main`, que precisa estar sempre estável.
+- Os arquivos vão para `components/mosaico/`, `hooks/mosaico/` e `lib/mosaico/` e convivem com o shadcn oficial em `components/ui` durante uma migração.
+- Todo componente depende do item `theme`, que aplica as cores Multiclubes no CSS global. Temas de cliente ficam num arquivo separado, carregado depois.
+- `packages/ui/registry.json` é gerado do código e checado na CI.
 
 ### 4.4 Versionamento e release
 
-- **SemVer** com **Changesets**: todo PR que muda um pacote publicado inclui um changeset descrevendo a mudança.
-- A CI abre um PR de "Version Packages"; ao fazer merge, publica no registry e gera o `CHANGELOG.md`.
-- Versões `0.x` durante a fase piloto; `1.0.0` quando os dois monolitos estiverem usando os componentes base.
+- A `main` é a versão publicada: um merge na `main` chega a quem rodar `add` depois.
+- Mudanças que quebram compatibilidade são avisadas no changelog e passam por `@deprecated` antes de sair (ver [Governança](#6-governança)).
 
 ## 5. Plano de execução
 
@@ -193,12 +189,12 @@ Para cada componente:
 
 ### Fase 4 — Publicação
 
-- Configurar build da biblioteca (ESM + tipos, preservando `"use client"`).
-- Configurar o registry escolhido (`.npmrc`, `publishConfig`, autenticação na CI e nas máquinas dos devs).
-- Changesets + workflow de release automatizado.
+> **2026-11-09:** distribuição pelo registry shadcn (ver [4.3](#43-como-os-componentes-são-distribuídos)). Sai do plano o pacote npm: build ESM, Azure Artifacts e Changesets.
+
+- Registry servido pelo GitHub, gerado do código e checado na CI; teste de instalação ponta a ponta depois de cada push na `main`.
 - Deploy do catálogo como site interno.
 
-**Pronto quando:** um projeto fora do monorepo instala `@multiclubes/ui` do registry e usa um componente sem nenhum ajuste manual.
+**Pronto quando:** um projeto fora do monorepo roda `npx shadcn@latest add CauaYves/mosaico/<nome>` e usa o componente sem nenhum ajuste manual.
 
 ### Fase 5 — Piloto no Portal
 
@@ -221,7 +217,7 @@ Para cada componente:
 
 - Componentes compostos e padrões recorrentes (formulários, tabelas com filtro/paginação, layouts).
 - Testes de regressão visual (ex.: screenshots com Playwright) no catálogo.
-- Avaliar o registry shadcn (modelo B) para blocos/templates.
+- Avaliar blocos/templates no registry (segunda etapa do registry).
 - Template de nova aplicação já configurada com o kit.
 
 ## 6. Governança
@@ -250,17 +246,17 @@ Para cada componente:
 
 | # | Decisão | Opções | Recomendação |
 | --- | --- | --- | --- |
-| 1 | Registry de publicação | Azure Artifacts, GitHub Packages, npm (org privada) | Azure Artifacts, já que o Portal está no Azure DevOps |
 | 2 | Escopo dos pacotes | `@multiclubes/*`, outro | `@multiclubes/*` |
-| 3 | Estratégia de estilo | Tailwind v4 + CSS variables, CSS compilado, ambos | Tailwind v4 (o Portal já usa); o WebCheckout também usa |
 | 4 | Ferramenta do catálogo | `apps/docs` (Next + MDX), Storybook | Definir após a Fase 0 conforme a necessidade de testes visuais |
-| 5 | Onde o repositório do kit vai morar | GitHub pessoal (atual), Azure DevOps da Multiclubes | Azure DevOps, junto com o registry e as pipelines |
+| 5 | Onde o repositório do kit vai morar | GitHub (atual, `CauaYves/mosaico`), Azure DevOps da Multiclubes | GitHub: o registry shadcn de repositório só funciona com github.com (2026-11-09) |
 | 6 | Donos do kit | — | — |
 
 **Decidido:**
 
 - **Padrão visual:** identidade nova, criada neste repositório. Os componentes são escritos do zero, sem copiar código dos monolitos.
 - **App piloto:** Portal.
+- **Distribuição (2026-11-09):** registry shadcn servido pelo GitHub, sem pacote npm (ver [4.3](#43-como-os-componentes-são-distribuídos)). Substitui a decisão em aberto sobre o registry de publicação.
+- **Estratégia de estilo:** Tailwind v4 + CSS variables, com o tema aplicado pelo registry.
 
 ## 9. Como medir o sucesso
 

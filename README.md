@@ -1,6 +1,6 @@
 # Mosaico
 
-Design system da Multiclubes: design tokens, componentes React e configurações comuns, publicados como pacotes (`@multiclubes/*`) para que todas as aplicações sigam o mesmo padrão visual e de código.
+Design system da Multiclubes: design tokens, componentes React e configurações comuns, para que todas as aplicações sigam o mesmo padrão visual e de código. Os componentes são distribuídos pelo registry do shadcn.
 
 Objetivo, arquitetura e plano de execução: [docs/plano.md](docs/plano.md).
 
@@ -64,14 +64,20 @@ A skill `skills/mosaico-design` carrega essas instruções sozinha quando algué
 
 ## Usando o kit em um app
 
-```css
-/* app/globals.css */
-@import "tailwindcss";
-@import "@multiclubes/ui/styles.css";
+Os componentes são distribuídos pelo registry do shadcn, servido direto deste repositório:
+
+```sh
+npx shadcn@latest add CauaYves/mosaico/button
 ```
 
-```tsx
-import { Button } from "@multiclubes/ui/components/button";
+O componente vai para `components/mosaico/`, já com o tema Multiclubes, e convive com componentes do shadcn oficial em `components/ui`. Detalhes, temas de cliente e fonte: página `/docs/installation` do catálogo.
+
+### Registry
+
+`packages/ui/registry.json` é gerado do código de `packages/ui/src` (imports, dependências e o tema de `globals.css`). Depois de mudar um componente, rode:
+
+```sh
+pnpm --filter @multiclubes/ui registry
 ```
 
-Enquanto o pacote não é publicado (Fase 4), apps Next.js do monorepo precisam de `transpilePackages: ["@multiclubes/ui"]` no `next.config.js`.
+A CI falha se o arquivo estiver desatualizado. Imports entre arquivos do kit usam o formato `@/registry/mosaico/{components,hooks,lib}/mosaico/<nome>`, que o CLI do shadcn reescreve para os aliases de quem instala. Os apps do monorepo continuam importando de `@multiclubes/ui/components/<nome>`. `pnpm --filter @multiclubes/ui registry:smoke` instala itens da `main` num projeto novo e confere o resultado (roda na CI depois de cada push na `main`).
