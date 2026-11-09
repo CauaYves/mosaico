@@ -1,16 +1,16 @@
 "use client";
 
 import { Combobox as ComboboxPrimitive } from "@base-ui/react";
-import { Button } from "@multiclubes/ui/components/button";
+import { CaretDownIcon, CheckIcon, XIcon } from "@phosphor-icons/react";
+import { cn } from "cn";
+import * as React from "react";
+import { Button } from "@/registry/mosaico/components/mosaico/button";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from "@multiclubes/ui/components/input-group";
-import { CaretDownIcon, CheckIcon, XIcon } from "@phosphor-icons/react";
-import { cn } from "cn";
-import * as React from "react";
+} from "@/registry/mosaico/components/mosaico/input-group";
 
 const Combobox = ComboboxPrimitive.Root;
 

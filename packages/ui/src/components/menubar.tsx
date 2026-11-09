@@ -2,6 +2,9 @@
 
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { Menubar as MenubarPrimitive } from "@base-ui/react/menubar";
+import { CheckIcon } from "@phosphor-icons/react";
+import { cn } from "cn";
+import type * as React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,10 +19,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@multiclubes/ui/components/dropdown-menu";
-import { CheckIcon } from "@phosphor-icons/react";
-import { cn } from "cn";
-import type * as React from "react";
+} from "@/registry/mosaico/components/mosaico/dropdown-menu";
 
 function Menubar({ className, ...props }: MenubarPrimitive.Props) {
   return (

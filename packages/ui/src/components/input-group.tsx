@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@multiclubes/ui/components/button";
-import { Input } from "@multiclubes/ui/components/input";
-import { Textarea } from "@multiclubes/ui/components/textarea";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 import type * as React from "react";
+import { Button } from "@/registry/mosaico/components/mosaico/button";
+import { Input } from "@/registry/mosaico/components/mosaico/input";
+import { Textarea } from "@/registry/mosaico/components/mosaico/textarea";
 
 function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (

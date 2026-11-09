@@ -1,8 +1,12 @@
 "use client";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "@multiclubes/ui/components/tooltip";
 import { cn } from "cn";
 import * as React from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/registry/mosaico/components/mosaico/tooltip";
 
 type BottomNavContextValue = {
   value: string | undefined;

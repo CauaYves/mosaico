@@ -1,10 +1,10 @@
 "use client";
 
-import { Label } from "@multiclubes/ui/components/label";
-import { Separator } from "@multiclubes/ui/components/separator";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 import { useMemo } from "react";
+import { Label } from "@/registry/mosaico/components/mosaico/label";
+import { Separator } from "@/registry/mosaico/components/mosaico/separator";
 
 function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
   return (
