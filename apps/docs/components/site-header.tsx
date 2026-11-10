@@ -21,24 +21,34 @@ export function SiteHeader() {
   return (
     <SiteHeaderShell>
       <div className="container-wrapper px-6">
-        {/* Três colunas no desktop: marca, navegação centralizada e ações. */}
-        <div className="flex h-(--header-height) items-center gap-3 lg:grid lg:grid-cols-[1fr_auto_1fr]">
-          <MobileNav sections={SECTIONS} components={components} className="flex lg:hidden" />
+        {/* Celular e tablet, como o header mobile do nucleos-ui: tema à esquerda, marca no
+            centro e o menu à direita. */}
+        <div className="grid h-(--header-height) grid-cols-[1fr_auto_1fr] items-center lg:hidden">
+          <div className="flex justify-start">
+            <ModeSwitcher />
+          </div>
+          <Link href="/" aria-label="Mosaico, início" className="flex items-center justify-center">
+            <LogoMark className="size-7" />
+          </Link>
+          <div className="flex justify-end">
+            <MobileNav sections={SECTIONS} components={components} />
+          </div>
+        </div>
+        {/* Desktop: três colunas, marca, navegação centralizada e ações. */}
+        <div className="hidden h-(--header-height) grid-cols-[1fr_auto_1fr] items-center gap-3 lg:grid">
           <Button
             variant="ghost"
             size="icon"
-            className="hidden size-8 lg:flex"
+            className="size-8"
             nativeButton={false}
             render={<Link href="/" />}
           >
             <LogoMark className="size-5" />
             <span className="sr-only">Mosaico</span>
           </Button>
-          <MainNav items={NAV_ITEMS} className="hidden lg:flex" />
-          <div className="ml-auto flex items-center gap-1.5 lg:ml-0 lg:justify-end">
-            <div className="hidden md:flex">
-              <CommandMenu sections={SECTIONS} components={components} />
-            </div>
+          <MainNav items={NAV_ITEMS} className="flex" />
+          <div className="flex items-center justify-end gap-1.5">
+            <CommandMenu sections={SECTIONS} components={components} />
             <ModeSwitcher />
           </div>
         </div>

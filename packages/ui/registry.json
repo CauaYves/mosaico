@@ -14,6 +14,8 @@
       ],
       "cssVars": {
         "theme": {
+          "animate-marquee": "marquee var(--duration) linear infinite",
+          "animate-marquee-vertical": "marquee-vertical var(--duration) linear infinite",
           "color-background": "var(--background)",
           "color-foreground": "var(--foreground)",
           "color-card": "var(--card)",
@@ -270,6 +272,22 @@
         "@media (prefers-reduced-motion: reduce)": {
           ".animate-fluid-in, .animate-fluid-in-sm, .animate-fluid-morph": {
             "animation": "none"
+          }
+        },
+        "@keyframes marquee": {
+          "from": {
+            "transform": "translateX(0)"
+          },
+          "to": {
+            "transform": "translateX(calc(-100% - var(--gap)))"
+          }
+        },
+        "@keyframes marquee-vertical": {
+          "from": {
+            "transform": "translateY(0)"
+          },
+          "to": {
+            "transform": "translateY(calc(-100% - var(--gap)))"
           }
         }
       }
@@ -1244,6 +1262,25 @@
           "path": "src/components/marker.tsx",
           "type": "registry:ui",
           "target": "@components/mosaico/marker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "marquee",
+      "type": "registry:ui",
+      "title": "Marquee",
+      "description": "Faixa que rola sem parar, na horizontal ou na vertical, para vitrines de componentes, logos e depoimentos.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/marquee.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/marquee.tsx"
         }
       ]
     },

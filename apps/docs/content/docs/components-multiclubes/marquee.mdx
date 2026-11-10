@@ -1,0 +1,50 @@
+---
+title: Marquee
+description: Faixa que rola sem parar, na horizontal ou na vertical, para vitrines de componentes, logos e depoimentos.
+---
+
+<ComponentPreview name="marquee-demo" />
+
+## Installation
+
+<Installation name="marquee" />
+
+As animações (`animate-marquee` e `animate-marquee-vertical`) ficam no `@multiclubes/ui/styles.css`.
+
+## Usage
+
+```tsx
+import { Marquee } from "@multiclubes/ui/components/marquee"
+```
+
+```tsx
+<Marquee pauseOnHover className="[--duration:30s]">
+  <Card>...</Card>
+  <Card>...</Card>
+</Marquee>
+```
+
+## Como funciona
+
+- **Laço sem emenda:** o conteúdo é repetido `repeat` vezes e cada cópia anda o próprio tamanho mais o espaço entre elas.
+- **Acessível:** só a primeira cópia é lida e recebe foco; as outras são inertes. Com movimento reduzido, a faixa para.
+- **Usável:** com `pauseOnHover`, para com o mouse em cima ou com o foco num campo dentro dela.
+- **Ritmo e espaço:** pelas variáveis `--duration` e `--gap`, ex. `[--duration:60s] [--gap:1.5rem]`.
+
+## Vertical em 3D
+
+Colunas verticais em sentidos alternados, inclinadas com `perspective` e `transform`, e um degradê nas quatro bordas. É o efeito da vitrine da página inicial.
+
+<ComponentPreview name="marquee-3d" />
+
+## API Reference
+
+| Prop | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| `vertical` | `boolean` | `false` | Rola na vertical. |
+| `reverse` | `boolean` | `false` | Anda no sentido contrário. |
+| `pauseOnHover` | `boolean` | `false` | Pausa com o mouse em cima ou com foco dentro. |
+| `repeat` | `number` | `4` | Quantas vezes o conteúdo é repetido. |
+| `decorative` | `boolean` | `false` | Só vitrine: o conteúdo não recebe clique, foco nem teclado; o hover continua pausando. |
+
+As demais props vão para a `div` da faixa.
