@@ -19,6 +19,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Marquee (components/marquee.tsx): cada cópia anda o próprio tamanho mais o espaço. */
+  --animate-marquee: marquee var(--duration) linear infinite;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -462,5 +465,23 @@ html[data-theme-transition]::view-transition-new(root) {
   .animate-fluid-in-sm,
   .animate-fluid-morph {
     animation: none;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
   }
 }
