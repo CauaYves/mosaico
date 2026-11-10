@@ -56,7 +56,7 @@ function AssistantAvatar({ className }: { className?: string }) {
   );
 }
 
-export default function ChatbotInterface() {
+export default function Chat01() {
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const [value, setValue] = useState("");
   const [typing, setTyping] = useState(true);
@@ -96,19 +96,18 @@ export default function ChatbotInterface() {
     }, 1000);
   }
 
+  // Tela inteira, sem cartão em volta: o chat é a página. As partes se separam por espaço, não
+  // por bordas; a única borda é o contorno do campo de mensagem (regras de design).
   return (
     <section
       aria-label="Chat com o assistente"
-      className="mx-auto flex h-[36rem] w-full max-w-2xl flex-col overflow-hidden rounded-surface border bg-card text-card-foreground"
+      className="flex h-svh flex-col bg-background text-foreground"
     >
-      <header className="flex items-center gap-3 border-b px-4 py-3">
+      <header className="mx-auto flex w-full max-w-2xl items-center gap-3 px-4 pt-6 pb-2">
         <AssistantAvatar />
         <div className="flex min-w-0 flex-1 flex-col">
           <span className="truncate text-sm font-medium">Assistente</span>
-          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span aria-hidden className="size-2 rounded-full bg-green-500" />
-            Online
-          </span>
+          <span className="text-xs text-muted-foreground">Online</span>
         </div>
         <Button variant="ghost" size="icon" aria-label="Abrir menu">
           <DotsThreeIcon weight="bold" />
@@ -120,91 +119,81 @@ export default function ChatbotInterface() {
         role="log"
         aria-live="polite"
         aria-label="Mensagens"
-        className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-4 py-4"
+        className="min-h-0 flex-1 overflow-y-auto"
       >
-        {messages.map((m) => (
-          <Message key={m.id} align={m.role === "user" ? "end" : "start"}>
-            {m.role === "assistant" && (
+        <div className="mx-auto flex w-full max-w-2xl flex-col gap-5 px-4 py-6">
+          {messages.map((m) => (
+            <Message key={m.id} align={m.role === "user" ? "end" : "start"}>
+              {m.role === "assistant" && (
+                <MessageAvatar>
+                  <AssistantAvatar />
+                </MessageAvatar>
+              )}
+              <MessageContent>
+                <Bubble variant={m.role === "user" ? "default" : "muted"}>
+                  <BubbleContent>
+                    {m.text}
+                    {m.list && (
+                      <ul className="mt-1.5 list-disc space-y-0.5 pl-4">
+                        {m.list.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </BubbleContent>
+                </Bubble>
+                {m.suggestions && (
+                  <div className="flex flex-wrap gap-2">
+                    {m.suggestions.map((s) => (
+                      <Button key={s} variant="secondary" size="sm" onClick={() => send(s)}>
+                        {s}
+                      </Button>
+                    ))}
+                  </div>
+                )}
+                <MessageFooter>{m.time}</MessageFooter>
+              </MessageContent>
+            </Message>
+          ))}
+
+          {typing && (
+            <Message>
               <MessageAvatar>
                 <AssistantAvatar />
               </MessageAvatar>
-            )}
-            <MessageContent>
-              <Bubble variant={m.role === "user" ? "default" : "muted"}>
-                <BubbleContent>
-                  {m.text}
-                  {m.list && (
-                    <ul className="mt-1.5 list-disc space-y-0.5 pl-4">
-                      {m.list.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  )}
-                </BubbleContent>
-              </Bubble>
-              {m.suggestions && (
-                <div className="flex flex-wrap gap-2">
-                  {m.suggestions.map((s) => (
-                    <Button
-                      key={s}
-                      variant="outline"
-                      size="sm"
-                      className="rounded-full"
-                      onClick={() => send(s)}
-                    >
-                      {s}
-                    </Button>
-                  ))}
-                </div>
-              )}
-              <MessageFooter>{m.time}</MessageFooter>
-            </MessageContent>
-          </Message>
-        ))}
-
-        {typing && (
-          <Message>
-            <MessageAvatar>
-              <AssistantAvatar />
-            </MessageAvatar>
-            <MessageContent>
-              <Bubble variant="muted">
-                <BubbleContent className="flex items-center gap-1 py-3.5">
-                  <span className="sr-only">Assistente digitando…</span>
-                  {[0, 150, 300].map((delay) => (
-                    <span
-                      key={delay}
-                      aria-hidden
-                      className="size-1.5 animate-bounce rounded-full bg-muted-foreground"
-                      style={{ animationDelay: `${delay}ms` }}
-                    />
-                  ))}
-                </BubbleContent>
-              </Bubble>
-            </MessageContent>
-          </Message>
-        )}
+              <MessageContent>
+                <Bubble variant="muted">
+                  <BubbleContent className="flex items-center gap-1 py-3.5">
+                    <span className="sr-only">Assistente digitando…</span>
+                    {[0, 150, 300].map((delay) => (
+                      <span
+                        key={delay}
+                        aria-hidden
+                        className="size-1.5 animate-bounce rounded-full bg-muted-foreground"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
+                  </BubbleContent>
+                </Bubble>
+              </MessageContent>
+            </Message>
+          )}
+        </div>
       </div>
 
+      {/* Campo de mensagem no padrão do InputGroup com textarea: ações na faixa de baixo. */}
       <form
-        className="border-t p-3"
+        className="mx-auto w-full max-w-2xl px-4 pt-2 pb-6"
         onSubmit={(e) => {
           e.preventDefault();
           send(value);
         }}
       >
-        <InputGroup className="rounded-field">
-          <InputGroupAddon align="inline-start">
-            <InputGroupButton size="icon-sm" aria-label="Anexar arquivo">
-              <PaperclipIcon />
-            </InputGroupButton>
-          </InputGroupAddon>
+        <InputGroup>
           <InputGroupTextarea
-            rows={1}
             value={value}
             aria-label="Mensagem"
             placeholder="Escreva uma mensagem…"
-            className="max-h-24 min-h-9"
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
@@ -213,12 +202,15 @@ export default function ChatbotInterface() {
               }
             }}
           />
-          <InputGroupAddon align="inline-end">
+          <InputGroupAddon align="block-end">
+            <InputGroupButton size="icon-sm" aria-label="Anexar arquivo">
+              <PaperclipIcon />
+            </InputGroupButton>
             <InputGroupButton
               type="submit"
               variant="default"
               size="icon-sm"
-              className="rounded-full"
+              className="ml-auto"
               aria-label="Enviar mensagem"
               disabled={!value.trim()}
             >

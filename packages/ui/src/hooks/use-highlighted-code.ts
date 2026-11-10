@@ -1,5 +1,5 @@
-import { loadHighlighter } from "@multiclubes/ui/lib/highlighter";
 import * as React from "react";
+import { loadHighlighter } from "@/registry/mosaico/lib/mosaico/highlighter";
 
 export function useHighlightedCode(value: string, language: string) {
   // A trailing newline would render as an extra empty line.

@@ -1,11 +1,11 @@
+import { CaretRightIcon } from "@phosphor-icons/react";
+import { cn } from "cn";
+import type * as React from "react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@multiclubes/ui/components/collapsible";
-import { CaretRightIcon } from "@phosphor-icons/react";
-import { cn } from "cn";
-import type * as React from "react";
+} from "@/registry/mosaico/components/mosaico/collapsible";
 
 function Trace({ className, ...props }: React.ComponentProps<"div">) {
   return (

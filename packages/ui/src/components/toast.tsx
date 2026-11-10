@@ -1,7 +1,6 @@
 "use client";
 
 import { Toast as ToastPrimitive } from "@base-ui/react/toast";
-import { Button } from "@multiclubes/ui/components/button";
 import {
   CheckCircleIcon,
   InfoIcon,
@@ -12,6 +11,7 @@ import {
 } from "@phosphor-icons/react";
 import { cn } from "cn";
 import type * as React from "react";
+import { Button } from "@/registry/mosaico/components/mosaico/button";
 
 const toast = ToastPrimitive.createToastManager();
 

@@ -16,6 +16,7 @@ export const BLOCK_CATEGORIES = [
   { slug: "login", title: "Login" },
   { slug: "signup", title: "Signup" },
   { slug: "editor", title: "Editor" },
+  { slug: "chat", title: "Chat" },
 ];
 
 export const BLOCKS: Block[] = [
@@ -50,6 +51,12 @@ export const BLOCKS: Block[] = [
     description: "Editor com sidebar de projetos, caixa de comandos e canvas de pontos",
     categories: ["featured", "editor"],
   },
+  {
+    name: "chat-01",
+    description:
+      "Chat com o assistente: mensagens, indicador de digitação, sugestões e campo de envio",
+    categories: ["chat"],
+  },
 ];
 
 export const BlockLoaders: Record<string, () => Promise<{ default: React.ComponentType }>> = {
@@ -59,4 +66,5 @@ export const BlockLoaders: Record<string, () => Promise<{ default: React.Compone
   "login-01": () => import("./login-01"),
   "signup-01": () => import("./signup-01"),
   "editor-01": () => import("./editor-01"),
+  "chat-01": () => import("./chat-01"),
 };

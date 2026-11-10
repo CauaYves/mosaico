@@ -10,7 +10,9 @@
       // Gerados por apps/docs/scripts/sync-shadcn.mjs: ficam como no shadcn/ui.
       "!apps/docs/examples",
       "!apps/docs/content/sources",
-      "!apps/docs/.shadcn-upstream"
+      "!apps/docs/.shadcn-upstream",
+      // Gerado por packages/ui/scripts/registry/build.ts (checado na CI com --check).
+      "!packages/ui/registry.json"
     ]
   },
   "overrides": [

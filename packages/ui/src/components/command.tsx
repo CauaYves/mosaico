@@ -1,17 +1,17 @@
 "use client";
 
+import { CheckIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
+import { Command as CommandPrimitive } from "cmdk";
+import { cn } from "cn";
+import type * as React from "react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@multiclubes/ui/components/dialog";
-import { InputGroup, InputGroupAddon } from "@multiclubes/ui/components/input-group";
-import { CheckIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
-import { Command as CommandPrimitive } from "cmdk";
-import { cn } from "cn";
-import type * as React from "react";
+} from "@/registry/mosaico/components/mosaico/dialog";
+import { InputGroup, InputGroupAddon } from "@/registry/mosaico/components/mosaico/input-group";
 
 function Command({ className, ...props }: React.ComponentProps<typeof CommandPrimitive>) {
   return (

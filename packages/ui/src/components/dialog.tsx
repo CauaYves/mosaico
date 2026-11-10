@@ -1,10 +1,10 @@
 "use client";
 
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { Button } from "@multiclubes/ui/components/button";
 import { XIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
 import type * as React from "react";
+import { Button } from "@/registry/mosaico/components/mosaico/button";
 
 function Dialog({ ...props }: DialogPrimitive.Root.Props) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />;

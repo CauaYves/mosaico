@@ -13,7 +13,6 @@ const NAV_ITEMS = [
   { title: "Components", url: "/docs/components" },
   { title: "Blocks", url: "/blocks" },
   { title: "Create", url: "/create" },
-  { title: "Interfaces", url: "/interfaces" },
 ];
 
 export function SiteHeader() {

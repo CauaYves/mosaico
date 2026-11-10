@@ -5,9 +5,23 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: {
-      "@multiclubes/ui": fileURLToPath(new URL("./src", import.meta.url)),
-    },
+    // As entradas do registry (imports internos do kit, ver scripts/registry/config.ts) vêm antes
+    // de "@multiclubes/ui", por serem mais específicas.
+    alias: [
+      {
+        find: "@/registry/mosaico/components/mosaico",
+        replacement: fileURLToPath(new URL("./src/components", import.meta.url)),
+      },
+      {
+        find: "@/registry/mosaico/hooks/mosaico",
+        replacement: fileURLToPath(new URL("./src/hooks", import.meta.url)),
+      },
+      {
+        find: "@/registry/mosaico/lib/mosaico",
+        replacement: fileURLToPath(new URL("./src/lib", import.meta.url)),
+      },
+      { find: "@multiclubes/ui", replacement: fileURLToPath(new URL("./src", import.meta.url)) },
+    ],
   },
   test: {
     environment: "jsdom",

@@ -1,7 +1,7 @@
-import { Button } from "@multiclubes/ui/components/button";
 import { CaretLeftIcon, CaretRightIcon, DotsThreeIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
 import type * as React from "react";
+import { Button } from "@/registry/mosaico/components/mosaico/button";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (

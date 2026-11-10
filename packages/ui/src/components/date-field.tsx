@@ -1,7 +1,14 @@
 "use client";
 
-import { Button } from "@multiclubes/ui/components/button";
-import { clampDateToRange, DateWheelPicker } from "@multiclubes/ui/components/date-wheel-picker";
+import { CalendarBlankIcon } from "@phosphor-icons/react";
+import { InputMask } from "@react-input/mask";
+import { format, isValid, parse } from "date-fns";
+import * as React from "react";
+import { Button } from "@/registry/mosaico/components/mosaico/button";
+import {
+  clampDateToRange,
+  DateWheelPicker,
+} from "@/registry/mosaico/components/mosaico/date-wheel-picker";
 import {
   Drawer,
   DrawerContent,
@@ -9,17 +16,13 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@multiclubes/ui/components/drawer";
+} from "@/registry/mosaico/components/mosaico/drawer";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "@multiclubes/ui/components/input-group";
-import { useIsMobile } from "@multiclubes/ui/hooks/use-mobile";
-import { CalendarBlankIcon } from "@phosphor-icons/react";
-import { InputMask } from "@react-input/mask";
-import { format, isValid, parse } from "date-fns";
-import * as React from "react";
+} from "@/registry/mosaico/components/mosaico/input-group";
+import { useIsMobile } from "@/registry/mosaico/hooks/mosaico/use-mobile";
 
 const DISPLAY_FORMAT = "dd/MM/yyyy";
 const ISO_FORMAT = "yyyy-MM-dd";

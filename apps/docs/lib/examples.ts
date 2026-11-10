@@ -1,20 +1,16 @@
 import { BlockLoaders } from "@/blocks";
 import { Examples } from "@/examples/__index__";
 import { MulticlubesExamples } from "@/examples-multiclubes";
-import { InterfaceLoaders } from "@/interfaces";
 
-/** Carregador de um exemplo, procurando nos do shadcn/ui, nos da Multiclubes, nos blocos e nas interfaces. */
+/** Carregador de um exemplo, procurando nos do shadcn/ui, nos da Multiclubes e nos blocos. */
 export function getExample(name: string) {
-  return (
-    MulticlubesExamples[name] ?? Examples[name] ?? BlockLoaders[name] ?? InterfaceLoaders[name]
-  );
+  return MulticlubesExamples[name] ?? Examples[name] ?? BlockLoaders[name];
 }
 
 const EXAMPLE_NAMES = [
   ...Object.keys(Examples),
   ...Object.keys(MulticlubesExamples),
   ...Object.keys(BlockLoaders),
-  ...Object.keys(InterfaceLoaders),
 ];
 
 /**

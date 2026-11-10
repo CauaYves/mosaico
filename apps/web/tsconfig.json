@@ -2,6 +2,9 @@
   "extends": "@multiclubes/typescript-config/nextjs.json",
   "compilerOptions": {
     "paths": {
+      "@/registry/mosaico/components/mosaico/*": ["../../packages/ui/src/components/*"],
+      "@/registry/mosaico/hooks/mosaico/*": ["../../packages/ui/src/hooks/*"],
+      "@/registry/mosaico/lib/mosaico/*": ["../../packages/ui/src/lib/*"],
       "@/*": ["./*"]
     }
   },

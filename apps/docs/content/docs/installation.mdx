@@ -1,52 +1,89 @@
 ---
 title: Instalação
-description: Como adicionar o Mosaico a uma aplicação.
+description: Como adicionar componentes do Mosaico a uma aplicação.
 ---
+
+Os componentes do Mosaico são distribuídos pelo registry do shadcn, servido direto do repositório [CauaYves/mosaico](https://github.com/CauaYves/mosaico). Cada componente instalado vira código do seu projeto.
 
 ## Requisitos
 
 - React 19.2 ou superior;
 - Tailwind CSS v4.
 
-## Instale o pacote
+## Projeto novo
+
+Se o projeto ainda não tem o `components.json` do shadcn, crie com:
 
 ```bash
-pnpm add @multiclubes/ui
+npx shadcn@latest init
 ```
 
-## Importe o tema
+## Instale um componente
 
-No CSS global da aplicação, importe o Tailwind e, em seguida, o tema do kit:
-
-```css title="app/globals.css"
-@import "tailwindcss";
-@import "@multiclubes/ui/styles.css";
+```bash
+npx shadcn@latest add CauaYves/mosaico/button
 ```
 
-O tema já declara onde estão os componentes, então o Tailwind gera as classes deles sem configuração extra.
+O comando copia o componente, instala as dependências npm e aplica o tema Multiclubes no CSS global. Componentes que dependem de outros (o `dialog` usa o `button`, por exemplo) trazem os dois.
 
-## Next.js
+## Onde os arquivos ficam
 
-Enquanto o pacote é distribuído como código-fonte, apps Next.js precisam transpilar o kit:
+Os arquivos do Mosaico vão para pastas próprias, então convivem com componentes do shadcn oficial em `components/ui` durante uma migração:
 
-```js title="next.config.js"
-const nextConfig = {
-  transpilePackages: ["@multiclubes/ui"],
-};
-
-export default nextConfig;
-```
-
-## Use os componentes
-
-Cada componente é importado pelo seu caminho:
+| Tipo | Pasta |
+| --- | --- |
+| Componentes | `components/mosaico/` |
+| Hooks | `hooks/mosaico/` |
+| Utilitários | `lib/mosaico/` |
 
 ```tsx
-import { Button } from "@multiclubes/ui/components/button"
+import { Button } from "@/components/mosaico/button"
 
 export default function Page() {
   return <Button>Salvar</Button>
 }
 ```
+
+## Tema e temas de cliente
+
+O CSS global (`globals.css`) é do Mosaico: cada `add` reaplica as cores Multiclubes nele. Mudanças feitas direto nesse arquivo se perdem no próximo `add`.
+
+Personalização de cliente fica num arquivo de tema separado, carregado depois do CSS global, só com as variáveis que mudam:
+
+```css title="themes/cliente.css"
+:root {
+  --primary: oklch(0.55 0.22 25);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --primary: oklch(0.65 0.2 25);
+}
+```
+
+## Fonte
+
+O tema usa a Geist (`--font-sans` e `--font-mono`), que o app carrega. Em Next.js, o `shadcn init` já configura; para fazer à mão:
+
+```tsx title="app/layout.tsx"
+import { Geist, Geist_Mono } from "next/font/google"
+
+const geistSans = Geist({ subsets: ["latin"], variable: "--font-sans" })
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" })
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>{children}</body>
+    </html>
+  )
+}
+```
+
+Sem a Geist, os componentes funcionam com a fonte do sistema.
+
+## Atualizar
+
+Rodar o `add` de novo traz a versão mais recente do componente, a que está na `main` do repositório.
 
 Componentes como `Tooltip` e `Toast` precisam de um provider na raiz da aplicação. A página de cada componente indica quando isso é necessário.

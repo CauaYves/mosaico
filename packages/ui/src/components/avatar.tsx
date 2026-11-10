@@ -3,8 +3,13 @@
 import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
 import { cn } from "cn";
 import type * as React from "react";
-import { Seal } from "./seal";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip";
+import { Seal } from "@/registry/mosaico/components/mosaico/seal";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/registry/mosaico/components/mosaico/tooltip";
 
 function Avatar({
   className,
