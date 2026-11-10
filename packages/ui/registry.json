@@ -1,0 +1,2002 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "mosaico-ui",
+  "homepage": "https://github.com/CauaYves/mosaico",
+  "items": [
+    {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "Tema do Mosaico",
+      "description": "Tema padrão Multiclubes: cores, raios aninhados, fonte de títulos, modo escuro e transições fluidas.",
+      "dependencies": [
+        "shadcn@4.22.1",
+        "tw-animate-css@^1.4.0"
+      ],
+      "cssVars": {
+        "theme": {
+          "color-background": "var(--background)",
+          "color-foreground": "var(--foreground)",
+          "color-card": "var(--card)",
+          "color-card-foreground": "var(--card-foreground)",
+          "color-popover": "var(--popover)",
+          "color-popover-foreground": "var(--popover-foreground)",
+          "color-primary": "var(--primary)",
+          "color-primary-foreground": "var(--primary-foreground)",
+          "color-secondary": "var(--secondary)",
+          "color-secondary-foreground": "var(--secondary-foreground)",
+          "color-muted": "var(--muted)",
+          "color-muted-foreground": "var(--muted-foreground)",
+          "color-accent": "var(--accent)",
+          "color-accent-foreground": "var(--accent-foreground)",
+          "color-destructive": "var(--destructive)",
+          "color-border": "var(--border)",
+          "color-input": "var(--input)",
+          "color-ring": "var(--ring)",
+          "color-highlight": "var(--highlight)",
+          "color-highlight-foreground": "var(--highlight-foreground)",
+          "color-chart-brand": "var(--chart-brand)",
+          "color-chart-1": "var(--chart-1)",
+          "color-chart-2": "var(--chart-2)",
+          "color-chart-3": "var(--chart-3)",
+          "color-chart-4": "var(--chart-4)",
+          "color-chart-5": "var(--chart-5)",
+          "color-sidebar": "var(--sidebar)",
+          "color-sidebar-foreground": "var(--sidebar-foreground)",
+          "color-sidebar-primary": "var(--sidebar-primary)",
+          "color-sidebar-primary-foreground": "var(--sidebar-primary-foreground)",
+          "color-sidebar-accent": "var(--sidebar-accent)",
+          "color-sidebar-accent-foreground": "var(--sidebar-accent-foreground)",
+          "color-sidebar-border": "var(--sidebar-border)",
+          "color-sidebar-ring": "var(--sidebar-ring)",
+          "radius-sm": "calc(var(--radius) * 0.6)",
+          "radius-md": "calc(var(--radius) * 0.8)",
+          "radius-lg": "var(--radius)",
+          "radius-xl": "calc(var(--radius) * 1.4)",
+          "radius-2xl": "calc(var(--radius) * 1.8)",
+          "radius-3xl": "calc(var(--radius) * 2.2)",
+          "radius-4xl": "calc(var(--radius) * 2.6)",
+          "font-heading": "var(--heading-font)",
+          "radius-surface": "var(--surface-radius)",
+          "radius-field": "calc(var(--surface-radius) - var(--radius-step))",
+          "radius-item": "calc(var(--surface-radius) - 2 * var(--radius-step))"
+        }
+      },
+      "css": {
+        "@import \"tw-animate-css\"": {},
+        "@import \"shadcn/tailwind.css\"": {},
+        "@custom-variant dark (&:is(.dark *))": {},
+        ":root": {
+          "--radius": "0.625rem",
+          "--surface-radius": "calc(var(--radius) * 3.2)",
+          "--radius-step": "0.5rem",
+          "--heading-font": "var(--font-sans)",
+          "--background": "oklch(1 0 0)",
+          "--foreground": "oklch(0.145 0 0)",
+          "--card": "oklch(1 0 0)",
+          "--card-foreground": "oklch(0.145 0 0)",
+          "--popover": "oklch(1 0 0)",
+          "--popover-foreground": "oklch(0.145 0 0)",
+          "--primary": "oklch(0.44 0.213 263)",
+          "--primary-foreground": "oklch(0.985 0 0)",
+          "--secondary": "oklch(0.97 0 0)",
+          "--secondary-foreground": "oklch(0.205 0 0)",
+          "--muted": "oklch(0.97 0 0)",
+          "--muted-foreground": "oklch(0.556 0 0)",
+          "--accent": "oklch(0.97 0 0)",
+          "--accent-foreground": "oklch(0.205 0 0)",
+          "--destructive": "oklch(0.577 0.245 27.325)",
+          "--border": "oklch(0.922 0 0)",
+          "--input": "oklch(0.922 0 0)",
+          "--ring": "oklch(0.55 0.19 263)",
+          "--highlight": "oklch(0.914 0.191 101.4)",
+          "--highlight-foreground": "oklch(0.205 0 0)",
+          "--chart-brand": "#0540c5",
+          "--chart-1": "var(--chart-brand)",
+          "--chart-2": "color-mix(in oklab, var(--chart-brand) 75%, var(--background))",
+          "--chart-3": "color-mix(in oklab, var(--chart-brand) 55%, var(--background))",
+          "--chart-4": "color-mix(in oklab, var(--chart-brand) 35%, var(--background))",
+          "--chart-5": "color-mix(in oklab, var(--chart-brand) 20%, var(--background))",
+          "--sidebar": "oklch(0.985 0 0)",
+          "--sidebar-foreground": "oklch(0.145 0 0)",
+          "--sidebar-primary": "oklch(0.44 0.213 263)",
+          "--sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "--sidebar-accent": "oklch(0.97 0 0)",
+          "--sidebar-accent-foreground": "oklch(0.205 0 0)",
+          "--sidebar-border": "oklch(0.922 0 0)",
+          "--sidebar-ring": "oklch(0.55 0.19 263)",
+          "--ease-fluid": "cubic-bezier(0.34, 1.3, 0.5, 1)",
+          "--ease-out-fluid": "cubic-bezier(0.23, 1, 0.32, 1)",
+          "--duration-fluid": "560ms",
+          "--duration-fluid-fast": "320ms",
+          "--fluid-stagger": "45ms"
+        },
+        ".dark": {
+          "--background": "oklch(0.145 0 0)",
+          "--foreground": "oklch(0.985 0 0)",
+          "--card": "oklch(0.205 0 0)",
+          "--card-foreground": "oklch(0.985 0 0)",
+          "--popover": "oklch(0.205 0 0)",
+          "--popover-foreground": "oklch(0.985 0 0)",
+          "--primary": "oklch(0.62 0.2 263)",
+          "--primary-foreground": "oklch(0.985 0 0)",
+          "--secondary": "oklch(0.269 0 0)",
+          "--secondary-foreground": "oklch(0.985 0 0)",
+          "--muted": "oklch(0.269 0 0)",
+          "--muted-foreground": "oklch(0.708 0 0)",
+          "--accent": "oklch(0.269 0 0)",
+          "--accent-foreground": "oklch(0.985 0 0)",
+          "--destructive": "oklch(0.704 0.191 22.216)",
+          "--border": "oklch(1 0 0 / 10%)",
+          "--input": "oklch(1 0 0 / 15%)",
+          "--ring": "oklch(0.62 0.2 263)",
+          "--highlight": "oklch(0.914 0.191 101.4)",
+          "--highlight-foreground": "oklch(0.205 0 0)",
+          "--chart-brand": "#fee502",
+          "--chart-1": "var(--chart-brand)",
+          "--chart-2": "color-mix(in oklab, var(--chart-brand) 75%, var(--background))",
+          "--chart-3": "color-mix(in oklab, var(--chart-brand) 55%, var(--background))",
+          "--chart-4": "color-mix(in oklab, var(--chart-brand) 35%, var(--background))",
+          "--chart-5": "color-mix(in oklab, var(--chart-brand) 20%, var(--background))",
+          "--sidebar": "oklch(0.205 0 0)",
+          "--sidebar-foreground": "oklch(0.985 0 0)",
+          "--sidebar-primary": "oklch(0.62 0.2 263)",
+          "--sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "--sidebar-accent": "oklch(0.269 0 0)",
+          "--sidebar-accent-foreground": "oklch(0.985 0 0)",
+          "--sidebar-border": "oklch(1 0 0 / 10%)",
+          "--sidebar-ring": "oklch(0.62 0.2 263)"
+        },
+        "@layer base": {
+          "*": {
+            "@apply border-border outline-ring/50": {}
+          },
+          "body": {
+            "@apply bg-background text-foreground font-sans antialiased": {}
+          }
+        },
+        "@supports (transition-timing-function: linear(0, 1))": {
+          ":root": {
+            "--ease-fluid": "linear( 0, 0.119, 0.35, 0.58, 0.763, 0.887, 0.962, 1.001, 1.017, 1.02, 1.017, 1.012, 1.008, 1.004, 1.002, 1.001, 1 )"
+          }
+        },
+        "@keyframes fluid-in": {
+          "from": {
+            "opacity": "0",
+            "transform": "translateY(10px) scale(0.965)",
+            "filter": "blur(6px)"
+          },
+          "to": {
+            "opacity": "1",
+            "transform": "none",
+            "filter": "none"
+          }
+        },
+        "@keyframes fluid-in-up-sm": {
+          "from": {
+            "opacity": "0",
+            "transform": "translateY(4px) scale(0.985)",
+            "filter": "blur(3px)"
+          },
+          "to": {
+            "opacity": "1",
+            "transform": "none",
+            "filter": "none"
+          }
+        },
+        "@keyframes fluid-morph": {
+          "from": {
+            "opacity": "0",
+            "transform": "scale(0.98, 1.03)",
+            "filter": "blur(4px)"
+          },
+          "to": {
+            "opacity": "1",
+            "transform": "none",
+            "filter": "none"
+          }
+        },
+        "@utility animate-fluid-in": {
+          "animation": "fluid-in var(--duration-fluid) var(--ease-fluid) backwards",
+          "animation-delay": "calc(var(--fluid-index, 0) * var(--fluid-stagger))"
+        },
+        "@utility animate-fluid-in-sm": {
+          "animation": "fluid-in-up-sm var(--duration-fluid-fast) var(--ease-fluid) backwards",
+          "animation-delay": "calc(var(--fluid-index, 0) * var(--fluid-stagger))"
+        },
+        "@utility animate-fluid-morph": {
+          "animation": "fluid-morph var(--duration-fluid) var(--ease-fluid) backwards",
+          "animation-delay": "calc(var(--fluid-index, 0) * var(--fluid-stagger))"
+        },
+        "@utility fluid-stagger": {
+          "& > *": {
+            "--fluid-index": "16"
+          },
+          "@supports (animation-delay: calc(sibling-index() * 1ms))": {
+            "& > *": {
+              "--fluid-index": "min(calc(sibling-index() - 1), 16)"
+            }
+          },
+          "@supports not (animation-delay: calc(sibling-index() * 1ms))": {
+            "& > :nth-child(1)": {
+              "--fluid-index": "0"
+            },
+            "& > :nth-child(2)": {
+              "--fluid-index": "1"
+            },
+            "& > :nth-child(3)": {
+              "--fluid-index": "2"
+            },
+            "& > :nth-child(4)": {
+              "--fluid-index": "3"
+            },
+            "& > :nth-child(5)": {
+              "--fluid-index": "4"
+            },
+            "& > :nth-child(6)": {
+              "--fluid-index": "5"
+            },
+            "& > :nth-child(7)": {
+              "--fluid-index": "6"
+            },
+            "& > :nth-child(8)": {
+              "--fluid-index": "7"
+            },
+            "& > :nth-child(9)": {
+              "--fluid-index": "8"
+            },
+            "& > :nth-child(10)": {
+              "--fluid-index": "9"
+            },
+            "& > :nth-child(11)": {
+              "--fluid-index": "10"
+            },
+            "& > :nth-child(12)": {
+              "--fluid-index": "11"
+            },
+            "& > :nth-child(13)": {
+              "--fluid-index": "12"
+            },
+            "& > :nth-child(14)": {
+              "--fluid-index": "13"
+            },
+            "& > :nth-child(15)": {
+              "--fluid-index": "14"
+            },
+            "& > :nth-child(16)": {
+              "--fluid-index": "15"
+            }
+          }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          ".animate-fluid-in, .animate-fluid-in-sm, .animate-fluid-morph": {
+            "animation": "none"
+          }
+        }
+      }
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/accordion.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/accordion.tsx"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Displays a callout for user attention.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/alert.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/alert.tsx"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "A modal dialog that interrupts the user with important content and expects a response.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/alert-dialog.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/alert-dialog.tsx"
+        }
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Displays content within a desired ratio.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/aspect-ratio.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/aspect-ratio.tsx"
+        }
+      ]
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "Displays a file or image attachment with media, metadata, upload state, and actions.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/attachment.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/attachment.tsx"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "An image element with a fallback for representing the user.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/seal",
+        "CauaYves/mosaico/theme",
+        "CauaYves/mosaico/tooltip"
+      ],
+      "files": [
+        {
+          "path": "src/components/avatar.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/avatar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "backdrop-text",
+      "type": "registry:ui",
+      "title": "Backdrop Text",
+      "description": "Superfície com uma palavra gigante e apagada ao fundo, para dar identidade a uma seção.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/backdrop-text.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/backdrop-text.tsx"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Displays a badge or a component that looks like a badge.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/badge.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/badge.tsx"
+        }
+      ]
+    },
+    {
+      "name": "bottom-nav",
+      "type": "registry:ui",
+      "title": "Bottom Nav",
+      "description": "Barra de navegação flutuante em formato de pílula, só com ícones e um indicador que desliza até o item ativo.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme",
+        "CauaYves/mosaico/tooltip"
+      ],
+      "files": [
+        {
+          "path": "src/components/bottom-nav.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/bottom-nav.tsx"
+        }
+      ]
+    },
+    {
+      "name": "brand-card",
+      "type": "registry:ui",
+      "title": "Brand Card",
+      "description": "Cartão de destaque com traços fluidos nas cores da marca, para campanhas e chamadas.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/brand-card.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/brand-card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "brand-loader",
+      "type": "registry:ui",
+      "title": "Brand Loader",
+      "description": "Carregamento da marca, com o \"m\" da Multiclubes se desenhando e quatro pontos quicando em volta.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/brand-loader.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/brand-loader.tsx"
+        }
+      ],
+      "css": {
+        "@keyframes brand-loader-draw": {
+          "from": {
+            "stroke-dashoffset": "1",
+            "opacity": "0"
+          },
+          "to": {
+            "stroke-dashoffset": "0",
+            "opacity": "1"
+          }
+        },
+        "@keyframes brand-loader-draw-loop": {
+          "0%": {
+            "stroke-dashoffset": "1",
+            "opacity": "0"
+          },
+          "55%, 85%": {
+            "stroke-dashoffset": "0",
+            "opacity": "1"
+          },
+          "100%": {
+            "stroke-dashoffset": "0",
+            "opacity": "0"
+          }
+        },
+        "@keyframes brand-loader-dot": {
+          "0%, 100%": {
+            "transform": "translateY(0) scale(1)"
+          },
+          "50%": {
+            "transform": "translateY(-8px) scale(1.2)"
+          }
+        }
+      }
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Displays the path to the current resource using a hierarchy of links.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/breadcrumb.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/breadcrumb.tsx"
+        }
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/bubble.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/bubble.tsx"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Displays a button or a component that looks like a button.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/button.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/button.tsx"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "A container that groups related buttons together with consistent styling.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/separator",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/button-group.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/button-group.tsx"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A calendar component that allows users to select a date or a range of dates.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0",
+        "react-day-picker@^10.0.2"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/calendar.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/calendar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Displays a card with header, content, and footer.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/card.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "A carousel with motion and swipe built using Embla.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0",
+        "embla-carousel-react@^8.6.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/carousel.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/carousel.tsx"
+        }
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Beautiful charts. Built using Recharts. Copy and paste into your apps.",
+      "dependencies": [
+        "cn@^0.5.0",
+        "recharts@3.8.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/chart.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/chart.tsx"
+        }
+      ]
+    },
+    {
+      "name": "chart-donut",
+      "type": "registry:ui",
+      "title": "Chart Donut",
+      "description": "",
+      "dependencies": [],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/chart-donut.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/chart-donut.tsx"
+        }
+      ],
+      "css": {
+        ".recharts-pie-sector path:not(.donut-capsula)": {
+          "stroke": "none"
+        }
+      }
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "A control that allows the user to toggle between checked and not checked.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/checkbox.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/checkbox.tsx"
+        }
+      ]
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "Code Block",
+      "description": "Displays code, terminal output and diffs with an optional header, line numbers and a copy button.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/code-block.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/code-block.tsx"
+        }
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "An interactive component which expands/collapses a panel.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/collapsible.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/collapsible.tsx"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Autocomplete input with a list of suggestions.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/input-group",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/combobox.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/combobox.tsx"
+        }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Command menu for search and quick actions.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "cmdk@^1.1.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/dialog",
+        "CauaYves/mosaico/input-group",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/command.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/command.tsx"
+        }
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Displays a menu of actions triggered by a right click.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/context-menu.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/context-menu.tsx"
+        }
+      ]
+    },
+    {
+      "name": "date-field",
+      "type": "registry:ui",
+      "title": "Date Field",
+      "description": "Campo de data responsivo. No celular abre a roda de dia, mês e ano; no desktop é um campo com máscara.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "@react-input/mask@^2.0.4",
+        "date-fns@^4.4.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/date-wheel-picker",
+        "CauaYves/mosaico/drawer",
+        "CauaYves/mosaico/input-group",
+        "CauaYves/mosaico/theme",
+        "CauaYves/mosaico/use-mobile"
+      ],
+      "files": [
+        {
+          "path": "src/components/date-field.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/date-field.tsx"
+        }
+      ]
+    },
+    {
+      "name": "date-wheel-picker",
+      "type": "registry:ui",
+      "title": "Date Wheel Picker",
+      "description": "Seletor de data em rodas de dia, mês e ano, no estilo dos seletores nativos do celular.",
+      "dependencies": [
+        "cn@^0.5.0",
+        "date-fns@^4.4.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/date-wheel-picker.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/date-wheel-picker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/dialog.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/dialog.tsx"
+        }
+      ]
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "A provider component that sets the text direction for your application.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/direction.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/direction.tsx"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A drawer component for React.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/drawer.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/drawer.tsx"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a button.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/dropdown-menu.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/dropdown-menu.tsx"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-navigation",
+      "type": "registry:ui",
+      "title": "Dropdown Navigation",
+      "description": "Menu de navegação com painéis em colunas, destaque deslizante nos gatilhos e painel que se redimensiona entre itens.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/navigation-menu",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/dropdown-navigation.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/dropdown-navigation.tsx"
+        }
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Use the Empty component to display an empty state.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/empty.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/empty.tsx"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/label",
+        "CauaYves/mosaico/separator",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/field.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/field.tsx"
+        }
+      ]
+    },
+    {
+      "name": "gradient-panel",
+      "type": "registry:ui",
+      "title": "Gradient Panel",
+      "description": "Superfície de seção com um brilho amarelo suave no canto, para destacar um bloco de conteúdo.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/gradient-panel.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/gradient-panel.tsx"
+        }
+      ]
+    },
+    {
+      "name": "highlighter",
+      "type": "registry:lib",
+      "title": "Highlighter",
+      "description": "",
+      "dependencies": [
+        "shiki@^4.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/lib/highlighter.tsx",
+          "type": "registry:lib",
+          "target": "@lib/mosaico/highlighter.tsx"
+        }
+      ]
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "For sighted users to preview content available behind a link.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/hover-card.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/hover-card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A text input component for forms and user data entry with built-in styling and accessibility features.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/input.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Add addons, buttons, and helper content to inputs.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/input",
+        "CauaYves/mosaico/textarea",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/input-group.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/input-group.tsx"
+        }
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Accessible one-time password component with copy-paste functionality.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0",
+        "input-otp@^1.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/input-otp.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/input-otp.tsx"
+        }
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "A versatile component for displaying content with media, title, description, and actions.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/separator",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/item.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/item.tsx"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Used to display textual user input from keyboard.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/kbd.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/kbd.tsx"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Renders an accessible label associated with controls.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/label.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/label.tsx"
+        }
+      ]
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "Displays an inline status, system note, bordered row, or labeled separator in a conversation.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/marker.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/marker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/dropdown-menu",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/menubar.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/menubar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "Displays a message in a conversation, with optional avatar, header, footer, and alignment.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/message.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/message.tsx"
+        }
+      ]
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "description": "A chat scroll container that anchors turns, opens saved transcripts, follows streamed responses, loads history without jumping, and jumps to any message.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "@shadcn/react@^0.3.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/message-scroller.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/message-scroller.tsx"
+        }
+      ]
+    },
+    {
+      "name": "mosaic-loader",
+      "type": "registry:ui",
+      "title": "Mosaic Loader",
+      "description": "Carregamento em mosaico: a imagem da marca em 3×3 peças que pulsam em onda, ideal para troca de página.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/mosaic-loader.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/mosaic-loader.tsx"
+        }
+      ],
+      "css": {
+        "@keyframes mosaic-loader-pulse": {
+          "0%, 100%": {
+            "opacity": "0.28",
+            "transform": "scale(0.8)"
+          },
+          "50%": {
+            "opacity": "1",
+            "transform": "scale(1)"
+          }
+        }
+      }
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "A styled native HTML select element with consistent design system integration.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/native-select.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/native-select.tsx"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "A collection of links for navigating websites.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/navigation-menu.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/navigation-menu.tsx"
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Pagination with page navigation, next and previous links.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/pagination.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/pagination.tsx"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Displays rich content in a portal, triggered by a button.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/popover.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/popover.tsx"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/progress.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/progress.tsx"
+        }
+      ]
+    },
+    {
+      "name": "questionnaire",
+      "type": "registry:ui",
+      "title": "Questionnaire",
+      "description": "A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "@shadcn/react@^0.3.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/questionnaire.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/questionnaire.tsx"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/radio-group.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/radio-group.tsx"
+        }
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Accessible resizable panel groups and layouts with keyboard support.",
+      "dependencies": [
+        "cn@^0.5.0",
+        "react-resizable-panels@^4.14.7"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/resizable.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/resizable.tsx"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Augments native scroll functionality for custom, cross-browser styling.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/scroll-area.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/scroll-area.tsx"
+        }
+      ]
+    },
+    {
+      "name": "seal",
+      "type": "registry:ui",
+      "title": "Seal",
+      "description": "Selo da Multiclubes para carimbar uma marca como cliente, com o \"m\" ou o logo do cliente no centro.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/seal.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/seal.tsx"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Displays a list of options for the user to pick from—triggered by a button.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/select.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/select.tsx"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Visually or semantically separates content.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/separator.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/separator.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Extends the Dialog component to display content that complements the main content of the screen.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/sheet.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/sheet.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "A composable, themeable and customizable sidebar component.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/input",
+        "CauaYves/mosaico/separator",
+        "CauaYves/mosaico/sheet",
+        "CauaYves/mosaico/skeleton",
+        "CauaYves/mosaico/theme",
+        "CauaYves/mosaico/tooltip",
+        "CauaYves/mosaico/use-mobile"
+      ],
+      "files": [
+        {
+          "path": "src/components/sidebar.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/sidebar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Use to show a placeholder while content is loading.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/skeleton.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/skeleton.tsx"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/slider.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/slider.tsx"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "An indicator that can be used to show a loading state.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/spinner.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/spinner.tsx"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A control that allows the user to toggle between checked and not checked.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/switch.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/switch.tsx"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "A responsive table component.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/table.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/table.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/tabs.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/tabs.tsx"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Displays a form textarea or a component that looks like a textarea.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/textarea.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/textarea.tsx"
+        }
+      ]
+    },
+    {
+      "name": "theme-toggle",
+      "type": "registry:ui",
+      "title": "Theme Toggle",
+      "description": "Botão de modo claro e escuro com os ícones padrão do Mosaico e transição animada.",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/theme-toggle.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/theme-toggle.tsx"
+        }
+      ],
+      "css": {
+        "html[data-theme-transition]::view-transition-old(root), html[data-theme-transition]::view-transition-new(root)": {
+          "animation": "none",
+          "mix-blend-mode": "normal"
+        },
+        "html[data-theme-transition]::view-transition-new(root)": {
+          "mask": "radial-gradient(closest-side, #fff calc(100% - 1px), transparent) no-repeat",
+          "animation": "theme-reveal 750ms ease-in-out both"
+        },
+        "@keyframes theme-reveal": {
+          "from": {
+            "mask-size": "0 0",
+            "mask-position": "var(--theme-x) var(--theme-y)"
+          },
+          "to": {
+            "mask-size": "var(--theme-size) var(--theme-size)",
+            "mask-position": "calc(var(--theme-x) - var(--theme-size) / 2) calc(var(--theme-y) - var(--theme-size) / 2)"
+          }
+        },
+        "@keyframes theme-icon-sun": {
+          "from": {
+            "opacity": "0",
+            "filter": "blur(4px)",
+            "transform": "rotate(-120deg) scale(0.4)"
+          },
+          "to": {
+            "opacity": "1",
+            "filter": "blur(0)",
+            "transform": "rotate(0) scale(1)"
+          }
+        },
+        "@keyframes theme-icon-moon": {
+          "from": {
+            "opacity": "0",
+            "filter": "blur(4px)",
+            "transform": "rotate(70deg) translateY(30%) scale(0.4)"
+          },
+          "to": {
+            "opacity": "1",
+            "filter": "blur(0)",
+            "transform": "rotate(0) translateY(0) scale(1)"
+          }
+        }
+      }
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "A succinct message that is displayed temporarily.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/button",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/toast.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/toast.tsx"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A two-state button that can be either on or off.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/toggle.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/toggle.tsx"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "A set of two-state buttons that can be toggled on or off.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme",
+        "CauaYves/mosaico/toggle"
+      ],
+      "files": [
+        {
+          "path": "src/components/toggle-group.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/toggle-group.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+      "dependencies": [
+        "@base-ui/react@^1.4.0",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/tooltip.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/tooltip.tsx"
+        }
+      ]
+    },
+    {
+      "name": "trace",
+      "type": "registry:ui",
+      "title": "Trace",
+      "description": "The building block for reasoning, tool calls, sources and more.",
+      "dependencies": [
+        "@phosphor-icons/react@^2.1.10",
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/collapsible",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/components/trace.tsx",
+          "type": "registry:ui",
+          "target": "@components/mosaico/trace.tsx"
+        }
+      ]
+    },
+    {
+      "name": "use-highlighted-code",
+      "type": "registry:hook",
+      "title": "Use Highlighted Code",
+      "description": "",
+      "dependencies": [],
+      "registryDependencies": [
+        "CauaYves/mosaico/highlighter",
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/hooks/use-highlighted-code.ts",
+          "type": "registry:hook",
+          "target": "@hooks/mosaico/use-highlighted-code.ts"
+        }
+      ]
+    },
+    {
+      "name": "use-mobile",
+      "type": "registry:hook",
+      "title": "Use Mobile",
+      "description": "",
+      "dependencies": [],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/hooks/use-mobile.ts",
+          "type": "registry:hook",
+          "target": "@hooks/mosaico/use-mobile.ts"
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "",
+      "dependencies": [
+        "cn@^0.5.0"
+      ],
+      "registryDependencies": [
+        "CauaYves/mosaico/theme"
+      ],
+      "files": [
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib",
+          "target": "@lib/mosaico/utils.ts"
+        }
+      ]
+    }
+  ]
+}

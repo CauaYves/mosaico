@@ -3,7 +3,7 @@
 import { cn } from "cn";
 import type * as React from "react";
 import { flushSync } from "react-dom";
-import { Button } from "./button";
+import { Button } from "@/registry/mosaico/components/mosaico/button";
 
 type Theme = "light" | "dark";
 

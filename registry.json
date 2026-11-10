@@ -1,0 +1,6 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "mosaico",
+  "homepage": "https://github.com/CauaYves/mosaico",
+  "include": ["packages/ui/registry.json"]
+}

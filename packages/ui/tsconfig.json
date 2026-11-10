@@ -1,11 +1,16 @@
 {
   "extends": "@multiclubes/typescript-config/react-library.json",
   "compilerOptions": {
-    "types": ["vitest/globals", "@testing-library/jest-dom"],
+    "types": ["vitest/globals", "@testing-library/jest-dom", "node"],
+    // Os scripts em scripts/ rodam direto no Node (type stripping), que exige a extensão .ts.
+    "allowImportingTsExtensions": true,
     "paths": {
-      "@multiclubes/ui/*": ["./src/*"]
+      "@multiclubes/ui/*": ["./src/*"],
+      "@/registry/mosaico/components/mosaico/*": ["./src/components/*"],
+      "@/registry/mosaico/hooks/mosaico/*": ["./src/hooks/*"],
+      "@/registry/mosaico/lib/mosaico/*": ["./src/lib/*"]
     }
   },
-  "include": ["src", "vitest.config.ts", "vitest.setup.ts"],
+  "include": ["src", "scripts", "vitest.config.ts", "vitest.setup.ts"],
   "exclude": ["node_modules", "dist"]
 }

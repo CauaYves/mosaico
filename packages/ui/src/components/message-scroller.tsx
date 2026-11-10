@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@multiclubes/ui/components/button";
 import { ArrowDownIcon } from "@phosphor-icons/react";
 import {
   MessageScroller as MessageScrollerPrimitive,
@@ -10,6 +9,7 @@ import {
 } from "@shadcn/react/message-scroller";
 import { cn } from "cn";
 import type * as React from "react";
+import { Button } from "@/registry/mosaico/components/mosaico/button";
 
 function MessageScrollerProvider(
   props: React.ComponentProps<typeof MessageScrollerPrimitive.Provider>,

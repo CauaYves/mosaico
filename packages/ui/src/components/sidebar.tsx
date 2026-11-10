@@ -2,22 +2,26 @@
 
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { Button } from "@multiclubes/ui/components/button";
-import { Input } from "@multiclubes/ui/components/input";
-import { Separator } from "@multiclubes/ui/components/separator";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "cn";
+import * as React from "react";
+import { Button } from "@/registry/mosaico/components/mosaico/button";
+import { Input } from "@/registry/mosaico/components/mosaico/input";
+import { Separator } from "@/registry/mosaico/components/mosaico/separator";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@multiclubes/ui/components/sheet";
-import { Skeleton } from "@multiclubes/ui/components/skeleton";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@multiclubes/ui/components/tooltip";
-import { useIsMobile } from "@multiclubes/ui/hooks/use-mobile";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "cn";
-import * as React from "react";
+} from "@/registry/mosaico/components/mosaico/sheet";
+import { Skeleton } from "@/registry/mosaico/components/mosaico/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/registry/mosaico/components/mosaico/tooltip";
+import { useIsMobile } from "@/registry/mosaico/hooks/mosaico/use-mobile";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;

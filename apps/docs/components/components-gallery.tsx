@@ -1,14 +1,6 @@
 "use client";
 
-import { Button } from "@multiclubes/ui/components/button";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@multiclubes/ui/components/input-group";
 import { ToggleGroup, ToggleGroupItem } from "@multiclubes/ui/components/toggle-group";
-import { MagnifyingGlassIcon, SlidersHorizontalIcon, XIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
 import Link from "next/link";
 import * as React from "react";
@@ -42,8 +34,8 @@ const SORTS: { value: Sort; label: string }[] = [
 ];
 
 /**
- * Galeria de componentes no formato do ReUI: sidebar de categorias à esquerda, barra de busca no
- * topo, cabeçalho, atalhos e grade de cartões com a prévia viva de cada item.
+ * Galeria de componentes: cabeçalho, atalhos de categoria, ordenação e grade de cartões com a
+ * prévia viva de cada item.
  */
 export function ComponentsGallery({
   items,
@@ -60,8 +52,6 @@ export function ComponentsGallery({
   description?: string;
   getExample?: GetExample;
 }) {
-  const [query, setQuery] = React.useState("");
-  const [categoryQuery, setCategoryQuery] = React.useState("");
   const [sort, setSort] = React.useState<Sort>("new");
   const [category, setCategory] = React.useState("all");
 
@@ -75,93 +65,21 @@ export function ComponentsGallery({
   const shortcuts = [...available]
     .sort((a, b) => (counts.get(b) ?? 0) - (counts.get(a) ?? 0))
     .slice(0, 8);
-  const sidebarCategories = available.filter((name) =>
-    normalize(name).includes(normalize(categoryQuery.trim())),
-  );
 
   const visible = React.useMemo(() => {
-    const term = normalize(query.trim());
-    const filtered = items.filter((item) => {
-      if (category !== "all" && item.category !== category) return false;
-      if (!term) return true;
-      return normalize(`${item.title} ${item.description} ${item.category}`).includes(term);
-    });
+    const filtered = items.filter((item) => category === "all" || item.category === category);
     return filtered.sort((a, b) => {
       if (sort === "new" && a.isNew !== b.isNew) return a.isNew ? -1 : 1;
       const order = a.title.localeCompare(b.title, "pt-BR");
       return sort === "za" ? -order : order;
     });
-  }, [items, query, sort, category]);
+  }, [items, sort, category]);
 
   const toggle = (value: string) => setCategory((current) => (current === value ? "all" : value));
 
   return (
-    <div className="flex min-w-0 flex-col gap-6 pt-4 lg:grid lg:grid-cols-[calc(var(--spacing)*56)_minmax(0,1fr)] lg:items-start lg:gap-8">
-      {/* Categorias: coluna em telas largas, linha rolável de pílulas no celular */}
-      <aside className="flex min-w-0 flex-col gap-3 lg:sticky lg:top-20">
-        <InputGroup className="hidden h-9 lg:flex">
-          <InputGroupInput
-            value={categoryQuery}
-            onChange={(event) => setCategoryQuery(event.target.value)}
-            placeholder="Filtrar categorias..."
-            aria-label="Filtrar categorias"
-          />
-          <InputGroupAddon>
-            <MagnifyingGlassIcon />
-          </InputGroupAddon>
-        </InputGroup>
-        <nav
-          aria-label="Categorias"
-          className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-col lg:gap-0.5 lg:overflow-visible lg:px-0 lg:pb-0"
-        >
-          <CategoryItem
-            label="Todos"
-            count={items.length}
-            active={category === "all"}
-            onClick={() => setCategory("all")}
-          />
-          {sidebarCategories.map((name) => (
-            <CategoryItem
-              key={name}
-              label={name}
-              count={counts.get(name) ?? 0}
-              active={category === name}
-              onClick={() => setCategory(name)}
-            />
-          ))}
-        </nav>
-      </aside>
-
+    <div className="flex min-w-0 flex-col gap-6 pt-4">
       <div className="flex min-w-0 flex-col gap-8">
-        <div className="flex items-center gap-2">
-          <InputGroup className="h-10 flex-1">
-            <InputGroupInput
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Buscar componentes..."
-              aria-label="Buscar componentes"
-            />
-            <InputGroupAddon>
-              <MagnifyingGlassIcon />
-            </InputGroupAddon>
-            {query && (
-              <InputGroupAddon align="inline-end">
-                <InputGroupButton
-                  size="icon-xs"
-                  aria-label="Limpar busca"
-                  onClick={() => setQuery("")}
-                >
-                  <XIcon />
-                </InputGroupButton>
-              </InputGroupAddon>
-            )}
-          </InputGroup>
-          <Button size="lg" nativeButton={false} render={<Link href="/create" />}>
-            <SlidersHorizontalIcon data-icon="inline-start" />
-            Personalizar
-          </Button>
-        </div>
-
         <PageHeader
           eyebrow={eyebrow}
           title={title}
@@ -204,35 +122,11 @@ export function ComponentsGallery({
           </div>
         ) : (
           <p className="py-16 text-center text-sm text-muted-foreground">
-            Nenhum componente encontrado{query ? ` para "${query}"` : ""}.
+            Nenhum componente encontrado.
           </p>
         )}
       </div>
     </div>
-  );
-}
-
-function CategoryItem({
-  label,
-  count,
-  active,
-  onClick,
-}: {
-  label: string;
-  count: number;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={active}
-      onClick={onClick}
-      className="flex h-8 shrink-0 items-center justify-between gap-3 rounded-field border border-transparent px-3 text-sm font-medium whitespace-nowrap transition-colors outline-none hover:bg-accent focus-visible:ring-3 focus-visible:ring-ring/50 aria-pressed:bg-secondary max-lg:border-border max-lg:aria-pressed:border-transparent"
-    >
-      {label}
-      <span className="text-xs text-muted-foreground tabular-nums">{count}</span>
-    </button>
   );
 }
 
@@ -399,11 +293,4 @@ function LivePreview({
       )}
     </div>
   );
-}
-
-function normalize(text: string) {
-  return text
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .toLowerCase();
 }

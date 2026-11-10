@@ -168,6 +168,12 @@
 }
 
 /*
+ * Marcadores do registry: o que fica entre "@registry <item>" e "@registry end" vai para o item
+ * <item> do registry shadcn; o resto vai para o tema (packages/ui/scripts/registry/css.ts).
+ */
+
+/* @registry theme-toggle */
+/*
  * Troca de tema (ThemeToggle): efeito "Circle" do react-theme-switch-animation. Durante
  * a View Transition, o tema novo aparece num círculo que nasce no centro do botão
  * (--theme-x, --theme-y) e cresce até cobrir a tela (--theme-size). A máscara é um
@@ -228,7 +234,9 @@ html[data-theme-transition]::view-transition-new(root) {
     transform: rotate(0) translateY(0) scale(1);
   }
 }
+/* @registry end */
 
+/* @registry brand-loader */
 /*
  * BrandLoader: o "m" se desenha (stroke-dashoffset sobre pathLength="1") e os pontos quicam
  * em sequência. Com movimento reduzido, o "m" aparece pronto e os pontos ficam parados.
@@ -270,7 +278,9 @@ html[data-theme-transition]::view-transition-new(root) {
     transform: translateY(-8px) scale(1.2);
   }
 }
+/* @registry end */
 
+/* @registry mosaic-loader */
 /*
  * MosaicLoader: cada peça da grade pulsa (some e volta ao tamanho cheio); o atraso escalonado
  * em diagonal, definido em cada peça, faz a onda atravessar a imagem. Com movimento reduzido,
@@ -287,12 +297,15 @@ html[data-theme-transition]::view-transition-new(root) {
     transform: scale(1);
   }
 }
+/* @registry end */
 
+/* @registry chart-donut */
 /* zera a borda branca que o Recharts põe nas fatias. a exceção é a cápsula do donut:
    lá a fatia É o stroke (ver components/chart-donut.tsx) */
 .recharts-pie-sector path:not(.donut-capsula) {
   stroke: none;
 }
+/* @registry end */
 
 /*
  * Transições fluidas. Inspiradas nas transições do Liquid Glass da Apple: o elemento chega

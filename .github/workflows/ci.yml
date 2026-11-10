@@ -30,6 +30,9 @@ jobs:
       - name: Referência da skill
         run: node apps/docs/scripts/sync-ia.mjs --check
 
+      - name: Registry
+        run: pnpm --filter @multiclubes/ui registry:check
+
       - name: Tipos
         run: pnpm check-types
 
