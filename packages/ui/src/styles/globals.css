@@ -239,50 +239,6 @@ html[data-theme-transition]::view-transition-new(root) {
 }
 /* @registry end */
 
-/* @registry brand-loader */
-/*
- * BrandLoader: o "m" se desenha (stroke-dashoffset sobre pathLength="1") e os pontos quicam
- * em sequência. Com movimento reduzido, o "m" aparece pronto e os pontos ficam parados.
- */
-@keyframes brand-loader-draw {
-  from {
-    stroke-dashoffset: 1;
-    opacity: 0;
-  }
-  to {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-}
-
-/* Versão em laço: desenha, segura o "m" pronto e apaga, para recomeçar. */
-@keyframes brand-loader-draw-loop {
-  0% {
-    stroke-dashoffset: 1;
-    opacity: 0;
-  }
-  55%,
-  85% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 0;
-  }
-}
-
-@keyframes brand-loader-dot {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-8px) scale(1.2);
-  }
-}
-/* @registry end */
-
 /* @registry mosaic-loader */
 /*
  * MosaicLoader: cada peça da grade pulsa (some e volta ao tamanho cheio); o atraso escalonado

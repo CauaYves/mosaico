@@ -15,7 +15,7 @@ const refIndex = args.indexOf("--ref");
 const ref = refIndex >= 0 ? args.splice(refIndex, 2)[1] : undefined;
 const items = args.length
   ? args
-  : ["dialog", "sidebar", "date-field", "theme-toggle", "brand-loader"];
+  : ["dialog", "sidebar", "date-field", "theme-toggle", "mosaic-loader"];
 
 const failures: string[] = [];
 const fail = (check: string, detail: string) => failures.push(`${check}: ${detail}`);
@@ -88,8 +88,8 @@ if (!block(".dark").includes("--primary: oklch(0.62 0.2 263)")) fail("--primary"
 
 // 4. nada duplicado ao rodar add duas vezes
 const count = (pattern: RegExp) => css.match(pattern)?.length ?? 0;
-if (count(/@keyframes brand-loader-draw\s*\{/g) > 1)
-  fail("duplicado", "@keyframes brand-loader-draw");
+if (count(/@keyframes mosaic-loader-pulse\s*\{/g) > 1)
+  fail("duplicado", "@keyframes mosaic-loader-pulse");
 if (count(/^:root\s*\{/gm) > 1) fail("duplicado", ":root");
 if (count(/^\.dark\s*\{/gm) > 1) fail("duplicado", ".dark");
 

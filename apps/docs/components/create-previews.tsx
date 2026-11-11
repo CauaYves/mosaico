@@ -32,80 +32,48 @@ import {
   TrashIcon,
 } from "@phosphor-icons/react";
 import * as React from "react";
-import { MarketingPreview } from "@/components/create-marketing";
-import { OverviewPreview } from "@/components/create-overview";
+import { EXTRA_TILES } from "@/components/create-extra";
+import { OVERVIEW_TILES } from "@/components/create-overview";
 
-export type CreateItem = {
-  name: string;
-  title: string;
-  description: string;
-  /** Página da documentação aberta pelo botão "Documentação". */
-  docs: string;
-  /** Outros termos que encontram o item na busca, como os componentes que ele usa. */
-  keywords: string[];
-  preview: React.ComponentType;
-  /** Escala da prévia (CSS zoom). Menor que 1 mostra mais componentes de uma vez. */
-  zoom?: number;
-};
+type BoardEntry = { name: string; tile: React.ComponentType };
 
-// Itens da prévia em /create. Todos os textos e valores são ilustrativos.
-export const CREATE_ITEMS: CreateItem[] = [
-  {
-    name: "overview",
-    title: "Visão geral",
-    description:
-      "Cabeçalho, gráficos de linha e barras, tabela, listas, estado vazio, conta, notas, chat, navegação, configurações, avatares e calendário.",
-    docs: "/docs/components",
-    keywords: ["dashboard", "gráfico", "linha", "tabela", "cabeçalho"],
-    preview: OverviewPreview,
-    zoom: 0.7,
-  },
-  {
-    name: "button",
-    title: "Button",
-    description: "Variantes, tamanhos e ícones, com Badge.",
-    docs: "/docs/components/button",
-    keywords: ["botão", "badge"],
-    preview: ButtonPreview,
-  },
-  {
-    name: "form",
-    title: "Formulário",
-    description: "Campos, seleção, data e opções, com o botão de envio.",
-    docs: "/docs/components/field",
-    keywords: ["field", "input", "select", "switch", "checkbox", "date field", "campo"],
-    preview: FormPreview,
-  },
-  {
-    name: "card",
-    title: "Card",
-    description: "Superfície com cabeçalho, ação, conteúdo e rodapé.",
-    docs: "/docs/components/card",
-    keywords: ["cartão", "superfície"],
-    preview: CardPreview,
-  },
-  {
-    name: "marketing",
-    title: "Marketing",
-    description:
-      "Página de apresentação com GradientPanel, BackdropText, BrandCard e carregadores da marca.",
-    docs: "/docs/components",
-    keywords: [
-      "marca",
-      "brand",
-      "gradient panel",
-      "backdrop text",
-      "mosaic loader",
-      "brand loader",
-      "hero",
-    ],
-    preview: MarketingPreview,
-  },
+// Tudo o que aparece no quadro do /create. Os cartões extras entram intercalados com a visão
+// geral, para os tipos de componente se misturarem. Todos os textos e valores são ilustrativos.
+const OWN: BoardEntry[] = [
+  { name: "button", tile: ButtonPreview },
+  { name: "form", tile: FormPreview },
+  { name: "plan-card", tile: PlanCard },
+  { name: "activity-card", tile: ActivityCard },
 ];
+const BOARD: BoardEntry[] = [
+  ...OWN,
+  ...Array.from({ length: Math.max(OVERVIEW_TILES.length, EXTRA_TILES.length) }, (_, index) =>
+    [OVERVIEW_TILES[index], EXTRA_TILES[index]].filter((entry): entry is BoardEntry =>
+      Boolean(entry),
+    ),
+  ).flat(),
+];
+
+/**
+ * Quadro da prévia, em alvenaria: cada peça tem 22rem de largura e entra logo abaixo da
+ * anterior, então não sobra espaço entre peças de alturas diferentes. O quadro é mais largo
+ * que a tela e quem está em volta o rola nos dois sentidos.
+ */
+export function CreateBoard() {
+  return (
+    <div className="fluid-stagger w-[142.5rem] columns-6 gap-6 p-6 [column-fill:balance]">
+      {BOARD.map(({ name, tile: Tile }) => (
+        <div key={name} className="mb-6 break-inside-avoid animate-fluid-in">
+          <Tile />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function ButtonPreview() {
   return (
-    <Card className="mx-auto w-full max-w-2xl">
+    <Card>
       <CardContent className="flex flex-col gap-6">
         <div className="flex flex-wrap items-center gap-2">
           <Button>Principal</Button>
@@ -158,7 +126,7 @@ function FormPreview() {
   const [date, setDate] = React.useState("");
 
   return (
-    <Card className="mx-auto w-full max-w-md">
+    <Card>
       <CardHeader>
         <CardTitle>Cadastro</CardTitle>
         <CardDescription>Preencha os dados para continuar.</CardDescription>
@@ -169,7 +137,7 @@ function FormPreview() {
             <FieldLabel htmlFor="preview-name">Nome</FieldLabel>
             <Input id="preview-name" placeholder="Nome completo" />
           </Field>
-          <div className="grid gap-4 @md/preview:grid-cols-2">
+          <div className="grid gap-4">
             <Field>
               <FieldLabel htmlFor="preview-date">Data</FieldLabel>
               <DateField
@@ -215,46 +183,49 @@ function FormPreview() {
   );
 }
 
-function CardPreview() {
+function PlanCard() {
   return (
-    <div className="grid gap-4 @2xl/preview:grid-cols-2">
-      <Card>
-        <CardHeader>
-          <CardTitle>Plano anual</CardTitle>
-          <CardDescription>Renovação automática.</CardDescription>
-          <CardAction>
-            <Badge variant="secondary">Ativo</Badge>
-          </CardAction>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-1">
-          <p className="font-heading text-3xl font-semibold tracking-tight">R$ 1.200</p>
-          <p className="text-sm text-muted-foreground">por ano, em até 12 vezes</p>
-        </CardContent>
-        <CardFooter>
-          <Button className="w-full">Ver detalhes</Button>
-        </CardFooter>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Atividade recente</CardTitle>
-          <CardDescription>Últimos 7 dias.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ul className="flex flex-col gap-3 text-sm">
-            {["Item A atualizado", "Item B criado", "Item C removido"].map((entry, index) => (
-              <li key={entry} className="flex items-center justify-between gap-3">
-                <span>{entry}</span>
-                <span className="text-muted-foreground tabular-nums">há {index + 1} dia(s)</span>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-        <CardFooter>
-          <Button variant="outline" className="w-full">
-            Ver tudo
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Plano anual</CardTitle>
+        <CardDescription>Renovação automática.</CardDescription>
+        <CardAction>
+          <Badge variant="secondary">Ativo</Badge>
+        </CardAction>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-1">
+        <p className="font-heading text-3xl font-semibold tracking-tight">R$ 1.200</p>
+        <p className="text-sm text-muted-foreground">por ano, em até 12 vezes</p>
+      </CardContent>
+      <CardFooter>
+        <Button className="w-full">Ver detalhes</Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function ActivityCard() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Atividade recente</CardTitle>
+        <CardDescription>Últimos 7 dias.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ul className="flex flex-col gap-3 text-sm">
+          {["Item A atualizado", "Item B criado", "Item C removido"].map((entry, index) => (
+            <li key={entry} className="flex items-center justify-between gap-3">
+              <span>{entry}</span>
+              <span className="text-muted-foreground tabular-nums">há {index + 1} dia(s)</span>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+      <CardFooter>
+        <Button variant="outline" className="w-full">
+          Ver tudo
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }

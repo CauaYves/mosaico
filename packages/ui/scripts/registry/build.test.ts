@@ -3,10 +3,10 @@ import { assertCssPartsHaveItems, buildRegistry } from "./build.ts";
 
 test("marcador de CSS sem item correspondente falha com o nome do marcador", () => {
   expect(() =>
-    assertCssPartsHaveItems({ theme: "", "brand-loadr": "x" }, new Set(["brand-loader"])),
-  ).toThrow(/brand-loadr/);
+    assertCssPartsHaveItems({ theme: "", "mosaic-loadr": "x" }, new Set(["mosaic-loader"])),
+  ).toThrow(/mosaic-loadr/);
   expect(() =>
-    assertCssPartsHaveItems({ theme: "", "brand-loader": "x" }, new Set(["brand-loader"])),
+    assertCssPartsHaveItems({ theme: "", "mosaic-loader": "x" }, new Set(["mosaic-loader"])),
   ).not.toThrow();
 });
 
@@ -24,7 +24,7 @@ const json = JSON.parse(buildRegistry(uiRoot, docsContentRoot)) as { items: Item
 const byName = (name: string) => json.items.find((item) => item.name === name) as Item;
 
 test("um item por arquivo de src, mais o tema", () => {
-  expect(json.items).toHaveLength(1 + 76 + 2 + 2);
+  expect(json.items).toHaveLength(1 + 75 + 2 + 2);
   expect(json.items[0]?.name).toBe("theme");
 });
 
@@ -61,5 +61,7 @@ test("metadado do MDX e CSS próprio", () => {
   expect(byName("button").description).toBe(
     "Displays a button or a component that looks like a button.",
   );
-  expect(Object.keys(byName("brand-loader").css ?? {})).toContain("@keyframes brand-loader-draw");
+  expect(Object.keys(byName("mosaic-loader").css ?? {})).toContain(
+    "@keyframes mosaic-loader-pulse",
+  );
 });

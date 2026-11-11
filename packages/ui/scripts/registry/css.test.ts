@@ -44,10 +44,10 @@ test("seletor repetido junta as declarações e a última vence", () => {
 
 test("marcadores separam por item; o resto é theme", () => {
   const parts = splitByItem(
-    "a{b:c}\n/* @registry brand-loader */\n@keyframes x{from{opacity:0}}\n/* @registry end */\nd{e:f}",
+    "a{b:c}\n/* @registry mosaic-loader */\n@keyframes x{from{opacity:0}}\n/* @registry end */\nd{e:f}",
   );
-  expect(Object.keys(parts).sort()).toEqual(["brand-loader", "theme"]);
-  expect(parts["brand-loader"]).toContain("@keyframes x");
+  expect(Object.keys(parts).sort()).toEqual(["mosaic-loader", "theme"]);
+  expect(parts["mosaic-loader"]).toContain("@keyframes x");
   expect(parts.theme).not.toContain("@keyframes x");
 });
 
@@ -86,12 +86,6 @@ test("o globals.css real: theme tem :root, .dark e @theme inline, sem @source", 
   });
   expect(JSON.stringify(theme)).not.toContain("@source");
   expect(Object.keys(parts)).toEqual(
-    expect.arrayContaining([
-      "theme",
-      "theme-toggle",
-      "brand-loader",
-      "mosaic-loader",
-      "chart-donut",
-    ]),
+    expect.arrayContaining(["theme", "theme-toggle", "mosaic-loader", "chart-donut"]),
   );
 });

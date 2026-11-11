@@ -86,14 +86,7 @@ export const COMPONENT_CATEGORIES = [
   { name: "Mensagens", components: ["bubble", "message", "message-scroller"] },
   {
     name: "Marca",
-    components: [
-      "backdrop-text",
-      "brand-card",
-      "brand-loader",
-      "gradient-panel",
-      "mosaic-loader",
-      "seal",
-    ],
+    components: ["backdrop-text", "brand-card", "gradient-panel", "mosaic-loader", "seal"],
   },
 ] as const;
 
@@ -102,7 +95,6 @@ export const NEW_COMPONENTS = new Set([
   "backdrop-text",
   "bottom-nav",
   "brand-card",
-  "brand-loader",
   "dropdown-navigation",
   "gradient-panel",
   "seal",

@@ -31,7 +31,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@multiclubes/ui/components/chart";
-import { CapsulaDonut } from "@multiclubes/ui/components/chart-donut";
 import { Checkbox } from "@multiclubes/ui/components/checkbox";
 import {
   Empty,
@@ -95,7 +94,7 @@ import {
   TrayIcon,
   UserIcon,
 } from "@phosphor-icons/react";
-import { useId } from "react";
+import type { ComponentType } from "react";
 import { ptBR } from "react-day-picker/locale";
 import {
   Bar,
@@ -307,7 +306,6 @@ const barrasConfig = {
 } satisfies ChartConfig;
 
 function BarrasTile() {
-  const uid = useId().replace(/:/g, "");
   const destaque = 1;
   return (
     <Card>
@@ -323,16 +321,6 @@ function BarrasTile() {
             barCategoryGap={10}
             margin={{ left: 0, right: 0, top: 0, bottom: 0 }}
           >
-            <defs>
-              <linearGradient id={`${uid}-brand`} x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="var(--chart-brand)" stopOpacity={0.35} />
-                <stop offset="100%" stopColor="var(--chart-brand)" stopOpacity={1} />
-              </linearGradient>
-              <linearGradient id={`${uid}-gray`} x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="var(--foreground)" stopOpacity={0.08} />
-                <stop offset="100%" stopColor="var(--foreground)" stopOpacity={0.28} />
-              </linearGradient>
-            </defs>
             <XAxis type="number" hide />
             <YAxis
               type="category"
@@ -345,7 +333,16 @@ function BarrasTile() {
             <ChartTooltip cursor={false} content={<ChartTooltipContent hideIndicator />} />
             <Bar dataKey="valor" radius={[0, 6, 6, 0]} barSize={22} isAnimationActive={false}>
               {BARRAS.map((d, i) => (
-                <Cell key={d.item} fill={`url(#${uid}-${i === destaque ? "brand" : "gray"})`} />
+                <Cell
+                  key={d.item}
+                  // Cores sólidas: a barra em destaque na cor da marca e as outras num cinza
+                  // opaco, misturado com o fundo do card.
+                  fill={
+                    i === destaque
+                      ? "var(--chart-brand)"
+                      : "color-mix(in oklab, var(--foreground) 22%, var(--card))"
+                  }
+                />
               ))}
             </Bar>
           </BarChart>
@@ -386,7 +383,9 @@ function RoscaTile() {
                 outerRadius="80%"
                 startAngle={90}
                 endAngle={-270}
-                shape={(p: React.ComponentProps<typeof CapsulaDonut>) => <CapsulaDonut {...p} />}
+                // Fatias retas com um vão entre elas: as pontas redondas avançavam sobre as
+                // vizinhas e escondiam as fatias pequenas.
+                paddingAngle={2}
                 isAnimationActive={false}
               />
             </PieChart>
@@ -401,6 +400,11 @@ function RoscaTile() {
   );
 }
 
+const OPCOES = [
+  { label: "Opção 1", value: "1" },
+  { label: "Opção 2", value: "2" },
+];
+
 function LimiteTile() {
   return (
     <Card>
@@ -412,13 +416,17 @@ function LimiteTile() {
         <FieldGroup>
           <Field>
             <FieldLabel>Opção</FieldLabel>
-            <Select defaultValue="1">
+            {/* items: o SelectValue mostra o rótulo ("Opção 1"), não o valor. */}
+            <Select items={OPCOES} defaultValue="1">
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1">Opção 1</SelectItem>
-                <SelectItem value="2">Opção 2</SelectItem>
+                {OPCOES.map((opcao) => (
+                  <SelectItem key={opcao.value} value={opcao.value}>
+                    {opcao.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </Field>
@@ -700,30 +708,24 @@ function CalendarioTile() {
   );
 }
 
-// 4. Áreas sobrepostas com degradê
-export function OverviewPreview() {
-  return (
-    // Colunas do CSS fazem a grade em alvenaria: cada cartão tem a altura do próprio conteúdo.
-    // No /create a prévia fica a 70%, então a largura vista aqui chega às 5 colunas.
-    <div className="fluid-stagger columns-1 gap-4 @2xl/preview:columns-2 @4xl/preview:columns-3 @6xl/preview:columns-4 @7xl/preview:columns-5 *:mb-4 *:animate-fluid-in *:break-inside-avoid">
-      <PeriodoTile />
-      <HistoricoTile />
-      <LimiteTile />
-      <TabelaTile />
-      <ListaTile />
-      <ProgressoTile />
-      <BarrasTile />
-      <RoscaTile />
-      <ContaTile />
-      <ResumoTile />
-      <VazioTile />
-      <CampoTile />
-      <ConfiguracoesTile />
-      <NavegacaoTile />
-      <ChatTile />
-      <EquipeTile />
-      <NotasTile />
-      <CalendarioTile />
-    </div>
-  );
-}
+/** Cartões da visão geral, na ordem em que entram no quadro do /create. */
+export const OVERVIEW_TILES: { name: string; tile: ComponentType }[] = [
+  { name: "periodo", tile: PeriodoTile },
+  { name: "historico", tile: HistoricoTile },
+  { name: "limite", tile: LimiteTile },
+  { name: "tabela", tile: TabelaTile },
+  { name: "lista", tile: ListaTile },
+  { name: "progresso", tile: ProgressoTile },
+  { name: "barras", tile: BarrasTile },
+  { name: "rosca", tile: RoscaTile },
+  { name: "conta", tile: ContaTile },
+  { name: "resumo", tile: ResumoTile },
+  { name: "vazio", tile: VazioTile },
+  { name: "campo", tile: CampoTile },
+  { name: "configuracoes", tile: ConfiguracoesTile },
+  { name: "navegacao", tile: NavegacaoTile },
+  { name: "chat", tile: ChatTile },
+  { name: "equipe", tile: EquipeTile },
+  { name: "notas", tile: NotasTile },
+  { name: "calendario", tile: CalendarioTile },
+];

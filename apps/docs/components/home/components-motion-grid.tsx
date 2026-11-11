@@ -4,7 +4,6 @@ import { Alert, AlertDescription, AlertTitle } from "@multiclubes/ui/components/
 import { Avatar, AvatarFallback, AvatarGroup } from "@multiclubes/ui/components/avatar";
 import { Badge } from "@multiclubes/ui/components/badge";
 import { BottomNav, BottomNavItem } from "@multiclubes/ui/components/bottom-nav";
-import { BrandLoader } from "@multiclubes/ui/components/brand-loader";
 import { Button } from "@multiclubes/ui/components/button";
 import { Calendar } from "@multiclubes/ui/components/calendar";
 import { Card, CardContent } from "@multiclubes/ui/components/card";
@@ -250,18 +249,6 @@ function ThemeCard() {
 }
 
 /* Componentes próprios da Multiclubes (components-multiclubes). */
-
-/** Brand Loader: o "m" se desenhando enquanto carrega. */
-function BrandLoaderCard() {
-  return (
-    <Card className={cn("py-5", GLASS)}>
-      <CardContent className="flex items-center gap-4 px-5">
-        <BrandLoader className="size-10" />
-        <Heading title="Sincronizando" description="Buscando as reservas do dia" />
-      </CardContent>
-    </Card>
-  );
-}
 
 /**
  * Bottom Nav: a barra de navegação do app, com o indicador que desliza. O componente já é a
@@ -714,7 +701,7 @@ const SCENE =
  * tela, por baixo do header, e termina numa onda horizontal logo acima do texto: uma coluna no
  * celular e duas no tablet. No desktop são três colunas a partir de 1024px e quatro a partir
  * de 1280px. Entram também os componentes próprios da Multiclubes
- * (Brand Loader, Bottom Nav, Date Field, Gradient Panel, Seal e Theme Toggle).
+ * (Bottom Nav, Date Field, Gradient Panel, Seal e Theme Toggle).
  */
 export function ComponentsMotionGrid() {
   const [date, setDate] = React.useState<Date | undefined>(new Date(2026, 10, 14));
@@ -830,7 +817,6 @@ export function ComponentsMotionGrid() {
               <TextStyleCard />
               <DateFieldCard />
               <OtpCard />
-              <BrandLoaderCard />
               <PaginationPill />
             </Marquee>
           </div>
