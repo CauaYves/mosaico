@@ -1,0 +1,20 @@
+## No Mosaico
+
+O `Field` do Mosaico é feito sobre o `Field` do Base UI. O rótulo, a descrição e o erro ficam ligados ao controle sem ids escritos à mão:
+
+- o `FieldLabel` dá o nome do controle;
+- o `FieldDescription` e o `FieldError` entram no `aria-describedby` dele, nessa ordem;
+- `invalid` no `Field` marca o controle com `aria-invalid` e o campo com `data-invalid`. O `data-invalid` dos exemplos abaixo também funciona.
+
+Vale para os controles do kit feitos sobre o Base UI: `Input`, `InputGroupInput`, `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Switch` e `Slider`.
+
+```tsx
+<Field invalid={Boolean(erro)}>
+  <FieldLabel>Número do cartão</FieldLabel>
+  <Input inputMode="numeric" autoComplete="cc-number" />
+  <FieldDescription>Os 16 dígitos na frente do cartão.</FieldDescription>
+  <FieldError>{erro}</FieldError>
+</Field>
+```
+
+O leitor de tela recebe o nome ("Número do cartão"), o estado inválido e a descrição seguida do erro. Não é preciso passar `id`, `htmlFor`, `aria-describedby` nem `aria-invalid`.

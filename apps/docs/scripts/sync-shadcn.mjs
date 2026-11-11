@@ -7,6 +7,8 @@
 // - copia os demos usados pelos <ComponentPreview> para examples/, reescrevendo os imports
 //   para @multiclubes/ui. Demos que dependem de código interno do site do shadcn são
 //   descartados, junto com o <ComponentPreview> que os usava;
+// - insere antes de "Installation" a nota mantida à mão em content/mosaico-notas/<nome>.mdx,
+//   quando existe (o que o Mosaico muda em relação ao shadcn);
 // - gera examples/__index__.ts com o carregamento de cada demo.
 //
 // Uso: pnpm --filter docs sync:shadcn
@@ -267,6 +269,18 @@ const PREVIEW_PATTERN = /<ComponentPreview\b[\s\S]*?\/>/g;
 const SOURCE_PATTERN = /<ComponentSource\b[\s\S]*?\/>/g;
 const attribute = (element, name) => element.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
 
+/** Nota do Mosaico para a página (content/mosaico-notas/<nome>.mdx), se houver. */
+function mosaicoNote(name) {
+  const file = join(
+    fileURLToPath(new URL("../content/mosaico-notas/", import.meta.url)),
+    `${name}.mdx`,
+  );
+  return existsSync(file)
+    ? `${readFileSync(file, "utf8").trim()}
+`
+    : "";
+}
+
 function installationSection(name, original) {
   if (kitFiles.components.has(name)) {
     return `## Installation\n\n<Installation name="${name}" />\n`;
@@ -327,6 +341,8 @@ function convertPage(name, report) {
     if (section.title && DROPPED_SECTIONS.has(section.title)) continue;
     let text = section.lines.join("\n");
     if (section.title === "Installation") {
+      const note = mosaicoNote(name);
+      if (note) output.push(note);
       output.push(installationSection(name, text));
       continue;
     }

@@ -1,8 +1,9 @@
 "use client";
 
+import { Field as FieldPrimitive } from "@base-ui/react/field";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
-import { useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { Label } from "@/registry/mosaico/components/mosaico/label";
 import { Separator } from "@/registry/mosaico/components/mosaico/separator";
 
@@ -50,7 +51,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-const fieldVariants = cva("group/field flex w-full gap-3 data-[invalid=true]:text-destructive", {
+const fieldVariants = cva("group/field flex w-full gap-3 data-invalid:text-destructive", {
   variants: {
     orientation: {
       vertical: "flex-col *:w-full [&>.sr-only]:w-auto",
@@ -65,19 +66,40 @@ const fieldVariants = cva("group/field flex w-full gap-3 data-[invalid=true]:tex
   },
 });
 
+// As partes do Field do Base UI (descrição e erro) exigem um Field em volta. Fora dele, como
+// num FieldSet, o FieldDescription e o FieldError renderizam o elemento simples de antes.
+const InFieldContext = createContext(false);
+
+/**
+ * Campo de formulário sobre o Field do Base UI: o `FieldLabel` dá nome ao controle, e o
+ * `FieldDescription` e o `FieldError` entram no `aria-describedby` dele, sem ids à mão. Funciona
+ * com os controles do kit feitos sobre o Base UI (Input, InputGroupInput, Textarea, Select,
+ * Checkbox, RadioGroup, Switch, Slider).
+ *
+ * `invalid` marca o campo com erro: o controle recebe `aria-invalid` e o campo, `data-invalid`.
+ * `data-invalid`, como na documentação do shadcn, também vale.
+ */
 function Field({
   className,
   orientation = "vertical",
+  invalid,
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof fieldVariants>) {
+}: Omit<FieldPrimitive.Root.Props, "className"> & {
+  className?: string;
+  "data-invalid"?: boolean | "true" | "false";
+} & VariantProps<typeof fieldVariants>) {
+  const { "data-invalid": dataInvalid, ...rest } = props;
   return (
-    <div
-      role="group"
-      data-slot="field"
-      data-orientation={orientation}
-      className={cn(fieldVariants({ orientation }), className)}
-      {...props}
-    />
+    <InFieldContext.Provider value={true}>
+      <FieldPrimitive.Root
+        role="group"
+        data-slot="field"
+        data-orientation={orientation}
+        invalid={invalid ?? (dataInvalid === true || dataInvalid === "true" ? true : undefined)}
+        className={cn(fieldVariants({ orientation }), className)}
+        {...rest}
+      />
+    </InFieldContext.Provider>
   );
 }
 
@@ -92,14 +114,22 @@ function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function FieldLabel({ className, ...props }: React.ComponentProps<typeof Label>) {
+  // Fora de um Field (rótulo solto com htmlFor, ou o cartão de escolha que envolve um Field),
+  // fica o <label> simples: a ligação com o controle é pelo htmlFor de quem usa.
+  const inField = useContext(InFieldContext);
+  const labelClassName = cn(
+    "group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-disabled/field:opacity-50 has-data-checked:bg-input/30 has-[>[data-slot=field]]:rounded-item has-[>[data-slot=field]]:border has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-input/40 has-[>[data-slot=field]]:has-[:focus-visible]:border-ring/60 has-[>[data-slot=field]]:has-[:focus-visible]:ring-1 has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring/60 *:data-[slot=field]:p-4",
+    "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
+    className,
+  );
+  if (!inField) {
+    return <Label data-slot="field-label" className={labelClassName} {...props} />;
+  }
   return (
-    <Label
+    <FieldPrimitive.Label
+      render={<Label />}
       data-slot="field-label"
-      className={cn(
-        "group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-data-checked:bg-input/30 has-[>[data-slot=field]]:rounded-item has-[>[data-slot=field]]:border has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-input/40 has-[>[data-slot=field]]:has-[:focus-visible]:border-ring/60 has-[>[data-slot=field]]:has-[:focus-visible]:ring-1 has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring/60 *:data-[slot=field]:p-4",
-        "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
-        className,
-      )}
+      className={labelClassName}
       {...props}
     />
   );
@@ -110,7 +140,7 @@ function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="field-label"
       className={cn(
-        "flex w-fit items-center gap-2 text-sm font-medium group-data-[disabled=true]/field:opacity-50",
+        "flex w-fit items-center gap-2 text-sm font-medium group-data-disabled/field:opacity-50",
         className,
       )}
       {...props}
@@ -119,8 +149,9 @@ function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
+  const Description = useContext(InFieldContext) ? FieldPrimitive.Description : "p";
   return (
-    <p
+    <Description
       data-slot="field-description"
       className={cn(
         "text-left text-sm leading-normal font-normal text-muted-foreground group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5",
@@ -171,6 +202,7 @@ function FieldError({
 }: React.ComponentProps<"div"> & {
   errors?: Array<{ message?: string } | undefined>;
 }) {
+  const inField = useContext(InFieldContext);
   const content = useMemo(() => {
     if (children) {
       return children;
@@ -197,15 +229,19 @@ function FieldError({
     return null;
   }
 
-  return (
-    <div
-      role="alert"
-      data-slot="field-error"
-      className={cn("text-sm font-normal text-destructive", className)}
-      {...props}
-    >
+  const errorProps = {
+    role: "alert",
+    "data-slot": "field-error",
+    className: cn("text-sm font-normal text-destructive", className),
+    ...props,
+  };
+  // match: o erro aparece sempre que tiver conteúdo; a validação é de quem usa o campo.
+  return inField ? (
+    <FieldPrimitive.Error match {...errorProps}>
       {content}
-    </div>
+    </FieldPrimitive.Error>
+  ) : (
+    <div {...errorProps}>{content}</div>
   );
 }
 

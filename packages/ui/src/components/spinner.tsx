@@ -5,7 +5,7 @@ function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
     <svg
       data-slot="spinner"
       role="status"
-      aria-label="Loading"
+      aria-label="Carregando"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

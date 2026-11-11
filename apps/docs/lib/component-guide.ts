@@ -76,7 +76,7 @@ export const COMPONENT_GUIDE: Record<string, ComponentGuideEntry> = {
   field: {
     need: "montar um campo de formulário com rótulo, ajuda e mensagem de erro",
     useWhen:
-      "Em todo campo de formulário: junta `label`, o controle, a descrição e o erro, e agrupa campos relacionados.",
+      "Em todo campo de formulário: o rótulo, a descrição e o erro ficam ligados ao controle sozinhos, sem ids à mão, e `invalid` marca o controle com `aria-invalid`.",
     avoidWhen: "Não use `alert` para erro de um campo; o erro vai no `field`.",
   },
   input: {
