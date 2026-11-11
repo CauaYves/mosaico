@@ -10,13 +10,24 @@ Os componentes do Mosaico são distribuídos pelo registry do shadcn, servido di
 - React 19.2 ou superior;
 - Tailwind CSS v4.
 
-## Projeto novo
+## Configure o projeto
 
-Se o projeto ainda não tem o `components.json` do shadcn, crie com:
+Rode o `init` com a base do Mosaico, uma vez, na raiz do app:
 
 ```bash
-npx shadcn@latest init
+npx shadcn@latest init CauaYves/mosaico/base
 ```
+
+A base:
+
+- grava o `components.json` com os ícones **Phosphor**;
+- aplica o tema Multiclubes no CSS global;
+- instala o utilitário `cn`;
+- copia as regras do kit para `.claude/skills/mosaico-ui`, para o Claude usar os componentes do Mosaico em vez de recriar.
+
+Não use o `npx shadcn@latest init` sem a base: ele instala o `lucide-react` e cria o `Button` do shadcn oficial em `components/ui`, e o app começa com dois conjuntos de ícones e dois botões.
+
+Para um app do zero, crie o projeto com o CLI do framework (`create-next-app`, `create vite`) e rode o `init` acima dentro dele. Os templates do `shadcn init` (`--template`) também criam o `Button` oficial.
 
 ## Instale um componente
 

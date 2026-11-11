@@ -23,9 +23,28 @@ const docsContentRoot = join(uiRoot, "../../apps/docs/content/docs");
 const json = JSON.parse(buildRegistry(uiRoot, docsContentRoot)) as { items: Item[] };
 const byName = (name: string) => json.items.find((item) => item.name === name) as Item;
 
-test("um item por arquivo de src, mais o tema", () => {
-  expect(json.items).toHaveLength(1 + 75 + 2 + 2);
+test("um item por arquivo de src, mais o tema e a base", () => {
+  expect(json.items).toHaveLength(2 + 75 + 2 + 2);
   expect(json.items[0]?.name).toBe("theme");
+  expect(json.items[1]?.name).toBe("base");
+});
+
+test("a base usa Phosphor, não estende o shadcn oficial e instala a skill do kit", () => {
+  const base = byName("base") as Item & {
+    extends?: string;
+    config?: { iconLibrary?: string };
+    dependencies?: string[];
+    files?: { target: string; content?: string }[];
+  };
+  expect(base.extends).toBe("none");
+  expect(base.config?.iconLibrary).toBe("phosphor");
+  expect(base.dependencies?.some((dep) => dep.startsWith("@phosphor-icons/react@"))).toBe(true);
+  expect(base.dependencies?.some((dep) => dep.startsWith("lucide-react"))).toBe(false);
+  expect(base.files?.map((file) => file.target)).toEqual([
+    "~/.claude/skills/mosaico-ui/SKILL.md",
+    "~/.claude/skills/mosaico-ui/references/principios.md",
+  ]);
+  for (const file of base.files ?? []) expect(file.content?.length).toBeGreaterThan(100);
 });
 
 test("nenhuma dependência com nome solto e nenhum target em @ui/", () => {
