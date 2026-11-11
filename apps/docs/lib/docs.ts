@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { getComponentCategory } from "@/lib/component-categories";
+import { getComponentNeed } from "@/lib/component-guide";
 
 export type DocLinks = { doc?: string; api?: string };
 
@@ -22,6 +23,8 @@ export type NavItem = {
   title: string;
   url: string;
   badge?: string;
+  /** Termos extras para a busca (Ctrl K), como a necessidade do componente em português. */
+  keywords?: string[];
   /** Coluna do rodapé em que o item aparece. */
   group?: "docs" | "principios" | "ia";
 };
@@ -123,7 +126,8 @@ export function getComponentPages(): DocPage[] {
 
 /** Item de navegação de uma página de componente. */
 export function toNavItem(page: DocPage): NavItem {
-  return { title: page.title, url: page.url };
+  const need = getComponentNeed(page.slug.at(-1) ?? "");
+  return { title: page.title, url: page.url, ...(need && { keywords: [need] }) };
 }
 
 /**

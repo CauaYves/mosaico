@@ -219,6 +219,7 @@ Para cada componente:
 - Testes de regressão visual (ex.: screenshots com Playwright) no catálogo.
 - Avaliar blocos/templates no registry (segunda etapa do registry).
 - Template de nova aplicação já configurada com o kit.
+- Publicar um CSS compilado do kit e receitas em HTML de cada componente, para materiais sem React (HTML estático, e-mail, protótipo). Hoje a orientação é ler o `.tsx` e copiar estrutura, `data-slot` e classes; o guia "qual componente usar" (`apps/docs/lib/component-guide.ts`) diz qual componente reproduzir.
 
 ## 6. Governança
 
