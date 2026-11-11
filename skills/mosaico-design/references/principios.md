@@ -106,11 +106,11 @@ Clientes de e-mail são limitados, e a ordem de prioridade é funcionar em todos
 
 ### Projeto web ou protótipo fora do kit
 
-Se o projeto usar React e Tailwind, **não recrie os componentes**. Instale o `@multiclubes/ui` e use os componentes existentes, como `Button`, `Input` e `Card`. O tema deve ser importado do pacote:
+Se o projeto usar React e Tailwind, **não recrie os componentes**. Instale-os pelo registry do Mosaico e use os que já existem, como `Button`, `Input` e `Card`. O `init` configura o tema e os ícones Phosphor:
 
-```css
-@import "tailwindcss";
-@import "@multiclubes/ui/styles.css";
+```bash
+npx shadcn@latest init CauaYves/mosaico/base
+npx shadcn@latest add CauaYves/mosaico/button
 ```
 
 Use sempre classes semânticas (`bg-primary`, `text-muted-foreground`, `border-input`), nunca cores fixas. Se não puder usar o kit, siga as seções de forma, hierarquia e acessibilidade acima.

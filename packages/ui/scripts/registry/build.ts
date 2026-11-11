@@ -3,6 +3,7 @@
 //   node scripts/registry/build.ts --check  falha se o arquivo estiver desatualizado (usado na CI)
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { REGISTRY_REPO } from "./config.ts";
 import { buildThemeItem, cssToRegistry, splitByItem } from "./css.ts";
 import { buildItem, type Meta, type SourceFile } from "./items.ts";
 
@@ -31,6 +32,49 @@ export function assertCssPartsHaveItems(parts: Record<string, string>, names: Se
       `globals.css: marcador @registry sem item correspondente: ${orphans.join(", ")}`,
     );
   }
+}
+
+/** Arquivos da skill instalada pela base, relativos à raiz do repositório. */
+const SKILL_FILES = ["SKILL.md", "references/principios.md"];
+
+/**
+ * Base para `npx shadcn init CauaYves/mosaico/base`. Com `extends: none`, o init não traz os padrões
+ * do shadcn oficial (lucide-react e components/ui/button): configura Phosphor, aplica o tema e
+ * instala a skill mosaico-ui em .claude/skills, para o Claude seguir as regras do kit no projeto.
+ * O conteúdo da skill vai inline porque os arquivos ficam fora de packages/ui.
+ */
+export function buildBaseItem(
+  repoRoot: string,
+  versions: Record<string, string>,
+  dep: (name: string) => string,
+) {
+  const phosphor = versions["@phosphor-icons/react"];
+  if (!phosphor)
+    throw new Error('base: o pacote "@phosphor-icons/react" não está no package.json do ui');
+  return {
+    name: "base",
+    type: "registry:base",
+    extends: "none",
+    title: "Base do Mosaico",
+    description:
+      "Configura um projeto para o Mosaico: ícones Phosphor, tema Multiclubes, utilitários e as regras do kit para o Claude (.claude/skills/mosaico-ui).",
+    config: {
+      style: "base-luma",
+      iconLibrary: "phosphor",
+      tailwind: { baseColor: "neutral" },
+    },
+    dependencies: [`@phosphor-icons/react@${phosphor}`],
+    registryDependencies: [dep("theme"), dep("utils")],
+    files: SKILL_FILES.map((file) => ({
+      path: `../../skills/mosaico-ui/${file}`,
+      type: "registry:file",
+      target: `~/.claude/skills/mosaico-ui/${file}`,
+      content: readFileSync(join(repoRoot, "skills/mosaico-ui", file), "utf8").replace(
+        /\r\n/g,
+        "\n",
+      ),
+    })),
+  };
 }
 
 /**
@@ -69,7 +113,13 @@ export function buildRegistry(uiRoot: string, docsContentRoot: string, ref?: str
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "mosaico-ui",
     homepage: "https://github.com/CauaYves/mosaico",
-    items: [buildThemeItem(cssToRegistry(cssParts.theme ?? ""), versions), ...items],
+    items: [
+      buildThemeItem(cssToRegistry(cssParts.theme ?? ""), versions),
+      buildBaseItem(join(uiRoot, "../.."), versions, (name) =>
+        ref ? `${REGISTRY_REPO}/${name}#${ref}` : `${REGISTRY_REPO}/${name}`,
+      ),
+      ...items,
+    ],
   };
   return `${JSON.stringify(registry, null, 2)}\n`;
 }
