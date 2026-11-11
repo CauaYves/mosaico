@@ -22,6 +22,7 @@ export const COMPONENT_CATEGORIES = [
       "native-select",
       "questionnaire",
       "radio-group",
+      "responsive-select",
       "select",
       "slider",
       "switch",
@@ -101,6 +102,7 @@ export const NEW_COMPONENTS = new Set([
   "copy-field",
   "dropdown-navigation",
   "gradient-panel",
+  "responsive-select",
   "seal",
 ]);
 

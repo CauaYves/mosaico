@@ -1,0 +1,77 @@
+---
+title: Responsive Select
+description: Seletor de opção que usa o select nativo do sistema no celular e o Select do kit no desktop.
+---
+
+<ComponentPreview name="responsive-select-demo" />
+
+É o seletor padrão para formulários do Mosaico. Funciona como o [Date Field](/docs/components/date-field): a forma muda com a tela, e a API é uma só.
+
+- **No celular** (telas menores que 768px), o `<select>` do sistema. Abre a roda ou a folha nativa, com rolagem, busca por letra e leitor de tela que a pessoa já conhece.
+- **No desktop**, o [Select](/docs/components/select) do kit, com a lista no visual do Mosaico e navegação por setas.
+
+Para ver a troca, estreite a janela abaixo de 768px.
+
+## Installation
+
+<Installation name="responsive-select" />
+
+## Usage
+
+```tsx
+import { ResponsiveSelect } from "@multiclubes/ui/components/responsive-select"
+```
+
+```tsx
+const [parcelas, setParcelas] = React.useState<string | null>(null)
+
+<ResponsiveSelect
+  items={[
+    { label: "1x de R$ 120,00", value: "1" },
+    { label: "2x de R$ 60,00", value: "2" },
+  ]}
+  value={parcelas}
+  onValueChange={setParcelas}
+  placeholder="Escolha as parcelas"
+/>
+```
+
+## Num campo de formulário
+
+Dentro de um `Field`, as duas formas recebem o nome do `FieldLabel`, a descrição e o erro, sem ids à mão. `invalid` no `Field` marca o controle como inválido.
+
+<ComponentPreview name="responsive-select-field" />
+
+## Fixar a forma
+
+`mode="native"` ou `mode="select"` ignora a largura da tela. Use quando o contexto já é só celular ou só desktop. O padrão é `"auto"`.
+
+<ComponentPreview name="responsive-select-modes" />
+
+## Quando usar
+
+- **Use** para escolher uma opção num formulário que também é usado no celular: parcelas, plano, estado, forma de pagamento.
+- **Prefira o [Select](/docs/components/select)** quando as opções têm ícone, descrição ou outro conteúdo que o seletor nativo não mostra.
+- **Prefira o [Combobox](/docs/components/combobox)** para listas longas que a pessoa filtra digitando, e o [Radio Group](/docs/components/radio-group) para poucas opções que valem a comparação.
+
+## Como funciona
+
+- **Mesma API nas duas formas:** `items`, `value`, `onValueChange`, `placeholder`, `disabled` e `size` valem para as duas.
+- **Placeholder:** no celular, vira a primeira opção da lista, que não pode ser escolhida.
+- **Modo controlado:** prefira `value` e `onValueChange`. Se a janela mudar de largura, a forma troca, e o valor continua o mesmo.
+- **Primeira renderização:** no servidor ainda não se sabe a largura, então a página começa com o Select do kit e troca para o nativo no celular depois de carregar, como no Date Field.
+
+## API Reference
+
+| Prop | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| `items` | `{ value: string; label: string; disabled?: boolean }[]` | — | As opções, na ordem em que aparecem. |
+| `value` | `string \| null` | — | Valor escolhido (controlado). `null` mostra o placeholder. |
+| `defaultValue` | `string` | — | Valor inicial (não controlado). |
+| `onValueChange` | `(value: string) => void` | — | Chamado quando a pessoa escolhe uma opção. |
+| `placeholder` | `string` | — | Texto mostrado enquanto nada foi escolhido. |
+| `mode` | `"auto" \| "native" \| "select"` | `"auto"` | Forma do seletor. |
+| `size` | `"sm" \| "default"` | `"default"` | Altura do controle. |
+| `disabled` | `boolean` | `false` | Desabilita o seletor. |
+
+Também aceita `id`, `name`, `required`, `aria-label`, `aria-invalid` e `aria-describedby`. O controle em uso traz `data-responsive-select="native"` ou `"select"`.
