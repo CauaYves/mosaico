@@ -400,6 +400,11 @@ function RoscaTile() {
   );
 }
 
+const OPCOES = [
+  { label: "Opção 1", value: "1" },
+  { label: "Opção 2", value: "2" },
+];
+
 function LimiteTile() {
   return (
     <Card>
@@ -411,13 +416,17 @@ function LimiteTile() {
         <FieldGroup>
           <Field>
             <FieldLabel>Opção</FieldLabel>
-            <Select defaultValue="1">
+            {/* items: o SelectValue mostra o rótulo ("Opção 1"), não o valor. */}
+            <Select items={OPCOES} defaultValue="1">
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1">Opção 1</SelectItem>
-                <SelectItem value="2">Opção 2</SelectItem>
+                {OPCOES.map((opcao) => (
+                  <SelectItem key={opcao.value} value={opcao.value}>
+                    {opcao.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </Field>
