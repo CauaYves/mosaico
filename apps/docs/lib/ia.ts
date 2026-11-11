@@ -1,8 +1,10 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { componentGuideRows } from "./component-guide.ts";
 
 // Fonte única do conteúdo voltado a IA: content/docs/para-ia.mdx. Daqui saem o /llms.txt, os
-// endpoints /md/* e a referência da skill em skills/mosaico-design (scripts/sync-ia.mjs).
+// endpoints /md/* e a referência das skills (scripts/sync-ia.mjs). A tabela "Qual componente usar"
+// vem de lib/component-guide.ts.
 
 const START = "## Instruções";
 const END = "\n---\n\n## Para quem mantém";
@@ -37,10 +39,41 @@ export function toPlainMarkdown(body: string) {
 
 /** Arquivo de referência da skill: as instruções, com um aviso de que é gerado. */
 export function skillReference(root = process.cwd()) {
-  return `<!-- Gerado de apps/docs/content/docs/para-ia.mdx por "pnpm --filter docs sync:ia". Não edite aqui. -->
+  return `<!-- Gerado de apps/docs/content/docs/para-ia.mdx e apps/docs/lib/component-guide.ts por "pnpm --filter docs sync:ia". Não edite aqui. -->
 
 # Princípios do Mosaico para materiais fora do código
 
 ${iaPayload(root).replace(START, "## Instruções")}
+
+${componentGuideMarkdown()}
 `;
+}
+
+/** Seção "Qual componente usar": uma tabela por categoria, gerada do guia. */
+export function componentGuideMarkdown() {
+  const rows = componentGuideRows();
+  const categories = [...new Set(rows.map((row) => row.category))];
+  const cell = (text: string) => text.replace(/\|/g, "\\|");
+  const tables = categories.map((category) => {
+    const lines = rows
+      .filter((row) => row.category === category)
+      .map(
+        (row) =>
+          `| ${cell(row.need)} | \`${row.slug}\` | ${cell([row.useWhen, row.avoidWhen, row.build].filter(Boolean).join(" "))} |`,
+      );
+    return [
+      `### ${category}`,
+      "",
+      "| Necessidade | Componente | Quando usar |",
+      "| --- | --- | --- |",
+      ...lines,
+    ].join("\n");
+  });
+  return [
+    "## Qual componente usar",
+    "",
+    "Antes de criar qualquer elemento visual, ache aqui o componente do kit que resolve a necessidade. Instale com `npx shadcn@latest add CauaYves/mosaico/<componente>`, salvo quando a linha diz outro caminho. Os componentes com página ficam em `/docs/components/<componente>`.",
+    "",
+    tables.join("\n\n"),
+  ].join("\n");
 }

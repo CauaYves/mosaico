@@ -10,6 +10,7 @@ Este projeto usa o **Mosaico**, o design system da Multiclubes. Os componentes v
 ## Componentes
 
 - Use os componentes de `@/components/mosaico/*`, como `Button`, `Input`, `Card` e `Dialog`. Os hooks ficam em `@/hooks/mosaico/*` e os utilitários em `@/lib/mosaico/*`.
+- Para saber qual componente resolve cada necessidade, use a tabela "Qual componente usar", no fim de `references/principios.md`.
 - Se faltar um componente, instale do Mosaico antes de escrever um novo:
 
   ```bash

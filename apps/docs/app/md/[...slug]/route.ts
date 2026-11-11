@@ -1,5 +1,5 @@
 import { getPage } from "@/lib/docs";
-import { iaPayload, toPlainMarkdown } from "@/lib/ia";
+import { componentGuideMarkdown, iaPayload, toPlainMarkdown } from "@/lib/ia";
 import { PRINCIPLE_PAGES } from "@/lib/ia-pages";
 
 export const dynamicParams = false;
@@ -14,8 +14,13 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
   const page = getPage(slug);
   if (!page) return new Response("Not found", { status: 404 });
 
-  // "Para IA" serve só as instruções, as mesmas que a skill carrega.
-  const body = slug[0] === "para-ia" ? iaPayload() : toPlainMarkdown(page.body.trim());
+  // "Para IA" serve as instruções e a tabela "Qual componente usar", o mesmo que a skill carrega.
+  const body =
+    slug[0] === "para-ia"
+      ? `${iaPayload()}
+
+${componentGuideMarkdown()}`
+      : toPlainMarkdown(page.body.trim());
   return new Response(`# ${page.title}\n\n${body}\n`, {
     headers: { "content-type": "text/markdown; charset=utf-8" },
   });

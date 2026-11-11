@@ -119,14 +119,22 @@ Clientes de e-mail são limitados, e a ordem de prioridade é funcionar em todos
 
 ### Projeto web ou protótipo fora do kit
 
-Se o projeto usar React e Tailwind, **não recrie os componentes**. Instale-os pelo registry do Mosaico e use os que já existem, como `Button`, `Input` e `Card`. O `init` configura o tema e os ícones Phosphor:
+Antes de criar qualquer elemento visual, consulte **"Qual componente usar"**: a tabela da skill, a página de componentes do catálogo ou o `/llms.txt`. Não recrie nada que o kit já tenha. Um bloco de código é um `code-block`, uma caixa de aviso é um `alert`, uma lista de etapas é um `item`.
+
+Se o projeto usar React e Tailwind, instale os componentes pelo registry do Mosaico. O `init` configura o tema e os ícones Phosphor:
 
 ```bash
 npx shadcn@latest init CauaYves/mosaico/base
-npx shadcn@latest add CauaYves/mosaico/button
+npx shadcn@latest add CauaYves/mosaico/code-block
 ```
 
-Use sempre classes semânticas (`bg-primary`, `text-muted-foreground`, `border-input`), nunca cores fixas. Se não puder usar o kit, siga as seções de forma, hierarquia e acessibilidade acima.
+Num HTML estático ou em outro lugar sem React, reproduza o componente:
+
+- Leia o `.tsx` dele em `packages/ui/src/components/<componente>.tsx`, no repositório [CauaYves/mosaico](https://github.com/CauaYves/mosaico).
+- Copie a estrutura de elementos, os atributos `data-slot` e as classes de cada parte e da variante usada.
+- Na resposta, diga qual componente cada bloco reproduz.
+
+Use sempre classes semânticas (`bg-primary`, `text-muted-foreground`, `border-input`), nunca cores fixas.
 
 ## Como responder
 

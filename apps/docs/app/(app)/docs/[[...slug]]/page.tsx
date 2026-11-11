@@ -11,6 +11,7 @@ import {
   getComponentCategory,
   NEW_COMPONENTS,
 } from "@/lib/component-categories";
+import { getComponentNeed } from "@/lib/component-guide";
 import { getComponentVariations } from "@/lib/component-variations";
 import { getAllSlugs, getComponentPages, getNeighbours, getPage } from "@/lib/docs";
 import { compileMdx } from "@/lib/mdx";
@@ -205,6 +206,7 @@ function ComponentsPage({ brand }: { brand: boolean }) {
       multiclubes: entry.multiclubes,
       isNew: NEW_COMPONENTS.has(name),
       variations: getComponentVariations(name).length,
+      need: getComponentNeed(name),
     };
   });
 
@@ -219,7 +221,7 @@ function ComponentsPage({ brand }: { brand: boolean }) {
           description={
             brand
               ? "Componentes de identidade da Multiclubes, para campanhas, telas de entrada e seções de destaque."
-              : "Componentes do @multiclubes/ui. Busque pelo nome, filtre por categoria ou ordene para achar o que precisa."
+              : "Componentes do Mosaico, cada um com a necessidade que resolve. Filtre por categoria ou ordene; a busca do topo (Ctrl K) acha pelo nome ou pela necessidade."
           }
           categories={
             brand ? ["Marca"] : [...COMPONENT_CATEGORIES.map((category) => category.name), "Outros"]
