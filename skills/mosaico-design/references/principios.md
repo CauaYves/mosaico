@@ -56,7 +56,7 @@ A identidade visual é de **formas suaves**, coerente com a logo.
 
 ### Tipografia
 
-- A fonte oficial ainda **não está definida**. Use uma sans-serif limpa e legível (`system-ui` ou equivalente) e avise na sua resposta que a fonte é temporária.
+- A fonte é a **Geist**: Sans para texto e Mono para código. Onde ela não carrega, como em e-mail e em documentos de escritório, use a pilha `system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif`.
 - Poucos tamanhos, bem distintos. Corpo de texto de 14 a 16 px. Nunca abaixo de 12 px.
 - Peso e cor criam hierarquia junto com o tamanho. Evite preto puro `#000`; use `#0a0a0a`.
 
@@ -126,7 +126,7 @@ Use sempre classes semânticas (`bg-primary`, `text-muted-foreground`, `border-i
 ## Como responder
 
 1. Entregue o material pedido, e não uma explicação sobre o padrão.
-2. No fim, liste em poucas linhas **as suposições** que você fez: fonte, uso de cores da marca, qualquer coisa que o padrão não define.
+2. No fim, liste em poucas linhas **as suposições** que você fez: qualquer coisa que o padrão não define, como uma cor fora da marca ou a troca da Geist pela pilha de sistema.
 3. Se algum pedido do usuário conflitar com as regras acima, siga o pedido e avise qual regra deixou de ser seguida.
 4. Não afirme que o resultado "segue o design system oficial". Diga que ele **segue os princípios do Mosaico**, e que o design deve revisar antes de publicar.
 
