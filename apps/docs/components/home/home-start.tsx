@@ -6,19 +6,19 @@ import { Reveal } from "./reveal";
 
 const STEPS = [
   {
-    title: "Instale o pacote",
-    text: "Traz componentes, tema e ícones.",
-    code: "pnpm add @multiclubes/ui",
+    title: "Configure o projeto",
+    text: "Uma vez, na raiz do app. Aplica o tema Multiclubes, os ícones Phosphor e o utilitário cn.",
+    code: "npx shadcn@latest init CauaYves/mosaico/base",
   },
   {
-    title: "Importe o tema",
-    text: "No CSS global, logo depois do Tailwind.",
-    code: '@import "tailwindcss";\n@import "@multiclubes/ui/styles.css";',
+    title: "Adicione os componentes",
+    text: "Cada componente vira código do seu projeto, em components/mosaico.",
+    code: "npx shadcn@latest add CauaYves/mosaico/button",
   },
   {
     title: "Use os componentes",
-    text: "Cada componente tem o próprio caminho de importação.",
-    code: 'import { Button } from "@multiclubes/ui/components/button";',
+    text: "Importe direto do seu projeto.",
+    code: 'import { Button } from "@/components/mosaico/button";',
   },
 ];
 
@@ -57,7 +57,7 @@ export function HomeStart() {
       id="comece"
       eyebrow="Comece"
       title="Três passos e está no ar"
-      description="Tema e componentes vêm do mesmo pacote, sem configuração por aplicação."
+      description="Os componentes vêm do registry do Mosaico, já com o tema Multiclubes."
     >
       <div className="flex flex-col gap-20 md:gap-28">
         <ol className="-mt-6 border-b border-border">
