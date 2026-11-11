@@ -185,6 +185,51 @@ Para cada componente:
 - Testes com Vitest + Testing Library, incluindo verificação automática de a11y (axe).
 - Página no catálogo com exemplos e props.
 
+#### Andamento da revisão
+
+Registro de quais componentes já passaram pela revisão desta fase. "Pendente de design" quer dizer que o componente segue as regras escritas, mas tem pontos que dependem de decisão do responsável de design (seção 6). Os testes rodam o axe (`axe-core` 4.14.0, matcher `toHaveNoAxeViolations` em `packages/ui/vitest.setup.ts`) sem violações.
+
+| Componente | Direção visual | Testes | Acessibilidade | Data |
+| --- | --- | --- | --- | --- |
+| `input` | ok | 6, com máscara de cartão | ok; abaixo de 44 px | 2026-11-11 |
+| `field` | ok | 12 | ok; nome, descrição e erro ligados ao controle | 2026-11-11 |
+| `input-group` | ok | 9 | ok; abaixo de 44 px | 2026-11-11 |
+| `select` | ok | 7 | ok; abaixo de 44 px | 2026-11-11 |
+| `radio-group` | ok | 7 | ok; abaixo de 44 px | 2026-11-11 |
+| `checkbox` | ok | 6 | ok; abaixo de 44 px | 2026-11-11 |
+| `card` | ok | 4 | ok | 2026-11-11 |
+| `item` | ok | 11 | ok; itens de lista no `ItemGroup` | 2026-11-11 |
+| `alert` | ok | 5 | ok | 2026-11-11 |
+| `toast` | ok | 8 | ok; região `aria-live` "Avisos" | 2026-11-11 |
+| `skeleton` | ok | 3 | ok; decorativo (`aria-hidden`) | 2026-11-11 |
+| `spinner` | ok | 4 | ok; `role="status"` "Carregando" | 2026-11-11 |
+| `dialog` | ok | 8 | ok; foco preso e devolvido ao gatilho | 2026-11-11 |
+| `alert-dialog` | ok | 8 | ok; não fecha clicando fora | 2026-11-11 |
+
+Contraste de texto (mínimo 4,5:1), calculado com os valores de `globals.css`:
+
+| Par | Claro | Escuro |
+| --- | --- | --- |
+| `muted-foreground` sobre `background` | 4,73 | 7,63 |
+| `muted-foreground` sobre `muted` | **4,34** | 5,83 |
+| `muted-foreground` sobre `card` | 4,73 | 6,91 |
+| `primary-foreground` sobre `primary` | 7,91 | **3,60** |
+| `destructive` sobre `background` | 4,76 | 6,84 |
+| `destructive` sobre `card` (título do `alert` destrutivo) | 4,76 | 6,19 |
+| `destructive/90` sobre `card` (descrição do `alert` destrutivo) | 4,52 | 5,22 |
+
+> **Decidido em 2026-11-11:** os pontos de design levantados na revisão ficam como estão, depois de comparados com o shadcn/ui (estilo Luma). Ficam assim:
+> - campos com contorno de 1 px e foco e erro de 1 px a 60%; `checkbox` e `radio` com o anel de 3 px;
+> - o texto branco sobre o azul no modo escuro (3,60:1) e o `muted-foreground` sobre `muted` no claro (4,34:1, o mesmo do shadcn) ficam abaixo de 4,5:1, como exceções aceitas;
+> - os overlays animam em 100 ms e o toast em 500 ms;
+> - o `alert` tem borda, e o toast usa o anel fino dos outros overlays;
+> - o `checkbox` tem `rounded-[5px]`, e os botões pequenos do `input-group`, `rounded-xl`;
+> - no `input-group` desabilitado, o prefixo só acompanha com `data-disabled` no grupo;
+> - todo campo com erro usa `FieldError`, para o erro não depender só da cor;
+> - o `spinner` continua girando com movimento reduzido.
+
+Alvo de toque: nenhum controle de formulário revisado tem 44 px de altura. `input`, `select`, `input-group` e `button` padrão têm 36 px; `select` e `button` `sm` têm 32 px; `checkbox` e `radio-group` têm 16 px com área de clique de 32 × 40 px; os botões `xs` e `icon-xs` do `input-group` têm 24 px.
+
 **Pronto quando:** a primeira leva está publicada em `0.x`, documentada e testada.
 
 ### Fase 4 — Publicação

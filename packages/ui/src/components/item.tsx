@@ -2,24 +2,43 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
-import type * as React from "react";
+import * as React from "react";
 import { Separator } from "@/registry/mosaico/components/mosaico/separator";
+
+// O ItemGroup é uma lista (role="list"); os Item dentro dele precisam ser itens dela.
+const ItemGroupContext = React.createContext(false);
 
 function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
-      role="list"
-      data-slot="item-group"
-      className={cn(
-        "group/item-group flex w-full flex-col gap-4 has-data-[size=sm]:gap-2.5 has-data-[size=xs]:gap-2",
-        className,
-      )}
-      {...props}
-    />
+    <ItemGroupContext.Provider value={true}>
+      <div
+        role="list"
+        data-slot="item-group"
+        className={cn(
+          "group/item-group flex w-full flex-col gap-4 has-data-[size=sm]:gap-2.5 has-data-[size=xs]:gap-2",
+          className,
+        )}
+        {...props}
+      />
+    </ItemGroupContext.Provider>
   );
 }
 
 function ItemSeparator({ className, ...props }: React.ComponentProps<typeof Separator>) {
+  // Numa lista (ItemGroup), a linha é só visual: um separador não pode ser filho de
+  // role="list". Fica a mesma linha, escondida da árvore de acessibilidade.
+  const inGroup = React.useContext(ItemGroupContext);
+  if (inGroup) {
+    return (
+      <div
+        aria-hidden="true"
+        data-slot="item-separator"
+        data-orientation="horizontal"
+        className={cn("my-2 h-px w-full shrink-0 bg-border", className)}
+        style={typeof props.style === "object" ? props.style : undefined}
+      />
+    );
+  }
   return (
     <Separator
       data-slot="item-separator"
@@ -59,10 +78,14 @@ function Item({
   render,
   ...props
 }: useRender.ComponentProps<"div"> & VariantProps<typeof itemVariants>) {
+  // Dentro de um ItemGroup, o Item padrão (div) vira item da lista. Com `render` (link, botão),
+  // o elemento mantém o papel dele; um `role` passado por props sempre vale.
+  const inGroup = React.useContext(ItemGroupContext);
   return useRender({
     defaultTagName: "div",
     props: mergeProps<"div">(
       {
+        role: inGroup && !render ? "listitem" : undefined,
         className: cn(itemVariants({ variant, size, className })),
       },
       props,
