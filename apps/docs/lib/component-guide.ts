@@ -54,6 +54,13 @@ export const COMPONENT_GUIDE: Record<string, ComponentGuideEntry> = {
     avoidWhen:
       "Para poucas opções fixas, use `select`; para busca de ações e páginas, use `command`.",
   },
+  "copy-field": {
+    need: "mostrar um código para a pessoa copiar, como o PIX copia e cola, um cupom ou um link",
+    useWhen:
+      'Para código que vai ser colado em outro app: campo somente leitura com botão de copiar, que avisa "Copiado" ao leitor de tela.',
+    avoidWhen:
+      "Para trecho de código-fonte, use `code-block`; para valor que a pessoa digita, use `input`.",
+  },
   "date-field": {
     need: "campo para digitar ou escolher uma data num formulário, no celular e no desktop",
     useWhen:
@@ -87,8 +94,9 @@ export const COMPONENT_GUIDE: Record<string, ComponentGuideEntry> = {
   },
   "input-group": {
     need: "campo com ícone, prefixo, sufixo ou botão dentro",
-    useWhen:
-      "Para busca com ícone, valor com unidade (R$, %), ou campo com botão de copiar ou enviar.",
+    useWhen: "Para busca com ícone, valor com unidade (R$, %), ou campo com botão de enviar.",
+    avoidWhen:
+      "Para um código que a pessoa copia, use `copy-field`, que já traz o botão e o aviso.",
   },
   "input-otp": {
     need: "digitar um código de verificação de poucos dígitos",

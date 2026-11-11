@@ -1,0 +1,45 @@
+---
+title: Copy Field
+description: Campo somente leitura com botão de copiar, para o PIX copia e cola, cupons e links.
+---
+
+<ComponentPreview name="copy-field-demo" />
+
+Mostra um código que a pessoa vai colar em outro app, como o "copia e cola" do PIX. O botão copia o valor, troca o ícone por um check por 2 segundos e avisa "Copiado" ao leitor de tela.
+
+## Installation
+
+<Installation name="copy-field" />
+
+## Usage
+
+```tsx
+import { CopyField } from "@multiclubes/ui/components/copy-field"
+```
+
+```tsx
+<CopyField value={codigoPix} label="código PIX" />
+```
+
+## Num campo de formulário
+
+Dentro de um `Field`, o `FieldLabel` dá o nome ao campo e o `FieldDescription` entra na descrição. Sem `label`, o botão se chama "Copiar".
+
+<ComponentPreview name="copy-field-field" />
+
+## Como funciona
+
+- **Copiar:** o botão usa a área de transferência do navegador. Se ela não estiver disponível (permissão negada, página sem HTTPS), o texto fica selecionado no campo e o aviso explica que dá para copiar com Ctrl+C.
+- **Teclado:** o campo entra na ordem de Tab e seleciona o código inteiro ao receber foco. O botão vem em seguida e copia com Enter ou Espaço.
+- **Código longo:** o texto é cortado com reticências no fim, para o campo não vazar no celular. O valor copiado é sempre o inteiro.
+
+## API Reference
+
+| Prop | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| `value` | `string` | — | Texto exibido e copiado. |
+| `label` | `string` | — | O que é copiado, em minúsculas (ex. "código PIX"). Dá nome ao botão ("Copiar código PIX") e ao campo. |
+| `onCopy` | `(value: string) => void` | — | Chamado depois de copiar. |
+| `disabled` | `boolean` | `false` | Desabilita o campo e o botão. |
+
+As demais props vão para o `InputGroup`. O grupo recebe `data-copied` enquanto mostra o check.
