@@ -205,6 +205,8 @@ Registro de quais componentes já passaram pela revisão desta fase. "Pendente d
 | `spinner` | ok | 4 | ok; `role="status"` "Carregando" | 2026-11-11 |
 | `dialog` | ok | 8 | ok; foco preso e devolvido ao gatilho | 2026-11-11 |
 | `alert-dialog` | ok | 8 | ok; não fecha clicando fora | 2026-11-11 |
+| `native-select` | ok | 5 | ok; ligado ao `Field` pelo `Field.Control` do Base UI; abaixo de 44 px | 2026-11-11 |
+| `responsive-select` | ok | 12 | ok nas duas formas; abaixo de 44 px | 2026-11-11 |
 
 Contraste de texto (mínimo 4,5:1), calculado com os valores de `globals.css`:
 

@@ -113,7 +113,7 @@ export const COMPONENT_GUIDE: Record<string, ComponentGuideEntry> = {
     useWhen:
       "Quando o seletor do próprio sistema é melhor, como no celular ou em formulários simples.",
     avoidWhen:
-      "Para opções com ícone ou descrição, use `select`; para filtrar digitando, use `combobox`.",
+      "Para trocar sozinho entre o nativo no celular e o `select` no desktop, use `responsive-select`. Para opções com ícone ou descrição, use `select`; para filtrar digitando, use `combobox`.",
   },
   questionnaire: {
     need: "questionário em etapas, uma pergunta por vez",
@@ -126,11 +126,19 @@ export const COMPONENT_GUIDE: Record<string, ComponentGuideEntry> = {
     useWhen: "Para duas a cinco opções que a pessoa precisa comparar, como forma de pagamento.",
     avoidWhen: "Para muitas opções, use `select`.",
   },
+  "responsive-select": {
+    need: "escolher uma opção numa lista, num formulário que também é usado no celular",
+    useWhen:
+      "Padrão para escolher uma opção em formulários: no celular abre o seletor nativo do sistema e no desktop o `select` do kit, com a mesma API e ligado ao `field`.",
+    avoidWhen:
+      "Para filtrar digitando, use `combobox`; para poucas opções que valem a comparação, use `radio-group`; para opções com ícone ou descrição, use `select`.",
+  },
   select: {
     need: "escolher uma opção numa lista que abre ao clicar",
-    useWhen: "Para listas curtas e fixas, de cinco a quinze opções.",
+    useWhen:
+      "Para listas curtas e fixas, de cinco a quinze opções, quando as opções têm ícone ou descrição.",
     avoidWhen:
-      "Para filtrar digitando, use `combobox`; para poucas opções que valem a comparação, use `radio-group`.",
+      "Num formulário usado no celular, prefira `responsive-select`. Para filtrar digitando, use `combobox`; para poucas opções que valem a comparação, use `radio-group`.",
   },
   slider: {
     need: "escolher um valor ou uma faixa arrastando",
