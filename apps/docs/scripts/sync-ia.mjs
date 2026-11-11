@@ -1,5 +1,5 @@
 // Gera references/principios.md das skills a partir de content/docs/para-ia.mdx:
-// skills/mosaico-design (materiais fora do código) e skills/mosaico-ui (projetos com o kit,
+// skills/mosaico-design (materiais fora do código) e packages/ui/skills/mosaico-ui (projetos com o kit,
 // instalada pelo item "base" do registry).
 //   node scripts/sync-ia.mjs          escreve os arquivos
 //   node scripts/sync-ia.mjs --check  falha se algum estiver desatualizado (usado na CI)
@@ -10,7 +10,16 @@ import { skillReference } from "../lib/ia.ts";
 
 const docsRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const targets = ["mosaico-design", "mosaico-ui"].map((skill) =>
-  join(docsRoot, "..", "..", "skills", skill, "references", "principios.md"),
+  join(
+    docsRoot,
+    "..",
+    "..",
+    ...(skill === "mosaico-ui" ? ["packages", "ui"] : []),
+    "skills",
+    skill,
+    "references",
+    "principios.md",
+  ),
 );
 const expected = skillReference(docsRoot);
 

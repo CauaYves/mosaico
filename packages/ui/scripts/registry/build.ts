@@ -34,17 +34,17 @@ export function assertCssPartsHaveItems(parts: Record<string, string>, names: Se
   }
 }
 
-/** Arquivos da skill instalada pela base, relativos à raiz do repositório. */
+/** Arquivos da skill instalada pela base, em packages/ui/skills/mosaico-ui. */
 const SKILL_FILES = ["SKILL.md", "references/principios.md"];
 
 /**
  * Base para `npx shadcn init CauaYves/mosaico/base`. Com `extends: none`, o init não traz os padrões
  * do shadcn oficial (lucide-react e components/ui/button): configura Phosphor, aplica o tema e
  * instala a skill mosaico-ui em .claude/skills, para o Claude seguir as regras do kit no projeto.
- * O conteúdo da skill vai inline porque os arquivos ficam fora de packages/ui.
+ * A skill fica dentro de packages/ui porque o CLI recusa caminhos com "../" no registry.
  */
 export function buildBaseItem(
-  repoRoot: string,
+  uiRoot: string,
   versions: Record<string, string>,
   dep: (name: string) => string,
 ) {
@@ -66,13 +66,10 @@ export function buildBaseItem(
     dependencies: [`@phosphor-icons/react@${phosphor}`],
     registryDependencies: [dep("theme"), dep("utils")],
     files: SKILL_FILES.map((file) => ({
-      path: `../../skills/mosaico-ui/${file}`,
+      path: `skills/mosaico-ui/${file}`,
       type: "registry:file",
       target: `~/.claude/skills/mosaico-ui/${file}`,
-      content: readFileSync(join(repoRoot, "skills/mosaico-ui", file), "utf8").replace(
-        /\r\n/g,
-        "\n",
-      ),
+      content: readFileSync(join(uiRoot, "skills/mosaico-ui", file), "utf8").replace(/\r\n/g, "\n"),
     })),
   };
 }
@@ -115,7 +112,7 @@ export function buildRegistry(uiRoot: string, docsContentRoot: string, ref?: str
     homepage: "https://github.com/CauaYves/mosaico",
     items: [
       buildThemeItem(cssToRegistry(cssParts.theme ?? ""), versions),
-      buildBaseItem(join(uiRoot, "../.."), versions, (name) =>
+      buildBaseItem(uiRoot, versions, (name) =>
         ref ? `${REGISTRY_REPO}/${name}#${ref}` : `${REGISTRY_REPO}/${name}`,
       ),
       ...items,
