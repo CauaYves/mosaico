@@ -5,6 +5,8 @@ import type * as React from "react";
 export const MulticlubesExamples: Record<string, () => Promise<{ default: React.ComponentType }>> =
   {
     "backdrop-text-colors": () => import("./backdrop-text-colors"),
+    "copy-field-demo": () => import("./copy-field-demo"),
+    "copy-field-field": () => import("./copy-field-field"),
     "backdrop-text-demo": () => import("./backdrop-text-demo"),
     "bottom-nav-controlled": () => import("./bottom-nav-controlled"),
     "bottom-nav-demo": () => import("./bottom-nav-demo"),
