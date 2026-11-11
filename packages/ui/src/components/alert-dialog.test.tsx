@@ -41,10 +41,19 @@ function ConfirmarPagamento({
 
 const gatilho = () => screen.getByRole("button", { name: "Pagar R$ 120,00" });
 
-/** O foco está dentro do diálogo ou numa sentinela de foco do Base UI (no jsdom o Tab para nelas). */
-function focoPreso(dialog: HTMLElement) {
-  const ativo = document.activeElement as HTMLElement;
-  return dialog.contains(ativo) || ativo.hasAttribute("data-base-ui-focus-guard");
+/**
+ * Espera o foco assentar dentro do diálogo ou numa sentinela de foco do Base UI (no jsdom o Tab
+ * para nelas; no navegador elas devolvem o foco ao popup na hora). A sentinela pode devolver o
+ * foco um instante depois do Tab, por isso o waitFor. Se falhar, diz onde o foco ficou.
+ */
+async function esperarFocoPreso(dialog: HTMLElement, gatilho: HTMLElement) {
+  await waitFor(() => {
+    const ativo = document.activeElement as HTMLElement;
+    const preso =
+      ativo !== gatilho &&
+      (dialog.contains(ativo) || ativo.hasAttribute("data-base-ui-focus-guard"));
+    expect(preso, `foco em ${ativo.outerHTML.slice(0, 120)}`).toBe(true);
+  });
 }
 
 async function abrir(user: ReturnType<typeof userEvent.setup>) {
@@ -73,8 +82,7 @@ describe("AlertDialog", () => {
     await waitFor(() => expect(dialog).toContainElement(document.activeElement as HTMLElement));
     for (let i = 0; i < 4; i++) {
       await user.tab();
-      expect(focoPreso(dialog)).toBe(true);
-      expect(document.activeElement).not.toBe(botao);
+      await esperarFocoPreso(dialog, botao);
     }
   });
 
