@@ -103,7 +103,7 @@ Coleção de componentes de Shadcn. Seus princípios de projeto, que o Mosaico h
 
 Os componentes são pequenos, legíveis e feitos para serem combinados. Um `Card` tem `CardHeader`, `CardContent` e `CardFooter` em vez de dezenas de props. Isso mantém a API previsível e o kit fácil de entender.
 
-**No Mosaico:** seguimos a mesma regra de composição. Integrações como `Link` e `Image` entram por `render`, e não por dependência do Next dentro do pacote.
+**No Mosaico:** seguimos a mesma regra de composição. Integrações como `Link` e `Image` entram por `render`, e não por dependência do Next dentro do kit.
 
 ### Padrões bonitos
 
@@ -117,7 +117,7 @@ Cores, raios e sidebar são variáveis nomeadas por função (`--background`, `-
 
 ### Onde nos afastamos
 
-O shadcn/ui distribui o código para ser copiado. O Mosaico o publica como pacote, para que correções cheguem a todos os projetos. A explicação está em [Por que um design system](/docs/por-que-um-design-system#por-que-pacotes-e-não-cópia-de-código).
+O Mosaico é distribuído como o shadcn/ui: pelo registry, com o código copiado para o projeto. O que muda é a base. O `init` do Mosaico (`npx shadcn@latest init CauaYves/mosaico/base`) não parte dos padrões do shadcn oficial: configura os ícones Phosphor, aplica o tema Multiclubes e leva estas regras para o projeto, para o Claude seguir. A explicação está em [Por que um design system](/docs/por-que-um-design-system#por-que-um-registry).
 
 ## Como as regras se combinam
 

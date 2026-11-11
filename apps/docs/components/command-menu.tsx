@@ -18,6 +18,29 @@ import type { NavItem } from "@/lib/docs";
 /** Componentes sugeridos antes de digitar. Ao digitar, a busca vale para todos. */
 const SUGGESTED = 5;
 
+/** Minúsculas e sem acentos, para "botao" achar "botão". */
+function normalize(text: string) {
+  return text
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase();
+}
+
+/**
+ * Filtro da busca. O padrão do cmdk aceita letras soltas na ordem, e com a necessidade de cada
+ * componente nas keywords (frases longas) quase tudo casava. Aqui cada palavra digitada precisa
+ * aparecer inteira: no título, que vem primeiro, ou na necessidade.
+ */
+function searchFilter(value: string, search: string, keywords?: string[]) {
+  const words = normalize(search).split(/\s+/).filter(Boolean);
+  if (!words.length) return 1;
+  const title = normalize(value);
+  if (title.startsWith(words.join(" "))) return 1;
+  if (words.every((word) => title.includes(word))) return 0.8;
+  const need = normalize(keywords?.join(" ") ?? "");
+  return words.every((word) => need.includes(word)) ? 0.4 : 0;
+}
+
 /**
  * Busca do header. Fica no lugar: ao focar, o campo alarga para a esquerda e as opções
  * aparecem logo abaixo dele. Ctrl+K ou "/" focam o campo; Esc fecha.
@@ -66,6 +89,7 @@ export function CommandMenu({
 
   return (
     <Command
+      filter={searchFilter}
       data-open={open}
       onBlur={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget)) {
@@ -117,7 +141,12 @@ export function CommandMenu({
         </CommandGroup>
         <CommandGroup heading={query ? "Componentes" : "Componentes populares"}>
           {(query ? components : components.slice(0, SUGGESTED)).map((item) => (
-            <CommandItem key={item.url} value={item.title} onSelect={() => go(item.url)}>
+            <CommandItem
+              key={item.url}
+              value={item.title}
+              keywords={item.keywords}
+              onSelect={() => go(item.url)}
+            >
               <CircleDashedIcon />
               {item.title}
             </CommandItem>

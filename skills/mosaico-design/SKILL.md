@@ -11,8 +11,9 @@ Esta skill faz o material parecer da mesma empresa que os produtos. Ela não sub
 
 1. Leia `references/principios.md` por inteiro antes de começar. Ele é a fonte das regras: o que é definitivo e as regras por tipo de material (e-mail, relatório, documentação, projeto web).
 2. Identifique o tipo de material pedido e siga a seção correspondente.
-3. Se o projeto for React com Tailwind, use o pacote `@multiclubes/ui` em vez de recriar componentes.
-4. Entregue o material pedido. No fim, liste em poucas linhas as suposições que você fez, principalmente fonte e uso das cores da marca, que ainda não estão definidos.
+3. Liste os elementos do material (blocos de código, avisos, listas, tabelas, botões) e ache o componente de cada um na tabela "Qual componente usar", no fim de `references/principios.md`, antes de começar.
+4. Se o projeto for React com Tailwind, instale os componentes pelo registry do Mosaico (`npx shadcn@latest init CauaYves/mosaico/base` e depois `npx shadcn@latest add CauaYves/mosaico/<nome>`) em vez de recriá-los. Sem React, reproduza a estrutura e as classes do `.tsx` de cada componente e diga qual componente cada bloco reproduz.
+5. Entregue o material pedido. No fim, liste em poucas linhas as suposições que você fez, principalmente fonte e uso das cores da marca, que ainda não estão definidos.
 
 ## Limites
 

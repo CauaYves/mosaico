@@ -18,6 +18,8 @@ export type GalleryItem = {
   isNew: boolean;
   /** Quantas variações o componente tem (lib/component-variations.ts). */
   variations: number;
+  /** A necessidade que o componente resolve, em português (lib/component-guide.ts). */
+  need?: string;
   /** Nome do exemplo da prévia; padrão `${name}-demo`. */
   preview?: string;
 };
@@ -149,6 +151,7 @@ function GalleryCard({ item, getExample }: { item: GalleryItem; getExample: GetE
         >
           {item.title}
         </Link>
+        {item.need && <p className="text-sm text-muted-foreground">{item.need}</p>}
         {item.variations > 0 && (
           <p className="text-xs font-medium text-muted-foreground">
             {item.variations} {item.variations === 1 ? "variação" : "variações"}

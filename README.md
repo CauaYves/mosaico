@@ -44,7 +44,9 @@ Os componentes importam `cn` do pacote [`cn`](https://github.com/shadcn-ui/cn), 
 
 Depois de adicionado, o componente é nosso: ajuste ao padrão do kit e escreva testes (`*.test.tsx` ao lado do componente).
 
-Além dos componentes do shadcn, o kit tem componentes próprios da Multiclubes, trazidos do Portal: `date-wheel-picker` (roda de dia/mês/ano) e `date-field` (campo de data que usa a roda no celular e máscara no desktop). Na documentação, eles ficam em `apps/docs/content/docs/components-multiclubes` e `apps/docs/examples-multiclubes`, fora das pastas geradas pelo sync.
+Além dos componentes do shadcn, o kit tem componentes próprios da Multiclubes. Na documentação, eles ficam em `apps/docs/content/docs/components-multiclubes` e `apps/docs/examples-multiclubes`, fora das pastas geradas pelo sync.
+
+Qual componente usar para cada necessidade: veja a página `/docs/components` do catálogo ou o `/llms.txt`. As duas saem do guia `apps/docs/lib/component-guide.ts`, que também gera a tabela das skills. Um componente novo precisa de uma entrada no guia: `pnpm --filter docs guide:check` falha na CI se faltar.
 
 ## Documentação
 

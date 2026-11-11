@@ -43,15 +43,17 @@ O Portal já atende clientes com temas próprios, que sobrescrevem CSS variables
 
 Os componentes têm comportamento acessível (foco, teclado, ARIA) vindo do Base UI. Quando isso fica no kit, cada tela nova já nasce com ele, em vez de depender de cada pessoa lembrar.
 
-## Por que pacotes e não cópia de código
+## Por que um registry
 
-O shadcn/ui entrega o código para o projeto copiar e editar. Isso dá liberdade total, mas cada projeto vira dono da própria cópia, e a divergência volta.
+O Mosaico é distribuído pelo registry do shadcn, servido direto do repositório: o projeto roda `npx shadcn@latest add CauaYves/mosaico/<nome>` e recebe o código-fonte. Não há build, servidor nem versão para publicar, e quem usa pode ajustar o componente quando precisar.
 
-O Mosaico parte do código do shadcn/ui, mas o publica como pacotes versionados (`@multiclubes/ui`). A customização acontece por variantes, props, composição e tokens previstos no kit. Em troca, uma correção chega a todos.
+O custo é que cada projeto vira dono da própria cópia, e a divergência pode voltar. Para reduzir isso:
 
-<Callout title="Decisão em aberto">
-Para blocos que variam por aplicação, como uma tela de login ou uma listagem, um registry no estilo shadcn pode fazer sentido mais tarde. Está registrado em `docs/plano.md`.
-</Callout>
+- A base (`npx shadcn@latest init CauaYves/mosaico/base`) já começa igual ao kit: ícones Phosphor, tema Multiclubes e nenhum componente do shadcn oficial.
+- A mesma base instala as regras do kit em `.claude/skills/mosaico-ui`, para o Claude usar os componentes do Mosaico em vez de recriar.
+- Uma correção do kit chega rodando o `add` do componente de novo.
+
+A decisão e as alternativas consideradas, como publicar um pacote npm, estão em `docs/plano.md`.
 
 ## Resultados
 
@@ -59,7 +61,7 @@ Para blocos que variam por aplicação, como uma tela de login ou uma listagem, 
 
 Números do estado atual do repositório:
 
-- **65 componentes** no `@multiclubes/ui`: todos os 63 do shadcn/ui (estilo `base-luma`) mais dois próprios da Multiclubes, `DateWheelPicker` e `DateField`.
+- **65 componentes** no kit: todos os 63 do shadcn/ui (estilo `base-luma`) mais dois próprios da Multiclubes, `DateWheelPicker` e `DateField`.
 - **66 páginas de documentação** e **420 exemplos** neste catálogo.
 - **Tema** em CSS variables, com modo claro e escuro, compatível com `next-themes`.
 - **Configurações compartilhadas** de TypeScript e Biome, em pacotes próprios.
