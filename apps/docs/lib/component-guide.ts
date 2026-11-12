@@ -316,6 +316,13 @@ export const COMPONENT_GUIDE: Record<string, ComponentGuideEntry> = {
     useWhen: "Para dados que se comparam por coluna, sem ordenação nem filtro.",
     avoidWhen: "Com ordenação, filtro ou paginação, use `data-table`.",
   },
+  ticket: {
+    need: "mostrar uma cobrança, uma reserva ou um comprovante como um canhoto destacável",
+    useWhen:
+      "No resumo de um pagamento: o valor em destaque em cima e, abaixo do picote, os dados do título. Pago, o mesmo canhoto fica verde; em faixa, acompanha as etapas seguintes.",
+    avoidWhen:
+      "Para agrupar conteúdo comum, use `card`; para um destaque de marca sem valor, use `brand-card`.",
+  },
   trace: {
     need: "mostrar passos de raciocínio, chamadas de ferramenta e fontes de um assistente",
     useWhen:

@@ -64,6 +64,7 @@ export const COMPONENT_CATEGORIES = [
       "item",
       "kbd",
       "table",
+      "ticket",
       "trace",
       "typography",
     ],
@@ -104,6 +105,7 @@ export const NEW_COMPONENTS = new Set([
   "gradient-panel",
   "responsive-select",
   "seal",
+  "ticket",
 ]);
 
 export function getComponentCategory(name: string): string {

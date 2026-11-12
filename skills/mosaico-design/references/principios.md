@@ -206,6 +206,7 @@ Antes de criar qualquer elemento visual, ache aqui o componente do kit que resol
 | linha de lista com ícone, número ou imagem, título, descrição e ações, como etapas de um plano | `item` | Para listas de etapas, configurações, arquivos ou pessoas, num `item-group`; solta na página, use a variante `outline`. Para dados em colunas comparáveis, use `table`. |
 | mostrar uma tecla ou atalho de teclado | `kbd` | Para indicar atalhos, como Ctrl + K, em textos, menus e tooltips. |
 | tabela simples de dados em linhas e colunas | `table` | Para dados que se comparam por coluna, sem ordenação nem filtro. Com ordenação, filtro ou paginação, use `data-table`. |
+| mostrar uma cobrança, uma reserva ou um comprovante como um canhoto destacável | `ticket` | No resumo de um pagamento: o valor em destaque em cima e, abaixo do picote, os dados do título. Pago, o mesmo canhoto fica verde; em faixa, acompanha as etapas seguintes. Para agrupar conteúdo comum, use `card`; para um destaque de marca sem valor, use `brand-card`. |
 | mostrar passos de raciocínio, chamadas de ferramenta e fontes de um assistente | `trace` | Em interfaces de IA, para o que o assistente fez, com status, descrição e detalhes recolhíveis. |
 | estilos de texto: títulos, parágrafos, listas, citações e código no texto | `typography` | Para conteúdo de texto corrido, como páginas de ajuda e artigos. Não tem item no registry: são classes do Tailwind sobre o tema, sem nada para instalar. |
 
