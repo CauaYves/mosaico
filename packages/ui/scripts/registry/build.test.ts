@@ -29,7 +29,7 @@ test("um item por arquivo de src, mais o tema e a base", () => {
   expect(json.items[1]?.name).toBe("base");
 });
 
-test("a base usa Phosphor, não estende o shadcn oficial e instala a skill do kit", () => {
+test("a base usa Phosphor, não estende o shadcn oficial e instala as skills do kit", () => {
   const base = byName("base") as Item & {
     extends?: string;
     config?: { iconLibrary?: string };
@@ -43,6 +43,10 @@ test("a base usa Phosphor, não estende o shadcn oficial e instala a skill do ki
   expect(base.files?.map((file) => file.target)).toEqual([
     "~/.claude/skills/mosaico-ui/SKILL.md",
     "~/.claude/skills/mosaico-ui/references/principios.md",
+    "~/.claude/skills/mosaico-prototipo/SKILL.md",
+    "~/.claude/skills/mosaico-prototipo/references/conferencia.md",
+    "~/.claude/skills/mosaico-prototipo/references/revisao.md",
+    "~/.claude/skills/mosaico-prototipo/references/armadilhas.md",
   ]);
   for (const file of base.files ?? []) expect(file.content?.length).toBeGreaterThan(100);
 });
