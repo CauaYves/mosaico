@@ -223,7 +223,7 @@ Detalhes de instalação, temas de cliente e fonte estão na página [Instalaç�
 
 A página `/docs/para-ia` traz os princípios do Mosaico escritos como instrução para uma IA (relatórios, documentação, templates de e-mail, protótipos). Ela também sai em Markdown puro em `/md/para-ia`, e o catálogo publica um índice em `/llms.txt`.
 
-A skill `skills/mosaico-design` carrega essas instruções sozinha quando alguém pede material da Multiclubes. Para instalar, copie a pasta para `~/.claude/skills/` (Claude Code) ou envie-a como skill no Claude. Em apps que usam o kit, `npx shadcn@latest init CauaYves/mosaico/base` instala a skill `mosaico-ui`, com as regras de código.
+A skill `skills/mosaico-design` carrega essas instruções sozinha quando alguém pede material da Multiclubes. Para instalar, copie a pasta para `~/.claude/skills/` (Claude Code) ou envie-a como skill no Claude. Em apps que usam o kit, `npx shadcn@latest init CauaYves/mosaico/base` instala duas skills: `mosaico-ui`, com as regras de código, e `mosaico-prototipo`, com o ciclo para construir e lapidar uma tela (alvo, cenários, conferência por captura e revisão).
 
 As referências das skills são geradas da página. Depois de mudar `apps/docs/content/docs/para-ia.mdx` ou o guia de componentes, rode `pnpm --filter docs sync:ia`.
 

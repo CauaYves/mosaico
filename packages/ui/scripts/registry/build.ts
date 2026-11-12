@@ -34,14 +34,23 @@ export function assertCssPartsHaveItems(parts: Record<string, string>, names: Se
   }
 }
 
-/** Arquivos da skill instalada pela base, em packages/ui/skills/mosaico-ui. */
-const SKILL_FILES = ["SKILL.md", "references/principios.md"];
+/** Skills instaladas pela base, em packages/ui/skills: as regras do kit e o ciclo de protótipo. */
+const SKILLS: Record<string, string[]> = {
+  "mosaico-ui": ["SKILL.md", "references/principios.md"],
+  "mosaico-prototipo": [
+    "SKILL.md",
+    "references/conferencia.md",
+    "references/revisao.md",
+    "references/armadilhas.md",
+  ],
+};
 
 /**
  * Base para `npx shadcn init CauaYves/mosaico/base`. Com `extends: none`, o init não traz os padrões
  * do shadcn oficial (lucide-react e components/ui/button): configura Phosphor, aplica o tema e
- * instala a skill mosaico-ui em .claude/skills, para o Claude seguir as regras do kit no projeto.
- * A skill fica dentro de packages/ui porque o CLI recusa caminhos com "../" no registry.
+ * instala as skills do kit em .claude/skills: mosaico-ui, para o Claude seguir as regras do kit no
+ * projeto, e mosaico-prototipo, com o ciclo para construir e lapidar uma tela.
+ * As skills ficam dentro de packages/ui porque o CLI recusa caminhos com "../" no registry.
  */
 export function buildBaseItem(
   uiRoot: string,
@@ -57,7 +66,7 @@ export function buildBaseItem(
     extends: "none",
     title: "Base do Mosaico",
     description:
-      "Configura um projeto para o Mosaico: ícones Phosphor, tema Multiclubes, utilitários e as regras do kit para o Claude (.claude/skills/mosaico-ui).",
+      "Configura um projeto para o Mosaico: ícones Phosphor, tema Multiclubes, utilitários e as skills do kit para o Claude (.claude/skills/mosaico-ui e mosaico-prototipo).",
     config: {
       style: "base-luma",
       iconLibrary: "phosphor",
@@ -65,12 +74,14 @@ export function buildBaseItem(
     },
     dependencies: [`@phosphor-icons/react@${phosphor}`],
     registryDependencies: [dep("theme"), dep("utils")],
-    files: SKILL_FILES.map((file) => ({
-      path: `skills/mosaico-ui/${file}`,
-      type: "registry:file",
-      target: `~/.claude/skills/mosaico-ui/${file}`,
-      content: readFileSync(join(uiRoot, "skills/mosaico-ui", file), "utf8").replace(/\r\n/g, "\n"),
-    })),
+    files: Object.entries(SKILLS).flatMap(([skill, files]) =>
+      files.map((file) => ({
+        path: `skills/${skill}/${file}`,
+        type: "registry:file",
+        target: `~/.claude/skills/${skill}/${file}`,
+        content: readFileSync(join(uiRoot, "skills", skill, file), "utf8").replace(/\r\n/g, "\n"),
+      })),
+    ),
   };
 }
 
