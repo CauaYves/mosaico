@@ -27,11 +27,19 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@multiclubes/ui/components/dropdown-menu";
+import { Field, FieldLabel } from "@multiclubes/ui/components/field";
+import { Input } from "@multiclubes/ui/components/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@multiclubes/ui/components/popover";
 import { FileCodeIcon, FileCssIcon } from "@phosphor-icons/react";
 import * as React from "react";
 import { CreateBoard } from "@/components/create-previews";
 import { PALETTES } from "@/lib/create-palettes";
+import {
+  type ChoiceOptions,
+  choicesFromSearch,
+  choicesToSearch,
+  type ThemeChoices,
+} from "@/lib/create-theme-file";
 import type { CreateFont } from "@/lib/fonts";
 
 type Color = {
@@ -127,11 +135,42 @@ function layoutCode(sans: CreateFont, heading: CreateFont | null, defaultFont: C
 
 export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
   const defaultFont = fonts[0] as CreateFont;
-  const [colorName, setColorName] = React.useState(DEFAULT_COLOR);
-  const [chartName, setChartName] = React.useState(DEFAULT_COLOR);
-  const [radius, setRadius] = React.useState(DEFAULT_RADIUS);
-  const [fontName, setFontName] = React.useState(defaultFont.name);
-  const [headingName, setHeadingName] = React.useState(SAME_FONT);
+  const defaults: ThemeChoices = {
+    cliente: "",
+    cor: DEFAULT_COLOR,
+    graficos: DEFAULT_COLOR,
+    raio: DEFAULT_RADIUS,
+    fonte: defaultFont.name,
+    titulos: SAME_FONT,
+  };
+  const options: ChoiceOptions = {
+    colors: COLORS.map((entry) => entry.name),
+    charts: CHART_COLORS.map((entry) => entry.name),
+    radii: RADII,
+    fonts: fonts.map((font) => font.name),
+  };
+  const [choices, setChoices] = React.useState<ThemeChoices>(defaults);
+  // A URL só é escrita depois de lida: senão, o tema padrão apagaria os parâmetros com que
+  // a página foi aberta.
+  const [ready, setReady] = React.useState(false);
+  const [editUrl, setEditUrl] = React.useState("");
+  const { cliente, cor: colorName, graficos: chartName, raio: radius, fonte: fontName } = choices;
+  const headingName = choices.titulos;
+  const choose = (key: keyof ThemeChoices) => (value: string) =>
+    setChoices((current) => ({ ...current, [key]: value }));
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: lê a URL só ao abrir a página.
+  React.useEffect(() => {
+    setChoices(choicesFromSearch(window.location.search, options, defaults));
+    setReady(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (!ready) return;
+    const search = choicesToSearch(choices);
+    window.history.replaceState(null, "", `?${search}`);
+    setEditUrl(`${window.location.origin}${window.location.pathname}?${search}`);
+  }, [choices, ready]);
 
   const color = COLORS.find((entry) => entry.name === colorName) as Color;
   const chart = CHART_COLORS.find((entry) => entry.name === chartName) as Color;
@@ -161,12 +200,29 @@ export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
           <p className="text-xs text-muted-foreground">Cores, fontes e arredondamento.</p>
         </div>
         <div className="flex flex-col gap-2 p-3 lg:min-h-0 lg:flex-1 lg:overflow-y-auto">
-          <ColorRow label="Cor" color={color} presets={COLORS} onPreset={setColorName} />
-          <ColorRow label="Gráficos" color={chart} presets={CHART_COLORS} onPreset={setChartName} />
+          <Field className="gap-1.5 px-1 pb-1">
+            <FieldLabel htmlFor="create-cliente" className="text-xs text-muted-foreground">
+              Nome do cliente
+            </FieldLabel>
+            <Input
+              id="create-cliente"
+              value={cliente}
+              maxLength={80}
+              placeholder="Ex.: Flamengo"
+              onChange={(event) => choose("cliente")(event.target.value)}
+            />
+          </Field>
+          <ColorRow label="Cor" color={color} presets={COLORS} onPreset={choose("cor")} />
+          <ColorRow
+            label="Gráficos"
+            color={chart}
+            presets={CHART_COLORS}
+            onPreset={choose("graficos")}
+          />
           <Picker
             label="Arredondamento"
             value={radius}
-            onChange={setRadius}
+            onChange={choose("raio")}
             display={`${radius} rem`}
             indicator={
               <span
@@ -182,7 +238,7 @@ export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
           <Picker
             label="Fonte"
             value={fontName}
-            onChange={setFontName}
+            onChange={choose("fonte")}
             indicator={<span style={{ fontFamily: sans.family }}>Aa</span>}
             group="Sans"
             options={fonts.map((font) => ({
@@ -195,7 +251,7 @@ export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
           <Picker
             label="Títulos"
             value={headingName}
-            onChange={setHeadingName}
+            onChange={choose("titulos")}
             display={heading?.name ?? "Igual ao texto"}
             indicator={<span style={{ fontFamily: (heading ?? sans).family }}>Aa</span>}
             group="Sans"
