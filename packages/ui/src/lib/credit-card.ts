@@ -1,5 +1,5 @@
-// Regras de cartão de crédito do CreditCardFields: a bandeira pelos primeiros dígitos, as máscaras
-// de cada campo e a validação. O número completo é dado sensível: valide e envie ao provedor de
+// Regras de cartão de crédito: a bandeira pelos primeiros dígitos, as máscaras de cada campo e a
+// validação. O bloco credit-card-01 mostra os campos montados com elas. O número completo é dado sensível: valide e envie ao provedor de
 // pagamento, que devolve um token; não o guarde nem o registre em log.
 
 export type CreditCardBrand = "Amex" | "Diners" | "Elo" | "Hipercard" | "Mastercard" | "Visa";
