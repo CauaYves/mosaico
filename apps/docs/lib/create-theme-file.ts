@@ -73,7 +73,10 @@ export function themeFileName(cliente: string): string {
 
 /** Nome do cliente seguro dentro de um comentário CSS de uma linha. */
 function commentSafe(text: string) {
-  return text.replaceAll("*/", "").replace(/\s+/g, " ").trim();
+  let safe = text.replace(/\s+/g, " ");
+  // Repete até sumir: tirar um "*/" pode juntar um "*" e uma "/" num novo ("**//").
+  while (safe.includes("*/")) safe = safe.replaceAll("*/", "");
+  return safe.replace(/\s+/g, " ").trim();
 }
 
 /** Arquivo de tema: cabeçalho com o link de edição e o CSS. */
@@ -109,4 +112,38 @@ export function editUrlFromFile(text: string): string | null {
     if (match) return match[1] ?? null;
   }
   return null;
+}
+
+/** Tamanho lido de um arquivo aberto: o cabeçalho fica no começo. */
+const HEADER_BYTES = 4096;
+
+/**
+ * Parâmetros ("?...") do link Editar: de um arquivo de tema, ou null se o arquivo não foi
+ * gerado pelo Mosaico, o link é inválido ou a leitura falhou. Lê só o começo do arquivo, para
+ * que um arquivo grande solto por engano não trave a página.
+ */
+export async function searchFromThemeFile(file: Blob): Promise<string | null> {
+  try {
+    const url = editUrlFromFile(await file.slice(0, HEADER_BYTES).text());
+    return url ? new URL(url).search : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Troca os parâmetros da URL sem criar entrada no histórico, mantendo o hash. O Safari lança
+ * erro quando a página chama replaceState vezes demais em pouco tempo: nesse caso a URL só
+ * deixa de acompanhar até a próxima mudança.
+ */
+export function replaceSearch(
+  history: Pick<History, "replaceState">,
+  search: string,
+  hash: string,
+): void {
+  try {
+    history.replaceState(null, "", `?${search}${hash}`);
+  } catch {
+    // A URL é só conveniência; o estado da página continua certo.
+  }
 }

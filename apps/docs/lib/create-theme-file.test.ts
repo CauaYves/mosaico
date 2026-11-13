@@ -3,6 +3,8 @@ import {
   choicesFromSearch,
   choicesToSearch,
   editUrlFromFile,
+  replaceSearch,
+  searchFromThemeFile,
   themeFile,
   themeFileName,
 } from "./create-theme-file";
@@ -112,6 +114,11 @@ describe("themeFile", () => {
     );
   });
 
+  it.each(["**//", "*/*//", "x**//y"])("nome %s não forma um novo */", (cliente) => {
+    const file = themeFile({ cliente, editUrl, css: "", date: "2026-11-13" });
+    expect(file.indexOf("*/")).toBe(file.lastIndexOf("*/"));
+  });
+
   it("nome com */ ou quebra de linha não fecha o comentário", () => {
     const file = themeFile({ cliente: "A */ b\nc", editUrl, css: "", date: "2026-11-13" });
     expect(file.indexOf("*/")).toBe(file.lastIndexOf("*/"));
@@ -138,5 +145,65 @@ describe("editUrlFromFile", () => {
     expect(editUrlFromFile("/*\r\n * Editar: https://a.b/create?cor=red\r\n */")).toBe(
       "https://a.b/create?cor=red",
     );
+  });
+});
+
+describe("searchFromThemeFile", () => {
+  const header = themeFile({
+    cliente: "X",
+    editUrl: "http://localhost:3001/create?cor=red",
+    css: "",
+    date: "2026-11-13",
+  });
+
+  it("devolve os parâmetros do link Editar:", async () => {
+    expect(await searchFromThemeFile(new Blob([header]))).toBe("?cor=red");
+  });
+
+  it("lê só o começo de um arquivo grande", async () => {
+    const big = new Blob([header, "x".repeat(5_000_000)]);
+    const slice = big.slice.bind(big);
+    let read = 0;
+    big.slice = (...args) => {
+      const part = slice(...args);
+      read = part.size;
+      return part;
+    };
+    expect(await searchFromThemeFile(big)).toBe("?cor=red");
+    expect(read).toBeLessThanOrEqual(4096);
+  });
+
+  it("arquivo sem cabeçalho do Mosaico", async () => {
+    expect(await searchFromThemeFile(new Blob([":root{}"]))).toBeNull();
+  });
+
+  it("link inválido", async () => {
+    const file = ["/*", " * Editar: nao-e-url", " */"].join("\n");
+    expect(await searchFromThemeFile(new Blob([file]))).toBeNull();
+  });
+
+  it("falha de leitura vira null, sem exceção", async () => {
+    const broken = new Blob(["x"]);
+    broken.slice = () => {
+      throw new DOMException("sumiu", "NotFoundError");
+    };
+    expect(await searchFromThemeFile(broken)).toBeNull();
+  });
+});
+
+describe("replaceSearch", () => {
+  it("escreve a URL preservando o hash", () => {
+    const calls: string[] = [];
+    replaceSearch({ replaceState: (_s, _t, url) => calls.push(String(url)) }, "cor=red", "#x");
+    expect(calls).toEqual(["?cor=red#x"]);
+  });
+
+  it("não propaga o erro do navegador (limite do Safari)", () => {
+    const history = {
+      replaceState: () => {
+        throw new DOMException("limite", "SecurityError");
+      },
+    };
+    expect(() => replaceSearch(history, "cor=red", "")).not.toThrow();
   });
 });

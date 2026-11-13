@@ -38,7 +38,8 @@ import {
   type ChoiceOptions,
   choicesFromSearch,
   choicesToSearch,
-  editUrlFromFile,
+  replaceSearch,
+  searchFromThemeFile,
   type ThemeChoices,
   themeFile,
   themeFileName,
@@ -173,13 +174,7 @@ export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
 
   /** Restaura as escolhas a partir do link "Editar:" de um arquivo gerado aqui. */
   async function openThemeFile(file: File) {
-    const url = editUrlFromFile(await file.text());
-    let search: string | null = null;
-    try {
-      search = url ? new URL(url).search : null;
-    } catch {
-      search = null;
-    }
+    const search = await searchFromThemeFile(file);
     if (search === null) {
       setOpenError(true);
       return;
@@ -191,7 +186,7 @@ export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
   React.useEffect(() => {
     if (!ready) return;
     const search = choicesToSearch(choices);
-    window.history.replaceState(null, "", `?${search}`);
+    replaceSearch(window.history, search, window.location.hash);
     setEditUrl(`${window.location.origin}${window.location.pathname}?${search}`);
   }, [choices, ready]);
 
