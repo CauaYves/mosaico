@@ -24,7 +24,7 @@ const json = JSON.parse(buildRegistry(uiRoot, docsContentRoot)) as { items: Item
 const byName = (name: string) => json.items.find((item) => item.name === name) as Item;
 
 test("um item por arquivo de src, mais o tema e a base", () => {
-  expect(json.items).toHaveLength(2 + 77 + 2 + 2);
+  expect(json.items).toHaveLength(2 + 81 + 2 + 3);
   expect(json.items[0]?.name).toBe("theme");
   expect(json.items[1]?.name).toBe("base");
 });

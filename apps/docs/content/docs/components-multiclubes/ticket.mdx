@@ -1,0 +1,80 @@
+---
+title: Ticket
+description: Canhoto de carnê ou de ingresso, com picote e borda serrilhada, para mostrar uma cobrança, uma reserva ou um comprovante.
+---
+
+<ComponentPreview name="ticket-demo" />
+
+Mostra o que se paga como um canhoto destacável, na cor do tema: em cima, o valor em destaque; abaixo do picote, os dados do título. A borda serrilhada e os recortes fazem dele um recibo, e não um cartão.
+
+## Installation
+
+<Installation name="ticket" />
+
+## Usage
+
+```tsx
+import { Ticket, TicketBody, TicketStub } from "@multiclubes/ui/components/ticket"
+```
+
+```tsx
+<Ticket>
+  <TicketBody>Mensalidade de novembro</TicketBody>
+  <TicketStub>Título 0123-4</TicketStub>
+</Ticket>
+```
+
+O `TicketStub` é opcional: sem ele, o canhoto é uma peça só, com a borda serrilhada embaixo.
+
+## Tons
+
+`primary` é a cobrança em aberto, `success` o comprovante de algo pago e `card` um registro neutro, sem ênfase. O estado também está no texto: a cor sozinha não diz "pago".
+
+<ComponentPreview name="ticket-tones" />
+
+No comprovante, o `SuccessCheck` com `tone="inverse"` marca a confirmação dentro do canhoto.
+
+<ComponentPreview name="success-check-ticket" />
+
+## Em faixa
+
+Com `band`, o canhoto perde os cantos de cima e vira uma faixa para o topo de uma tela, de ponta a ponta. Use nas etapas seguintes de um fluxo, para manter o valor à vista sem repetir o canhoto inteiro.
+
+<ComponentPreview name="ticket-band" />
+
+## Marca-d'água
+
+O `TicketWatermark` põe um desenho apagado no canto do `TicketBody`. Passe um SVG com `currentColor` como filho, ou `src` com uma imagem com transparência, como o símbolo do clube: a imagem vira máscara e sai numa cor só, a do texto.
+
+<ComponentPreview name="ticket-watermark" />
+
+```tsx
+<TicketBody>
+  <TicketWatermark src="/clube/simbolo.svg" />
+</TicketBody>
+```
+
+## Como funciona
+
+- **Contorno:** os dentes e os recortes são máscaras vetoriais, que o navegador desenha na resolução da tela. As bordas saem lisas em qualquer densidade.
+- **Recortes:** são furos de verdade. Por eles aparece o que está atrás do canhoto, inclusive a sombra dele, então funcionam sobre qualquer fundo.
+- **Cor:** o tom define `--ticket-color` e `--ticket-shadow`. Num tema de cliente, `primary` já é a cor do clube; para outra cor, defina as duas variáveis no `className`.
+- **Respiro:** o `TicketBody` e o `TicketStub` trazem o respiro padrão. Ajuste pelo `className` de cada um.
+- **Leitor de tela:** a borda serrilhada e a marca-d'água são decorativas e ficam fora da leitura. O canhoto não tem papel próprio: use um título dentro dele quando ele abrir uma seção.
+
+## API Reference
+
+### Ticket
+
+| Prop | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| `tone` | `"primary" \| "success" \| "card"` | `"primary"` | Cor do canhoto, do texto e da sombra. |
+| `band` | `boolean` | `false` | Em faixa: sem os cantos de cima. |
+
+### TicketWatermark
+
+| Prop | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| `src` | `string` | — | Imagem com transparência, usada como máscara. Sem ela, o filho é o desenho. |
+
+`TicketBody` e `TicketStub` aceitam as props de uma `div`.

@@ -1,0 +1,45 @@
+---
+title: Success Check
+description: Marca de confirmação animada, com o anel que se fecha, o disco e o check, para o momento em que algo deu certo.
+---
+
+<ComponentPreview name="success-check-demo" />
+
+Marca o momento em que uma ação terminou bem, como um pagamento confirmado. O anel se fecha, o disco entra e o check se desenha, nessa ordem, em pouco mais de um segundo.
+
+## Installation
+
+<Installation name="success-check" />
+
+## Usage
+
+```tsx
+import { SuccessCheck } from "@multiclubes/ui/components/success-check"
+```
+
+```tsx
+<SuccessCheck label="Pagamento confirmado" />
+```
+
+O tamanho vem do `className` (`size-12` por padrão).
+
+## Sobre uma superfície colorida
+
+`tone="inverse"` usa a cor do texto da superfície no disco e o verde no check. É o tom para dentro de um `Ticket` pago.
+
+<ComponentPreview name="success-check-ticket" />
+
+## Como funciona
+
+- **Um momento por tela:** a animação é para a confirmação, uma vez. Num item de lista ou num selo de estado, use `animated={false}` ou um ícone.
+- **Movimento reduzido:** quem pede menos movimento vê a marca pronta, sem a entrada.
+- **Leitor de tela:** a marca é uma imagem com nome (`label`). Deixe o texto de confirmação ao lado dela: a marca sozinha não diz o que foi concluído.
+- **Repetir:** a animação roda quando o componente entra na tela. Para repetir, troque a `key`.
+
+## API Reference
+
+| Prop | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| `tone` | `"success" \| "inverse"` | `"success"` | Disco verde, ou disco na cor do texto da superfície. |
+| `label` | `string` | `"Concluído"` | Texto para leitores de tela. |
+| `animated` | `boolean` | `true` | `false` mostra a marca pronta. |

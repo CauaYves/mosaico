@@ -61,6 +61,13 @@ export const COMPONENT_GUIDE: Record<string, ComponentGuideEntry> = {
     avoidWhen:
       "Para trecho de código-fonte, use `code-block`; para valor que a pessoa digita, use `input`.",
   },
+  "credit-card-fields": {
+    need: "receber os dados de um cartão de crédito: número, validade, CVV e nome impresso",
+    useWhen:
+      "Em telas de pagamento e de cadastro de cartão: as máscaras, a bandeira reconhecida no campo do número, o CVV no tamanho dela e a validação já vêm prontos.",
+    avoidWhen:
+      "Para um campo solto com máscara, use `input`; para o código do Pix, use `qr-code` e `copy-field`.",
+  },
   "date-field": {
     need: "campo para digitar ou escolher uma data num formulário, no celular e no desktop",
     useWhen:
@@ -262,6 +269,13 @@ export const COMPONENT_GUIDE: Record<string, ComponentGuideEntry> = {
     avoidWhen:
       "Para conteúdo de página carregando, use `skeleton`; para troca de página com a marca, use `mosaic-loader`.",
   },
+  "success-check": {
+    need: "marcar o momento em que uma ação terminou bem, como um pagamento confirmado",
+    useWhen:
+      "Na tela de confirmação, uma vez: o anel se fecha, o disco entra e o check se desenha. Dentro de um `ticket` pago, use o tom `inverse`.",
+    avoidWhen:
+      "Para um aviso que some, use `toast`; para um estado numa lista, use `badge` ou um ícone.",
+  },
   toast: {
     need: "aviso passageiro que aparece e some sozinho",
     useWhen: 'Para confirmar uma ação, como "Salvo", ou avisar um erro que não trava a tela.',
@@ -311,10 +325,24 @@ export const COMPONENT_GUIDE: Record<string, ComponentGuideEntry> = {
     need: "mostrar uma tecla ou atalho de teclado",
     useWhen: "Para indicar atalhos, como Ctrl + K, em textos, menus e tooltips.",
   },
+  "qr-code": {
+    need: "mostrar um QR Code para a pessoa ler com a câmera de outro aparelho, como o do Pix",
+    useWhen:
+      "Quando o código vai ser lido de outra tela: escuro sobre branco nos dois temas, numa moldura que serve de margem.",
+    avoidWhen:
+      "No celular, quem paga não lê a própria tela: ponha junto o `copy-field` com o mesmo código.",
+  },
   table: {
     need: "tabela simples de dados em linhas e colunas",
     useWhen: "Para dados que se comparam por coluna, sem ordenação nem filtro.",
     avoidWhen: "Com ordenação, filtro ou paginação, use `data-table`.",
+  },
+  ticket: {
+    need: "mostrar uma cobrança, uma reserva ou um comprovante como um canhoto destacável",
+    useWhen:
+      "No resumo de um pagamento: o valor em destaque em cima e, abaixo do picote, os dados do título. Pago, o mesmo canhoto fica verde; em faixa, acompanha as etapas seguintes.",
+    avoidWhen:
+      "Para agrupar conteúdo comum, use `card`; para um destaque de marca sem valor, use `brand-card`.",
   },
   trace: {
     need: "mostrar passos de raciocínio, chamadas de ferramenta e fontes de um assistente",

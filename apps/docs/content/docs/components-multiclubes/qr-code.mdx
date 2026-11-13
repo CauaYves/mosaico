@@ -1,0 +1,44 @@
+---
+title: QR Code
+description: QR Code numa moldura, para a pessoa ler com a câmera de outro aparelho, como o do Pix.
+---
+
+<ComponentPreview name="qr-code-demo" />
+
+Desenha um QR Code a partir de um texto, numa moldura branca. O código é sempre escuro sobre branco, nos dois temas: leitores de QR Code precisam desse contraste.
+
+## Installation
+
+<Installation name="qr-code" />
+
+## Usage
+
+```tsx
+import { QrCode } from "@multiclubes/ui/components/qr-code"
+```
+
+```tsx
+<QrCode value={codigoPix} label="QR Code Pix de R$ 349,00" />
+```
+
+## Com o copia e cola
+
+Quem está no celular não lê o QR Code da própria tela. Ponha o `CopyField` junto, com o mesmo código.
+
+<ComponentPreview name="qr-code-pix" />
+
+## Como funciona
+
+- **Moldura:** o espaço branco em volta é a margem de silêncio do código. Sem ela, a leitura falha sobre fundos escuros ou coloridos.
+- **Tamanho:** `size` é o lado do código, em pixels. Abaixo de 150 a leitura fica difícil em telas comuns.
+- **Leitor de tela:** `label` diz o que o código é e, se couber, o valor.
+
+## API Reference
+
+| Prop | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| `value` | `string` | — | O conteúdo do código. |
+| `label` | `string` | — | O que o código é, para leitores de tela. |
+| `size` | `number` | `184` | Lado do código, em pixels. |
+
+As demais props vão para a moldura.
