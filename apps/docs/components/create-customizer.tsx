@@ -27,11 +27,23 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@multiclubes/ui/components/dropdown-menu";
+import { Field, FieldLabel } from "@multiclubes/ui/components/field";
+import { Input } from "@multiclubes/ui/components/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@multiclubes/ui/components/popover";
-import { FileCodeIcon, FileCssIcon } from "@phosphor-icons/react";
+import { DownloadSimpleIcon, FileCodeIcon, FileCssIcon } from "@phosphor-icons/react";
 import * as React from "react";
 import { CreateBoard } from "@/components/create-previews";
 import { PALETTES } from "@/lib/create-palettes";
+import {
+  type ChoiceOptions,
+  choicesFromSearch,
+  choicesToSearch,
+  replaceSearch,
+  searchFromThemeFile,
+  type ThemeChoices,
+  themeFile,
+  themeFileName,
+} from "@/lib/create-theme-file";
 import type { CreateFont } from "@/lib/fonts";
 
 type Color = {
@@ -127,11 +139,56 @@ function layoutCode(sans: CreateFont, heading: CreateFont | null, defaultFont: C
 
 export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
   const defaultFont = fonts[0] as CreateFont;
-  const [colorName, setColorName] = React.useState(DEFAULT_COLOR);
-  const [chartName, setChartName] = React.useState(DEFAULT_COLOR);
-  const [radius, setRadius] = React.useState(DEFAULT_RADIUS);
-  const [fontName, setFontName] = React.useState(defaultFont.name);
-  const [headingName, setHeadingName] = React.useState(SAME_FONT);
+  const defaults: ThemeChoices = {
+    cliente: "",
+    cor: DEFAULT_COLOR,
+    graficos: DEFAULT_COLOR,
+    raio: DEFAULT_RADIUS,
+    fonte: defaultFont.name,
+    titulos: SAME_FONT,
+  };
+  const options: ChoiceOptions = {
+    colors: COLORS.map((entry) => entry.name),
+    charts: CHART_COLORS.map((entry) => entry.name),
+    radii: RADII,
+    fonts: fonts.map((font) => font.name),
+  };
+  const [choices, setChoices] = React.useState<ThemeChoices>(defaults);
+  // A URL só é escrita depois de lida: senão, o tema padrão apagaria os parâmetros com que
+  // a página foi aberta.
+  const [ready, setReady] = React.useState(false);
+  const [editUrl, setEditUrl] = React.useState("");
+  const { cliente, cor: colorName, graficos: chartName, raio: radius, fonte: fontName } = choices;
+  const headingName = choices.titulos;
+  const choose = (key: keyof ThemeChoices) => (value: string) =>
+    setChoices((current) => ({ ...current, [key]: value }));
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: lê a URL só ao abrir a página.
+  React.useEffect(() => {
+    setChoices(choicesFromSearch(window.location.search, options, defaults));
+    setReady(true);
+  }, []);
+
+  const [openError, setOpenError] = React.useState(false);
+  const fileInput = React.useRef<HTMLInputElement>(null);
+
+  /** Restaura as escolhas a partir do link "Editar:" de um arquivo gerado aqui. */
+  async function openThemeFile(file: File) {
+    const search = await searchFromThemeFile(file);
+    if (search === null) {
+      setOpenError(true);
+      return;
+    }
+    setOpenError(false);
+    setChoices(choicesFromSearch(search, options, defaults));
+  }
+
+  React.useEffect(() => {
+    if (!ready) return;
+    const search = choicesToSearch(choices);
+    replaceSearch(window.history, search, window.location.hash);
+    setEditUrl(`${window.location.origin}${window.location.pathname}?${search}`);
+  }, [choices, ready]);
 
   const color = COLORS.find((entry) => entry.name === colorName) as Color;
   const chart = CHART_COLORS.find((entry) => entry.name === chartName) as Color;
@@ -151,8 +208,18 @@ export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
   ].join("\n");
 
   return (
+    // biome-ignore lint/a11y/noStaticElementInteractions: soltar o arquivo é atalho de mouse; o botão "Abrir tema" faz o mesmo pelo teclado.
     <div
       data-slot="create"
+      onDragOver={(event) => {
+        if (event.dataTransfer.types.includes("Files")) event.preventDefault();
+      }}
+      onDrop={(event) => {
+        const file = event.dataTransfer.files[0];
+        if (!file) return;
+        event.preventDefault();
+        void openThemeFile(file);
+      }}
       className="flex flex-1 flex-col gap-4 p-4 lg:h-[calc(100svh-var(--header-height))] lg:flex-none lg:flex-row lg:pt-0"
     >
       <aside className="flex shrink-0 flex-col overflow-hidden rounded-surface border bg-card lg:w-72">
@@ -161,12 +228,29 @@ export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
           <p className="text-xs text-muted-foreground">Cores, fontes e arredondamento.</p>
         </div>
         <div className="flex flex-col gap-2 p-3 lg:min-h-0 lg:flex-1 lg:overflow-y-auto">
-          <ColorRow label="Cor" color={color} presets={COLORS} onPreset={setColorName} />
-          <ColorRow label="Gráficos" color={chart} presets={CHART_COLORS} onPreset={setChartName} />
+          <Field className="gap-1.5 px-1 pb-1">
+            <FieldLabel htmlFor="create-cliente" className="text-xs text-muted-foreground">
+              Nome do cliente
+            </FieldLabel>
+            <Input
+              id="create-cliente"
+              value={cliente}
+              maxLength={80}
+              placeholder="Ex.: Flamengo"
+              onChange={(event) => choose("cliente")(event.target.value)}
+            />
+          </Field>
+          <ColorRow label="Cor" color={color} presets={COLORS} onPreset={choose("cor")} />
+          <ColorRow
+            label="Gráficos"
+            color={chart}
+            presets={CHART_COLORS}
+            onPreset={choose("graficos")}
+          />
           <Picker
             label="Arredondamento"
             value={radius}
-            onChange={setRadius}
+            onChange={choose("raio")}
             display={`${radius} rem`}
             indicator={
               <span
@@ -182,7 +266,7 @@ export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
           <Picker
             label="Fonte"
             value={fontName}
-            onChange={setFontName}
+            onChange={choose("fonte")}
             indicator={<span style={{ fontFamily: sans.family }}>Aa</span>}
             group="Sans"
             options={fonts.map((font) => ({
@@ -195,7 +279,7 @@ export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
           <Picker
             label="Títulos"
             value={headingName}
-            onChange={setHeadingName}
+            onChange={choose("titulos")}
             display={heading?.name ?? "Igual ao texto"}
             indicator={<span style={{ fontFamily: (heading ?? sans).family }}>Aa</span>}
             group="Sans"
@@ -210,8 +294,29 @@ export function CreateCustomizer({ fonts }: { fonts: CreateFont[] }) {
             ]}
           />
         </div>
-        <div className="border-t p-3">
-          <ThemeDialog css={css} layout={layout} />
+        <div className="flex flex-col gap-2 border-t p-3">
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="outline" onClick={() => fileInput.current?.click()}>
+              Abrir tema
+            </Button>
+            <ThemeDialog cliente={cliente} editUrl={editUrl} css={css} layout={layout} />
+          </div>
+          <input
+            ref={fileInput}
+            type="file"
+            accept=".css,text/css"
+            hidden
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              event.target.value = "";
+              if (file) void openThemeFile(file);
+            }}
+          />
+          {openError && (
+            <p role="alert" className="text-xs text-destructive">
+              Este arquivo não foi gerado pelo Mosaico. Abra um tema baixado do /create.
+            </p>
+          )}
         </div>
       </aside>
       <section aria-label="Prévia" className="flex min-w-0 flex-1 flex-col gap-3">
@@ -366,19 +471,53 @@ function Picker({
   );
 }
 
-function ThemeDialog({ css, layout }: { css: string; layout: string | null }) {
+/** Data local no formato AAAA-MM-DD. */
+function today() {
+  const now = new Date();
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+}
+
+function ThemeDialog({
+  cliente,
+  editUrl,
+  css,
+  layout,
+}: {
+  cliente: string;
+  editUrl: string;
+  css: string;
+  layout: string | null;
+}) {
+  const fileName = themeFileName(cliente);
+  const file = themeFile({ cliente, editUrl, css, date: today() });
+
+  function download() {
+    const url = URL.createObjectURL(new Blob([file], { type: "text/css" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <Dialog>
-      <DialogTrigger render={<Button className="w-full" />}>Usar este tema</DialogTrigger>
+      <DialogTrigger render={<Button />}>Usar este tema</DialogTrigger>
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>Usar este tema</DialogTitle>
           <DialogDescription>
-            Cole o CSS no CSS global da aplicação, depois do import do tema do Mosaico.
+            Salve o arquivo no projeto do cliente e carregue-o depois do globals.css. O link no
+            começo do arquivo reabre este tema aqui.
             {layout && " As fontes entram no layout, no lugar da Geist."}
           </DialogDescription>
         </DialogHeader>
-        <Snippet title="app/globals.css" icon={<FileCssIcon />} code={css} />
+        <Button onClick={download} className="justify-self-start">
+          <DownloadSimpleIcon data-icon="inline-start" />
+          Baixar tema
+        </Button>
+        <Snippet title={fileName} icon={<FileCssIcon />} code={file} />
         {layout && <Snippet title="app/layout.tsx" icon={<FileCodeIcon />} code={layout} />}
       </DialogContent>
     </Dialog>
