@@ -61,13 +61,6 @@ export const COMPONENT_GUIDE: Record<string, ComponentGuideEntry> = {
     avoidWhen:
       "Para trecho de código-fonte, use `code-block`; para valor que a pessoa digita, use `input`.",
   },
-  "credit-card-fields": {
-    need: "receber os dados de um cartão de crédito: número, validade, CVV e nome impresso",
-    useWhen:
-      "Em telas de pagamento e de cadastro de cartão: as máscaras, a bandeira reconhecida no campo do número, o CVV no tamanho dela e a validação já vêm prontos.",
-    avoidWhen:
-      "Para um campo solto com máscara, use `input`; para o código do Pix, use `qr-code` e `copy-field`.",
-  },
   "date-field": {
     need: "campo para digitar ou escolher uma data num formulário, no celular e no desktop",
     useWhen:

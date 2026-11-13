@@ -64,6 +64,12 @@ export const BLOCKS: Block[] = [
       "Pagamento com cartão: canhoto da cobrança, itens recolhidos, campos do cartão e comprovante",
     categories: ["featured", "checkout"],
   },
+  {
+    name: "credit-card-01",
+    description:
+      "Cadastro de cartão: número com a bandeira reconhecida, validade, CVV e nome, com validação",
+    categories: ["checkout"],
+  },
 ];
 
 export const BlockLoaders: Record<string, () => Promise<{ default: React.ComponentType }>> = {
@@ -75,4 +81,5 @@ export const BlockLoaders: Record<string, () => Promise<{ default: React.Compone
   "editor-01": () => import("./editor-01"),
   "chat-01": () => import("./chat-01"),
   "checkout-01": () => import("./checkout-01"),
+  "credit-card-01": () => import("./credit-card-01"),
 };

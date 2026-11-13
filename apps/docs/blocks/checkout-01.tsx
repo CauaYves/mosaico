@@ -7,7 +7,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@multiclubes/ui/components/collapsible";
-import { CreditCardFields } from "@multiclubes/ui/components/credit-card-fields";
 import {
   Item,
   ItemActions,
@@ -27,10 +26,12 @@ import {
 } from "@multiclubes/ui/lib/credit-card";
 import { CaretDownIcon, LockSimpleIcon } from "@phosphor-icons/react";
 import * as React from "react";
+import { CreditCardFields } from "./credit-card-01";
 
 // Pagamento de uma cobrança com cartão. O canhoto mostra o que se paga e vira o comprovante
 // quando o pagamento é confirmado; o demonstrativo fica recolhido, porque quem paga todo mês
-// raramente confere a lista. O envio só valida os campos e simula a espera do banco.
+// raramente confere a lista. Os campos do cartão são os do bloco credit-card-01. O envio só
+// valida os campos e simula a espera do banco.
 
 const ITEMS = [
   { name: "Mensalidade", detail: "Maria S. Oliveira · ref. 11/2026", value: "R$ 349,00" },
@@ -173,7 +174,6 @@ export default function Checkout01() {
                 value={card}
                 onValueChange={setCard}
                 showErrors={showErrors}
-                size="lg"
                 disabled={status === "paying"}
               />
               <Button
