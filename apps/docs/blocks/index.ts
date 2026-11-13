@@ -17,6 +17,7 @@ export const BLOCK_CATEGORIES = [
   { slug: "signup", title: "Signup" },
   { slug: "editor", title: "Editor" },
   { slug: "chat", title: "Chat" },
+  { slug: "checkout", title: "Checkout" },
 ];
 
 export const BLOCKS: Block[] = [
@@ -57,6 +58,12 @@ export const BLOCKS: Block[] = [
       "Chat com o assistente: mensagens, indicador de digitação, sugestões e campo de envio",
     categories: ["chat"],
   },
+  {
+    name: "checkout-01",
+    description:
+      "Pagamento com cartão: canhoto da cobrança, itens recolhidos, campos do cartão e comprovante",
+    categories: ["featured", "checkout"],
+  },
 ];
 
 export const BlockLoaders: Record<string, () => Promise<{ default: React.ComponentType }>> = {
@@ -67,4 +74,5 @@ export const BlockLoaders: Record<string, () => Promise<{ default: React.Compone
   "signup-01": () => import("./signup-01"),
   "editor-01": () => import("./editor-01"),
   "chat-01": () => import("./chat-01"),
+  "checkout-01": () => import("./checkout-01"),
 };

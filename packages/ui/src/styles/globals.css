@@ -460,3 +460,39 @@ html[data-theme-transition]::view-transition-new(root) {
     transform: translateY(calc(-100% - var(--gap)));
   }
 }
+
+/* @registry success-check */
+/*
+ * SuccessCheck: o anel e o check se desenham pelo traço, e o disco entra um pouco menor. A ordem
+ * e os atrasos ficam no componente.
+ */
+@keyframes success-check-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes success-check-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+/* @registry end */
+
+/*
+ * O preenchimento automático do navegador pinta um retângulo que ignora o arredondamento do campo
+ * e, num InputGroup, para antes da borda. O navegador impõe essa cor com !important: só uma
+ * transição adiada indefinidamente a supera. Fora de camada, para valer sobre o transition das
+ * utilidades.
+ */
+input:is(:-webkit-autofill, :autofill) {
+  -webkit-text-fill-color: var(--foreground);
+  caret-color: var(--foreground);
+  transition:
+    background-color 0s 600000s,
+    color 0s 600000s;
+}

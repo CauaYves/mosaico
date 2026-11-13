@@ -11,6 +11,7 @@ export const COMPONENT_CATEGORIES = [
       "checkbox",
       "combobox",
       "copy-field",
+      "credit-card-fields",
       "date-field",
       "date-picker",
       "date-wheel-picker",
@@ -50,7 +51,17 @@ export const COMPONENT_CATEGORIES = [
   },
   {
     name: "Feedback",
-    components: ["alert", "badge", "empty", "marker", "progress", "skeleton", "spinner", "toast"],
+    components: [
+      "alert",
+      "badge",
+      "empty",
+      "marker",
+      "progress",
+      "skeleton",
+      "spinner",
+      "success-check",
+      "toast",
+    ],
   },
   {
     name: "Dados",
@@ -63,6 +74,7 @@ export const COMPONENT_CATEGORIES = [
       "data-table",
       "item",
       "kbd",
+      "qr-code",
       "table",
       "ticket",
       "trace",
@@ -101,10 +113,13 @@ export const NEW_COMPONENTS = new Set([
   "bottom-nav",
   "brand-card",
   "copy-field",
+  "credit-card-fields",
   "dropdown-navigation",
   "gradient-panel",
+  "qr-code",
   "responsive-select",
   "seal",
+  "success-check",
   "ticket",
 ]);
 
