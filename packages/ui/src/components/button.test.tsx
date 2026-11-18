@@ -39,4 +39,22 @@ describe("Button", () => {
     await user.click(screen.getByRole("button", { name: "Enviar" }));
     expect(onClick).toHaveBeenCalledTimes(1);
   });
+
+  it("xl tem a altura do Input xl e passa dos 44px de toque", () => {
+    render(<Button size="xl">Continuar</Button>);
+
+    const button = screen.getByRole("button", { name: "Continuar" });
+    expect(button).toHaveClass("h-14", "text-base");
+    expect(button).not.toHaveClass("h-9");
+  });
+
+  it("icon-xl é quadrado na mesma altura", () => {
+    render(
+      <Button size="icon-xl" aria-label="Avançar">
+        →
+      </Button>,
+    );
+
+    expect(screen.getByRole("button", { name: "Avançar" })).toHaveClass("size-14");
+  });
 });

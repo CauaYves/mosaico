@@ -65,6 +65,7 @@ A identidade visual é de **formas suaves**, coerente com a logo.
 - Não use só a cor para comunicar estado: acrescente ícone ou texto.
 - Contraste de texto de pelo menos 4,5:1 (3:1 para texto grande).
 - Alvos clicáveis de pelo menos 44 px de altura em e-mail e mobile.
+- Telas de uma pergunta por vez no celular, como a entrada de um app público, usam `size="xl"` no campo e nos botões: os dois ficam com 56 px de altura. Em formulários comuns e telas de sistema, fique no tamanho padrão.
 - Imagens com texto alternativo. Links com texto que faça sentido fora do contexto (nunca "clique aqui").
 - Foco visível em qualquer elemento interativo que você criar.
 

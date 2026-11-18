@@ -109,4 +109,15 @@ describe("DateField", () => {
     );
     expect(screen.getByRole("textbox", { name: "Nascimento" })).toBeInTheDocument();
   });
+
+  it("size xl passa para o grupo do campo, nos dois modos", () => {
+    const { rerender } = render(<ControlledDateField mode="input" size="xl" />);
+    const group = () =>
+      screen.getByRole("textbox", { name: "Data de nascimento" }).closest("[data-slot=date-field]");
+
+    expect(group()).toHaveAttribute("data-size", "xl");
+
+    rerender(<ControlledDateField mode="drawer" size="xl" />);
+    expect(group()).toHaveAttribute("data-size", "xl");
+  });
 });

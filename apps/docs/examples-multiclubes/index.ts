@@ -6,6 +6,8 @@ export const MulticlubesExamples: Record<string, () => Promise<{ default: React.
   {
     "backdrop-text-colors": () => import("./backdrop-text-colors"),
     "copy-field-demo": () => import("./copy-field-demo"),
+    "date-field-xl": () => import("./date-field-xl"),
+    "input-xl": () => import("./input-xl"),
     "responsive-select-demo": () => import("./responsive-select-demo"),
     "responsive-select-field": () => import("./responsive-select-field"),
     "responsive-select-modes": () => import("./responsive-select-modes"),
