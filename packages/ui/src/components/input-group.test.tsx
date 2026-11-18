@@ -157,4 +157,21 @@ describe("InputGroup", () => {
     rerender(<Valor erro="O valor mínimo é R$ 10,00." />);
     await expect(container).toHaveNoAxeViolations();
   });
+
+  it("xl marca o grupo, e o campo e o ícone acompanham", () => {
+    render(
+      <InputGroup size="xl">
+        <InputGroupInput aria-label="Valor" />
+        <InputGroupAddon align="inline-end">
+          <CopyIcon data-testid="icone" />
+        </InputGroupAddon>
+      </InputGroup>,
+    );
+
+    const input = screen.getByRole("textbox", { name: "Valor" });
+    const group = input.closest("[data-slot=input-group]");
+    expect(group).toHaveAttribute("data-size", "xl");
+    expect(group).toHaveClass("data-[size=xl]:h-14");
+    expect(input).toHaveClass("group-data-[size=xl]/input-group:text-xl");
+  });
 });

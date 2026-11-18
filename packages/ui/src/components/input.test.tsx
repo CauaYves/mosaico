@@ -68,4 +68,20 @@ describe("Input", () => {
     );
     await expect(container).toHaveNoAxeViolations();
   });
+
+  it("o tamanho padrão e o xl ficam em data-size, com a altura do Button xl", () => {
+    render(
+      <>
+        <Input aria-label="Nome" />
+        <Input aria-label="Número do título" size="xl" />
+      </>,
+    );
+
+    expect(screen.getByRole("textbox", { name: "Nome" })).toHaveAttribute("data-size", "default");
+    const big = screen.getByRole("textbox", { name: "Número do título" });
+    expect(big).toHaveAttribute("data-size", "xl");
+    expect(big).toHaveClass("data-[size=xl]:h-14", "data-[size=xl]:text-xl");
+    // O size do kit não vai para o atributo size do <input>, que mede a largura em caracteres.
+    expect(big).not.toHaveAttribute("size");
+  });
 });

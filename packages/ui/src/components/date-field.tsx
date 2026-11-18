@@ -74,6 +74,8 @@ interface DateFieldProps
    * "drawer" e "input" fixam um dos modos.
    */
   mode?: "auto" | "drawer" | "input";
+  /** "xl" é o campo grande das telas de uma pergunta por vez, como o Input xl. */
+  size?: "default" | "xl";
   className?: string;
 }
 
@@ -98,6 +100,7 @@ function DateField({
   maxDate,
   disabled,
   mode = "auto",
+  size = "default",
   className,
   ...inputProps
 }: DateFieldProps) {
@@ -112,7 +115,7 @@ function DateField({
 
   if (!useDrawer) {
     return (
-      <InputGroup data-slot="date-field" className={className}>
+      <InputGroup data-slot="date-field" size={size} className={className}>
         <InputMask
           component={InputGroupInput}
           mask={DATE_MASK}
@@ -158,7 +161,7 @@ function DateField({
 
   return (
     <Drawer open={open} onOpenChange={handleOpenChange}>
-      <InputGroup data-slot="date-field" className={className}>
+      <InputGroup data-slot="date-field" size={size} className={className}>
         <input
           tabIndex={-1}
           aria-hidden="true"

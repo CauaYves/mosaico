@@ -7,13 +7,19 @@ import { Button } from "@/registry/mosaico/components/mosaico/button";
 import { Input } from "@/registry/mosaico/components/mosaico/input";
 import { Textarea } from "@/registry/mosaico/components/mosaico/textarea";
 
-function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
+/** "xl" aumenta o grupo, o campo e os ícones, na altura do Input xl e do Button xl. */
+function InputGroup({
+  className,
+  size = "default",
+  ...props
+}: React.ComponentProps<"div"> & { size?: "default" | "xl" }) {
   return (
     <div
       data-slot="input-group"
+      data-size={size}
       role="group"
       className={cn(
-        "group/input-group relative flex h-9 w-full min-w-0 items-center rounded-field border border-input bg-transparent transition-[color,box-shadow,background-color] outline-none in-data-[slot=combobox-content]:focus-within:border-inherit in-data-[slot=combobox-content]:focus-within:ring-0 has-data-[align=block-end]:rounded-field has-data-[align=block-start]:rounded-field has-[[data-slot=input-group-control]:focus-visible]:border-ring/60 has-[[data-slot=input-group-control]:focus-visible]:ring-1 has-[[data-slot=input-group-control]:focus-visible]:ring-ring/60 has-[[data-slot][aria-invalid=true]]:border-destructive/60 has-[[data-slot][aria-invalid=true]]:ring-1 has-[[data-slot][aria-invalid=true]]:ring-destructive/60 has-[textarea]:rounded-item has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>textarea]:h-auto has-[>[data-align=block-end]]:[&>input]:h-auto has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-end]]:[&>input]:pb-1 has-[>[data-align=block-start]]:[&>input]:h-auto has-[>[data-align=block-start]]:[&>input]:pt-1 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5",
+        "group/input-group relative flex h-9 data-[size=xl]:h-14 w-full min-w-0 items-center rounded-field border border-input bg-transparent transition-[color,box-shadow,background-color] outline-none in-data-[slot=combobox-content]:focus-within:border-inherit in-data-[slot=combobox-content]:focus-within:ring-0 has-data-[align=block-end]:rounded-field has-data-[align=block-start]:rounded-field has-[[data-slot=input-group-control]:focus-visible]:border-ring/60 has-[[data-slot=input-group-control]:focus-visible]:ring-1 has-[[data-slot=input-group-control]:focus-visible]:ring-ring/60 has-[[data-slot][aria-invalid=true]]:border-destructive/60 has-[[data-slot][aria-invalid=true]]:ring-1 has-[[data-slot][aria-invalid=true]]:ring-destructive/60 has-[textarea]:rounded-item has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>textarea]:h-auto has-[>[data-align=block-end]]:[&>input]:h-auto has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-end]]:[&>input]:pb-1 has-[>[data-align=block-start]]:[&>input]:h-auto has-[>[data-align=block-start]]:[&>input]:pt-1 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5",
         className,
       )}
       {...props}
@@ -22,12 +28,14 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 const inputGroupAddonVariants = cva(
-  "flex h-auto cursor-text items-center justify-center gap-2 py-2 text-sm font-medium text-muted-foreground select-none group-data-[disabled=true]/input-group:opacity-50 **:data-[slot=kbd]:rounded-field **:data-[slot=kbd]:bg-muted-foreground/10 **:data-[slot=kbd]:px-1.5 [&>svg:not([class*='size-'])]:size-4",
+  "flex h-auto cursor-text items-center justify-center gap-2 py-2 text-sm font-medium text-muted-foreground select-none group-data-[disabled=true]/input-group:opacity-50 **:data-[slot=kbd]:rounded-field **:data-[slot=kbd]:bg-muted-foreground/10 **:data-[slot=kbd]:px-1.5 [&>svg:not([class*='size-'])]:size-4 group-data-[size=xl]/input-group:text-base group-data-[size=xl]/input-group:[&>svg:not([class*='size-'])]:size-5",
   {
     variants: {
       align: {
-        "inline-start": "order-first pl-3 has-[>button]:-ml-1 has-[>kbd]:-ml-1",
-        "inline-end": "order-last pr-3 has-[>button]:-mr-1 has-[>kbd]:-mr-1",
+        "inline-start":
+          "order-first pl-3 group-data-[size=xl]/input-group:pl-5 has-[>button]:-ml-1 has-[>kbd]:-ml-1",
+        "inline-end":
+          "order-last pr-3 group-data-[size=xl]/input-group:pr-5 has-[>button]:-mr-1 has-[>kbd]:-mr-1",
         "block-start":
           "order-first w-full justify-start px-3 pt-3 group-has-[>input]/input-group:pt-3.5 [.border-b]:pb-3.5",
         "block-end":
@@ -109,12 +117,13 @@ function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
   );
 }
 
-function InputGroupInput({ className, ...props }: React.ComponentProps<"input">) {
+// O tamanho vem do InputGroup: o campo de dentro acompanha o grupo.
+function InputGroupInput({ className, ...props }: Omit<React.ComponentProps<"input">, "size">) {
   return (
     <Input
       data-slot="input-group-control"
       className={cn(
-        "flex-1 rounded-none border-0 bg-transparent shadow-none ring-0 focus-visible:ring-0 aria-invalid:ring-0 dark:bg-transparent",
+        "flex-1 rounded-none border-0 bg-transparent shadow-none ring-0 focus-visible:ring-0 aria-invalid:ring-0 dark:bg-transparent group-data-[size=xl]/input-group:h-full group-data-[size=xl]/input-group:px-5 group-data-[size=xl]/input-group:text-xl",
         className,
       )}
       {...props}
