@@ -120,4 +120,14 @@ describe("DateField", () => {
     rerender(<ControlledDateField mode="drawer" size="xl" />);
     expect(group()).toHaveAttribute("data-size", "xl");
   });
+
+  it("no modo drawer, o Ok acompanha o tamanho do campo", async () => {
+    const user = userEvent.setup();
+    render(<ControlledDateField mode="drawer" size="xl" />);
+
+    await user.click(screen.getByRole("textbox", { name: "Data de nascimento" }));
+    const dialog = await screen.findByRole("dialog");
+
+    expect(within(dialog).getByRole("button", { name: "Ok" })).toHaveClass("h-14");
+  });
 });
