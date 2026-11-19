@@ -2,12 +2,17 @@ import { Input as InputPrimitive } from "@base-ui/react/input";
 import { cn } from "cn";
 import type * as React from "react";
 
+/**
+ * Tamanhos dos campos de texto. O InputGroup e o DateField usam este tipo, para um tamanho novo chegar aos três.
+ * "xl" é o campo grande das telas de uma pergunta por vez no celular, na altura do Button xl.
+ */
+type InputSize = "default" | "xl";
+
 type InputProps = Omit<React.ComponentProps<"input">, "size"> & {
   /**
-   * "xl" é o campo grande das telas de uma pergunta por vez no celular, na altura do Button xl.
    * Substitui o atributo `size` do <input>, que mede a largura em caracteres: para isso, use `className`.
    */
-  size?: "default" | "xl";
+  size?: InputSize;
 };
 
 function Input({ className, type, size = "default", ...props }: InputProps) {
@@ -25,4 +30,4 @@ function Input({ className, type, size = "default", ...props }: InputProps) {
   );
 }
 
-export { Input, type InputProps };
+export { Input, type InputProps, type InputSize };

@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 import type * as React from "react";
 import { Button } from "@/registry/mosaico/components/mosaico/button";
-import { Input } from "@/registry/mosaico/components/mosaico/input";
+import { Input, type InputSize } from "@/registry/mosaico/components/mosaico/input";
 import { Textarea } from "@/registry/mosaico/components/mosaico/textarea";
 
 /** "xl" aumenta o grupo, o campo e os ícones, na altura do Input xl e do Button xl. */
@@ -12,7 +12,7 @@ function InputGroup({
   className,
   size = "default",
   ...props
-}: React.ComponentProps<"div"> & { size?: "default" | "xl" }) {
+}: React.ComponentProps<"div"> & { size?: InputSize }) {
   return (
     <div
       data-slot="input-group"

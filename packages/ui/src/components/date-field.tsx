@@ -17,6 +17,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/registry/mosaico/components/mosaico/drawer";
+import type { InputSize } from "@/registry/mosaico/components/mosaico/input";
 import {
   InputGroup,
   InputGroupAddon,
@@ -75,7 +76,7 @@ interface DateFieldProps
    */
   mode?: "auto" | "drawer" | "input";
   /** "xl" é o campo grande das telas de uma pergunta por vez, como o Input xl. */
-  size?: "default" | "xl";
+  size?: InputSize;
   className?: string;
 }
 
