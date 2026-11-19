@@ -75,7 +75,7 @@ interface DateFieldProps
    */
   mode?: "auto" | "drawer" | "input";
   /** "xl" é o campo grande das telas de uma pergunta por vez, como o Input xl. */
-  size?: "default" | "xl";
+  size?: React.ComponentProps<typeof InputGroup>["size"];
   className?: string;
 }
 
@@ -222,7 +222,8 @@ function DateField({
             />
           </div>
           <DrawerFooter>
-            <Button type="button" onClick={handleConfirm}>
+            {/* O Ok acompanha o tamanho do campo: no xl, fica na altura dos outros botões da tela. */}
+            <Button type="button" size={size} onClick={handleConfirm}>
               Ok
             </Button>
           </DrawerFooter>

@@ -12,7 +12,7 @@ function InputGroup({
   className,
   size = "default",
   ...props
-}: React.ComponentProps<"div"> & { size?: "default" | "xl" }) {
+}: React.ComponentProps<"div"> & Pick<React.ComponentProps<typeof Input>, "size">) {
   return (
     <div
       data-slot="input-group"

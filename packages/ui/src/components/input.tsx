@@ -6,6 +6,7 @@ type InputProps = Omit<React.ComponentProps<"input">, "size"> & {
   /**
    * "xl" é o campo grande das telas de uma pergunta por vez no celular, na altura do Button xl.
    * Substitui o atributo `size` do <input>, que mede a largura em caracteres: para isso, use `className`.
+   * O InputGroup e o DateField leem o tipo daqui, então um tamanho novo chega aos três.
    */
   size?: "default" | "xl";
 };
